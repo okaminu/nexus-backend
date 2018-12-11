@@ -1,0 +1,62 @@
+apply from: 'aws-credentials.gradle'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven { url "https://repo.spring.io/milestone" }
+    repositories {
+        maven {
+            url 's3://repository.boldadmin.com/releases'
+            credentials(AwsCredentials) {
+                accessKey awsCredentials.AWSAccessKeyId
+                secretKey awsCredentials.AWSSecretKey
+            }
+        }
+    }
+}
+
+dependencyManagement {
+    imports {
+        mavenBom 'org.springframework.boot:spring-boot-dependencies:2.0.2.RELEASE'
+    }
+}
+
+dependencies {
+    implementation "lt.boldadmin.nexus:nexus-api:$gradle.ext.version"
+    runtime "lt.boldadmin.nexus:nexus:$gradle.ext.version"
+    runtime "lt.boldadmin.nexus:nexus-google-maps-plugin:$gradle.ext.version"
+    runtime "lt.boldadmin.nexus:nexus-aws-pinpoint-plugin:$gradle.ext.version"
+    runtime "lt.boldadmin.nexus:nexus-mongodb-plugin:$gradle.ext.version"
+
+    implementation "org.hibernate:hibernate-validator:5.2.4.Final"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+
+    implementation "org.springframework:spring-aspects"
+    implementation "org.springframework:spring-webflux"
+    implementation "org.springframework.data:spring-data-mongodb"
+    implementation "org.springframework.data:spring-data-redis"
+    implementation "org.springframework:spring-context"
+
+    implementation 'io.lettuce:lettuce-core:5.0.5.RELEASE'
+
+    implementation "io.projectreactor.ipc:reactor-netty"
+
+    implementation "org.slf4j:slf4j-api"
+    implementation "ch.qos.logback:logback-classic"
+
+    implementation "com.fasterxml.jackson.module:jackson-module-kotlin"
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
+
+    runtime "javax.xml.bind:jaxb-api:2.2.11"
+    runtime "com.sun.xml.bind:jaxb-core:2.2.11"
+    runtime "com.sun.xml.bind:jaxb-impl:2.2.11"
+    runtime "javax.activation:activation:1.1.1"
+    
+    testImplementation "org.springframework:spring-test"
+    testImplementation "junit:junit:4.12"
+    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+    testImplementation "com.nhaarman:mockito-kotlin:1.6.0"
+    testImplementation "org.mockito:mockito-core:2.23.4"
+    testImplementation "net.bytebuddy:byte-buddy:1.8.22"
+}

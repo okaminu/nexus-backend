@@ -1,0 +1,3 @@
+rootProject.name = 'nexus-backend'
+gradle.ext.group = 'lt.boldadmin.nexus'
+gradle.ext.version = '1.3.1'

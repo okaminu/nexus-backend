@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop.xsd"
+        default-lazy-init="true" default-autowire="constructor">
+
+    <aop:aspectj-autoproxy/>
+
+    <import resource="nexus.xml"/>
+    <import resource="repository.xml"/>
+    <import resource="cache.xml"/>
+
+    <import resource="plugin/aws-pinpoint.xml"/>
+    <import resource="plugin/aws-sns.xml"/>
+    <import resource="plugin/crowbar.xml"/>
+    <import resource="plugin/google-maps.xml"/>
+    <import resource="plugin/mongodb.xml"/>
+
+    <context:component-scan base-package="lt.boldadmin.nexus.backend">
+        <context:include-filter type="regex" expression="lt.boldadmin.sektor.backend.config.*"/>
+        <context:include-filter type="regex" expression="lt.boldadmin.sektor.backend.aspect.*"/>
+        <context:include-filter type="regex" expression="lt.boldadmin.sektor.backend.exception.*"/>
+        <context:include-filter type="regex" expression="lt.boldadmin.sektor.backend.handler.*"/>
+        <context:include-filter type="regex" expression="lt.boldadmin.sektor.backend.route.*"/>
+        <context:include-filter type="regex" expression="lt.boldadmin.sektor.backend.service.*"/>
+    </context:component-scan>
+
+</beans>
