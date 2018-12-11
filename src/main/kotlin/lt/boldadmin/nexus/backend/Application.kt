@@ -19,7 +19,7 @@ fun main(args: Array<String>) {
 
     val httpHandler = getWebHttpHandler(context)
 
-    HttpServer.create(8090).startAndAwait(ReactorHttpHandlerAdapter(httpHandler))
+    HttpServer.create(8070).startAndAwait(ReactorHttpHandlerAdapter(httpHandler))
 }
 
 private fun initializeBeans(context: GenericApplicationContext) {

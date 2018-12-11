@@ -10,9 +10,6 @@ import org.springframework.core.env.Environment
 import org.springframework.core.env.get
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory
-import org.springframework.web.cors.CorsConfiguration
-import org.springframework.web.cors.reactive.CorsWebFilter
-import org.springframework.web.reactive.function.client.WebClient
 import java.util.*
 
 fun beans() = beans {
@@ -42,13 +39,4 @@ fun beans() = beans {
         }
     }
 
-    bean("webClient") {
-        WebClient.create()
-    }
-
-    profile("cors") {
-        bean("corsFilter") {
-            CorsWebFilter { CorsConfiguration().applyPermitDefaultValues() }
-        }
-    }
 }
