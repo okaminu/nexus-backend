@@ -9,9 +9,8 @@ import org.springframework.web.reactive.function.server.body
 import org.springframework.web.reactive.function.server.bodyToMono
 import reactor.core.publisher.Mono
 
-open class CompanyHandler(
-    private val companyService: CompanyService
-) {
+open class CompanyHandler(private val companyService: CompanyService) {
+
     open fun save(req: ServerRequest): Mono<ServerResponse> =
         req.bodyToMono<Company>()
             .doOnNext { companyService.save(it) }

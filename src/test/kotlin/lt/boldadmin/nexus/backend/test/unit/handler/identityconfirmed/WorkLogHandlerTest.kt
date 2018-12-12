@@ -5,7 +5,7 @@ import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import lt.boldadmin.crowbar.IdentityConfirmation
 import lt.boldadmin.nexus.api.service.CollaboratorService
-import lt.boldadmin.nexus.api.service.worklog.WorkLogService
+import lt.boldadmin.nexus.api.service.worklog.WorklogService
 import lt.boldadmin.nexus.api.service.worklog.duration.WorklogDurationService
 import lt.boldadmin.nexus.api.service.worklog.status.WorklogDescriptionService
 import lt.boldadmin.nexus.api.service.worklog.status.WorklogStartEndService
@@ -37,7 +37,7 @@ class WorkLogHandlerTest {
     private lateinit var identityConfirmationStub: IdentityConfirmation
 
     @Mock
-    private lateinit var workLogServiceStub: WorkLogService
+    private lateinit var worklogServiceStub: WorklogService
 
     @Mock
     private lateinit var workLogDurationServiceStub: WorklogDurationService
@@ -56,7 +56,7 @@ class WorkLogHandlerTest {
         val workLogHandler = WorkLogHandler(
             workLogLocationServiceSpy,
             collaboratorAuthService,
-            workLogServiceStub,
+            worklogServiceStub,
             workLogStartEndServiceStub,
             workLogDescriptionServiceSpy,
             workLogDurationServiceStub
@@ -95,7 +95,7 @@ class WorkLogHandlerTest {
         val workLogStub: Worklog = mock()
         val expectedWorkDuration = 1000L
         doReturn(expectedIntervalId).`when`(workLogStub).intervalId
-        doReturn(listOf(workLogStub)).`when`(workLogServiceStub).getIntervalEndpoints(expectedIntervalId)
+        doReturn(listOf(workLogStub)).`when`(worklogServiceStub).getIntervalEndpoints(expectedIntervalId)
         doReturn(expectedWorkDuration).`when`(workLogDurationServiceStub).measureDuration(expectedIntervalId)
 
         val intervalEndpointsResponse = webTestClient.get()
@@ -123,7 +123,7 @@ class WorkLogHandlerTest {
         val expectedIntervalId2 = "id2"
         val workLogStub1: Worklog = mock()
         val workLogStub2: Worklog = mock()
-        doReturn(listOf(workLogStub1, workLogStub1, workLogStub2)).`when`(workLogServiceStub).getByCollaboratorId(USER_ID)
+        doReturn(listOf(workLogStub1, workLogStub1, workLogStub2)).`when`(worklogServiceStub).getByCollaboratorId(USER_ID)
         doReturn(expectedIntervalId1).`when`(workLogStub1).intervalId
         doReturn(expectedIntervalId2).`when`(workLogStub2).intervalId
 

@@ -8,9 +8,7 @@ import org.springframework.web.reactive.function.server.body
 import org.springframework.web.reactive.function.server.bodyToMono
 import reactor.core.publisher.Mono
 
-open class StartedProjectWorkTokenHandler(
-    private val service: StartedProjectWorkTokenService
-) {
+open class StartedProjectWorkTokenHandler(private val service: StartedProjectWorkTokenService) {
 
     open fun generateAndStore(req: ServerRequest): Mono<ServerResponse> =
         req.bodyToMono<String>()

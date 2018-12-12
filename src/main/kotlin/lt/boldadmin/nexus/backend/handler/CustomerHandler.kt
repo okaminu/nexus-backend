@@ -8,9 +8,8 @@ import org.springframework.web.reactive.function.server.body
 import org.springframework.web.reactive.function.server.bodyToMono
 import reactor.core.publisher.Mono
 
-open class CustomerHandler(
-    private val projectService: ProjectService
-) {
+open class CustomerHandler(private val projectService: ProjectService) {
+
     open fun createWithDefaults(req: ServerRequest): Mono<ServerResponse> =
         ok().body(Mono.just(projectService.createWithDefaults(req.pathVariable("userId"))))
 

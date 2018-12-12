@@ -1,0 +1,26 @@
+package lt.boldadmin.nexus.backend.handler.worklog
+
+import lt.boldadmin.nexus.api.service.worklog.WorklogService
+import org.springframework.web.reactive.function.server.ServerRequest
+import org.springframework.web.reactive.function.server.ServerResponse
+import org.springframework.web.reactive.function.server.ServerResponse.ok
+import org.springframework.web.reactive.function.server.body
+import reactor.core.publisher.Mono
+
+open class WorklogHandler(private val worklogService: WorklogService) {
+
+    open fun getByCollaboratorId(req: ServerRequest): Mono<ServerResponse> =
+        ok().body(Mono.just(worklogService.getByCollaboratorId(req.pathVariable("collaboratorId"))))
+
+    open fun getByProjectId(req: ServerRequest): Mono<ServerResponse> =
+        ok().body(Mono.just(worklogService.getByProjectId(req.pathVariable("projectId"))))
+
+    open fun getIntervalEndpoints(req: ServerRequest): Mono<ServerResponse> =
+        ok().body(Mono.just(worklogService.getIntervalEndpoints(req.pathVariable("intervalId"))))
+
+    open fun existsByProjectIdAndCollaboratorId(req: ServerRequest): Mono<ServerResponse> =
+        ok().body(Mono.just(worklogService.existsByProjectIdAndCollaboratorId(
+                req.pathVariable("projectId"),
+                req.pathVariable("collaboratorId"))))
+
+}

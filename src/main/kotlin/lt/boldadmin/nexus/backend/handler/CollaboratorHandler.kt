@@ -9,9 +9,7 @@ import org.springframework.web.reactive.function.server.body
 import org.springframework.web.reactive.function.server.bodyToMono
 import reactor.core.publisher.Mono
 
-open class CollaboratorHandler(
-    private val collaboratorService: CollaboratorService
-) {
+open class CollaboratorHandler(private val collaboratorService: CollaboratorService) {
 
     open fun existsById(req: ServerRequest): Mono<ServerResponse> =
         ok().body(Mono.just(collaboratorService.existsById(req.pathVariable("collaboratorId"))))

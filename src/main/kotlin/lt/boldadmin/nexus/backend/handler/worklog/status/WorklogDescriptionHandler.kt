@@ -1,0 +1,26 @@
+package lt.boldadmin.nexus.backend.handler.worklog.status
+
+import lt.boldadmin.nexus.api.service.worklog.status.WorklogDescriptionService
+import org.springframework.web.reactive.function.server.ServerRequest
+import org.springframework.web.reactive.function.server.ServerResponse
+import org.springframework.web.reactive.function.server.ServerResponse.ok
+import org.springframework.web.reactive.function.server.body
+import org.springframework.web.reactive.function.server.bodyToMono
+import reactor.core.publisher.Mono
+
+open class WorklogDescriptionHandler(private val worklogDescriptionService: WorklogDescriptionService) {
+
+    open fun getDescription(req: ServerRequest): Mono<ServerResponse> =
+        ok().body(Mono.just(worklogDescriptionService.getDescription(req.pathVariable("userId"))))
+
+    open fun updateDescription(req: ServerRequest): Mono<ServerResponse> =
+        req.bodyToMono<String>()
+            .doOnNext { worklogDescriptionService.updateDescription(req.pathVariable("intervalId"), it) }
+            .flatMap { ok().build() }
+
+    open fun updateDescriptionByCollaboratorId(req: ServerRequest): Mono<ServerResponse> =
+        req.bodyToMono<String>()
+            .doOnNext {
+                worklogDescriptionService.updateDescriptionByCollaboratorId(req.pathVariable("collaboratorId"), it) }
+            .flatMap { ok().build() }
+}
