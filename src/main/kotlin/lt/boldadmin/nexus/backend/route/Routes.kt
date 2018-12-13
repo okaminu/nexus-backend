@@ -59,14 +59,14 @@ class Routes(
                 GET("/{userId}/project/{projectId}/name/{projectName}/is-unique", userHandler::isProjectNameUnique)
                 GET("/project/{projectId}", userHandler::getByProjectId)
                 GET("/email/{email}", userHandler::getByEmail)
-                GET("/createWithDefaults", userHandler::createWithDefaults)
+                GET("/create-with-defaults", userHandler::createWithDefaults)
                 POST("/save", userHandler::save)
             }
         }
 
         "/project".nest {
             accept(MediaType.APPLICATION_JSON).nest {
-                GET("/user/{userId}/createWithDefaults", projectHandler::createWithDefaults)
+                GET("/user/{userId}/create-with-defaults", projectHandler::createWithDefaults)
                 GET("/{projectId}", projectHandler::getById)
                 POST("/{projectId}/attribute/{attributeName}/update", projectHandler::update)
                 POST("/{projectId}/attribute/order-number/update", projectHandler::updateOrderNumber)
@@ -94,14 +94,14 @@ class Routes(
 
         "/collaborator".nest {
             accept(MediaType.APPLICATION_JSON).nest {
-                GET("/createWithDefaults", collaboratorHandler::createWithDefaults)
-                GET("/existsById", collaboratorHandler::existsById)
-                GET("/existsByMobileNumber", collaboratorHandler::existsByMobileNumber)
-                GET("/getById", collaboratorHandler::getById)
-                GET("/getByMobileNumber", collaboratorHandler::getByMobileNumber)
+                GET("/create-with-defaults", collaboratorHandler::createWithDefaults)
+                GET("/{collaboratorId}/exists", collaboratorHandler::existsById)
+                GET("/mobile-number/{mobileNumber}/exists", collaboratorHandler::existsByMobileNumber)
+                GET("/{collaboratorId}", collaboratorHandler::getById)
+                GET("/mobile-number/{mobileNumber}", collaboratorHandler::getByMobileNumber)
                 POST("/save", collaboratorHandler::save)
-                POST("/update", collaboratorHandler::update)
-                POST("/updateOrderNumber", collaboratorHandler::updateOrderNumber)
+                POST("/{collaboratorId}/attribute/{attributeName}/update", collaboratorHandler::update)
+                POST("/{collaboratorId}/attribute/order-number/update", collaboratorHandler::updateOrderNumber)
             }
         }
 
