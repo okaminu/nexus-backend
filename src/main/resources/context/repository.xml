@@ -8,5 +8,4 @@
           class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
 
     <mongo:repositories base-package="lt.boldadmin.nexus.plugin.mongodb.repository"/>
-    <mongo:repositories base-package="lt.boldadmin.nexus.backend.repository"/>
 </beans>

@@ -24,12 +24,9 @@
     <import resource="plugin/mongodb.xml"/>
 
     <context:component-scan base-package="lt.boldadmin.nexus.backend">
-        <context:include-filter type="regex" expression="lt.boldadmin.sektor.backend.config.*"/>
-        <context:include-filter type="regex" expression="lt.boldadmin.sektor.backend.aspect.*"/>
-        <context:include-filter type="regex" expression="lt.boldadmin.sektor.backend.exception.*"/>
-        <context:include-filter type="regex" expression="lt.boldadmin.sektor.backend.handler.*"/>
-        <context:include-filter type="regex" expression="lt.boldadmin.sektor.backend.route.*"/>
-        <context:include-filter type="regex" expression="lt.boldadmin.sektor.backend.service.*"/>
+        <context:include-filter type="regex" expression="lt.boldadmin.nexus.backend.config.*"/>
+        <context:include-filter type="regex" expression="lt.boldadmin.nexus.backend.handler.*"/>
+        <context:include-filter type="regex" expression="lt.boldadmin.nexus.backend.route.*"/>
     </context:component-scan>
 
 </beans>
