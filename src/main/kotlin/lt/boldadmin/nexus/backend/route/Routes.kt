@@ -37,65 +37,62 @@ class Routes(
     fun router() = router {
         GET("/is-healthy") { ok().body(fromObject(true)) }
 
-        "started-project-work-token".nest {
+        "/started-project-work-token".nest {
             accept(MediaType.APPLICATION_JSON).nest {
-                POST("/generateAndStore", startedProjectWorkTokenHandler::generateAndStore)
+                POST("/generate-and-store", startedProjectWorkTokenHandler::generateAndStore)
                 POST("/delete", startedProjectWorkTokenHandler::deleteById)
-                GET("/exists/project/{projectId}", startedProjectWorkTokenHandler::existsById)
-                GET("/find-id/{token}", startedProjectWorkTokenHandler::findIdByToken)
-                GET("/find-project/{token}", startedProjectWorkTokenHandler::findProjectByToken)
-                GET("/find-token/{projectId}", startedProjectWorkTokenHandler::findTokenById)
-                GET("/find-working-collaborators/token/{token}",
+                GET("/project/{projectId}/exists", startedProjectWorkTokenHandler::existsById)
+                GET("/project/{projectId}/token", startedProjectWorkTokenHandler::findTokenById)
+                GET("/token/{token}/id", startedProjectWorkTokenHandler::findIdByToken)
+                GET("/token/{token}/project", startedProjectWorkTokenHandler::findProjectByToken)
+                GET("/token/{token}/collaborators/working",
                         startedProjectWorkTokenHandler::findWorkingCollaboratorIdsByToken)
             }
         }
 
-        "user".nest {
+        "/user".nest {
             accept(MediaType.APPLICATION_JSON).nest {
-                GET("/doesUserHaveCollaborator", userHandler::doesUserHaveCollaborator)
+                GET("/{userId}", userHandler::getById)
+                GET("/{userId}/collaborator/{collaboratorId}/has-collaborator", userHandler::doesUserHaveCollaborator)
+                GET("/{userId}/customer/{customerId}/has-customer", userHandler::doesUserHaveCustomer)
+                GET("/{userId}/project/{projectId}/has-project", userHandler::doesUserHaveProject)
+                GET("/{userId}/project/{projectId}/name/{projectName}/is-unique", userHandler::isProjectNameUnique)
+                GET("/project/{projectId}", userHandler::getByProjectId)
+                GET("/email/{email}", userHandler::getByEmail)
                 GET("/createWithDefaults", userHandler::createWithDefaults)
-                GET("/doesUserHaveCustomer", userHandler::doesUserHaveCustomer)
-                GET("/doesUserHaveProject", userHandler::doesUserHaveProject)
                 POST("/save", userHandler::save)
-                GET("/getById", userHandler::getById)
-                GET("/getByEmail", userHandler::getByEmail)
-                GET("/getByProjectId", userHandler::getByProjectId)
-                GET("/isProjectNameUnique", userHandler::isProjectNameUnique)
             }
         }
 
-        "project".nest {
+        "/project".nest {
             accept(MediaType.APPLICATION_JSON).nest {
-                GET("/createWithDefaults", projectHandler::createWithDefaults)
-                GET("/getById", projectHandler::getById)
-                POST("/update", projectHandler::update)
-                POST("/updateOrderNumber", projectHandler::updateOrderNumber)
+                GET("/user/{userId}/createWithDefaults", projectHandler::createWithDefaults)
+                GET("/{projectId}", projectHandler::getById)
+                POST("/{projectId}/attribute/{attributeName}/update", projectHandler::update)
+                POST("/{projectId}/attribute/order-number/update", projectHandler::updateOrderNumber)
             }
         }
 
-        "customer".nest {
+        "/customer".nest {
             accept(MediaType.APPLICATION_JSON).nest {
-                GET("/createWithDefaults", customerHandler::createWithDefaults)
-                GET("/getById", customerHandler::getById)
-                POST("/update", customerHandler::update)
-                POST("/updateOrderNumber", customerHandler::updateOrderNumber)
+                GET("/user/{userId}/createWithDefaults", customerHandler::createWithDefaults)
+                GET("/{customerId}", customerHandler::getById)
+                POST("/{customerId}/attribute/{attributeName}/update", customerHandler::update)
+                POST("/{customerId}/attribute/order-number/update", customerHandler::updateOrderNumber)
+                POST("/save", customerHandler::save)
             }
         }
 
-        "country".nest {
-            accept(MediaType.APPLICATION_JSON).nest {
-                GET("/createWithDefaults", countryHandler::getAll)
-            }
-        }
+        GET("/countries", countryHandler::getAll)
 
-        "company".nest {
+        "/company".nest {
             accept(MediaType.APPLICATION_JSON).nest {
-                GET("/getByName", companyHandler::getByName)
+                GET("/name/{companyName}", companyHandler::getByName)
                 POST("/save", companyHandler::save)
             }
         }
 
-        "collaborator".nest {
+        "/collaborator".nest {
             accept(MediaType.APPLICATION_JSON).nest {
                 GET("/createWithDefaults", collaboratorHandler::createWithDefaults)
                 GET("/existsById", collaboratorHandler::existsById)
@@ -108,7 +105,7 @@ class Routes(
             }
         }
 
-        "worklog".nest {
+        "/worklog".nest {
             accept(MediaType.APPLICATION_JSON).nest {
                 GET("/existsByProjectIdAndCollaboratorId", worklogHandler::existsByProjectIdAndCollaboratorId)
                 GET("/getByCollaboratorId", worklogHandler::getByCollaboratorId)
@@ -123,7 +120,7 @@ class Routes(
                     GET("/sumWorkDurations", worklogDurationHandler::sumWorkDurations)
                 }
 
-                "status".nest {
+                "/status".nest {
                     GET("/getDescription", worklogDescriptionHandler::getDescription)
                     POST("/updateDescription", worklogDescriptionHandler::updateDescription)
                     POST("/updateDescriptionByCollaboratorId", worklogDescriptionHandler::updateDescriptionByCollaboratorId)
@@ -136,11 +133,11 @@ class Routes(
                     GET("/hasWorkStarted", worklogStartEndHandler::hasWorkStarted)
                     GET("/getProjectOfStartedWork", worklogStartEndHandler::getProjectOfStartedWork)
 
-                    "message".nest {
+                    "/message".nest {
                         POST("/logWork", worklogMessageHandler::logWork)
                     }
 
-                    "location".nest {
+                    "/location".nest {
                         POST("/logWork", worklogLocationHandler::logWork)
                     }
                 }
