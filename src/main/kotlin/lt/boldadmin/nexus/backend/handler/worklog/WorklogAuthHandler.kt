@@ -18,7 +18,7 @@ open class WorklogAuthHandler(private val worklogAuthService: WorklogAuthService
 
     open fun doesCollaboratorHaveWorkLogInterval(req: ServerRequest): Mono<ServerResponse> =
         ok().body(Mono.just(
-                worklogAuthService.doesUserHaveWorkLogInterval(
+                worklogAuthService.doesCollaboratorHaveWorkLogInterval(
                         req.pathVariable("collaboratorId"),
                         req.pathVariable("intervalId")
                 )

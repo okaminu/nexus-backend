@@ -107,13 +107,19 @@ class Routes(
 
         "/worklog".nest {
             accept(MediaType.APPLICATION_JSON).nest {
-                GET("/existsByProjectIdAndCollaboratorId", worklogHandler::existsByProjectIdAndCollaboratorId)
-                GET("/getByCollaboratorId", worklogHandler::getByCollaboratorId)
-                GET("/getByProjectId", worklogHandler::getByProjectId)
-                GET("/getIntervalEndpoints", worklogHandler::getIntervalEndpoints)
-                GET("/doesCollaboratorHaveWorkLogInterval", worklogAuthHandler::doesCollaboratorHaveWorkLogInterval)
-                GET("/doesCollaboratorHaveWorkLogIntervals", worklogAuthHandler::doesCollaboratorHaveWorkLogIntervals)
-                GET("/doesUserHaveWorkLogInterval", worklogAuthHandler::doesUserHaveWorkLogInterval)
+                GET("/project/{projectId}/collaborator/{collaboratorId}/exists",
+                        worklogHandler::existsByProjectIdAndCollaboratorId)
+
+                GET("/collaborator/{collaboratorId}", worklogHandler::getByCollaboratorId)
+                GET("/project/{projectId}", worklogHandler::getByProjectId)
+                GET("/interval/{intervalId}", worklogHandler::getIntervalEndpoints)
+                GET("/interval/{intervalId}/collaborator/{collaboratorId}/has-interval",
+                        worklogAuthHandler::doesCollaboratorHaveWorkLogInterval)
+
+                GET("/intervals/{intervalIds}/collaborator/{collaboratorId}/has-intervals",
+                        worklogAuthHandler::doesCollaboratorHaveWorkLogIntervals)
+                GET("/interval/{intervalId}/user/{userId}/has-interval",
+                        worklogAuthHandler::doesUserHaveWorkLogInterval)
 
                 "duration".nest {
                     GET("/measureDuration", worklogDurationHandler::measureDuration)
