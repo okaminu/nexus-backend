@@ -121,30 +121,34 @@ class Routes(
                 GET("/interval/{intervalId}/user/{userId}/has-interval",
                         worklogAuthHandler::doesUserHaveWorkLogInterval)
 
-                "duration".nest {
-                    GET("/measureDuration", worklogDurationHandler::measureDuration)
-                    GET("/sumWorkDurations", worklogDurationHandler::sumWorkDurations)
-                }
+                GET("/interval/{intervalId}/duration", worklogDurationHandler::measureDuration)
+                GET("/intervals/{intervalIds}/durations-sum", worklogDurationHandler::sumWorkDurations)
 
-                "/status".nest {
-                    GET("/getDescription", worklogDescriptionHandler::getDescription)
-                    POST("/updateDescription", worklogDescriptionHandler::updateDescription)
-                    POST("/updateDescriptionByCollaboratorId", worklogDescriptionHandler::updateDescriptionByCollaboratorId)
+
+                TODO("this needs to be grouped inside a status nest")
+                POST("/collaborator/{collaboratorId}/status/description/update",
+                        worklogDescriptionHandler::updateDescriptionByCollaboratorId)
+                GET("/interval/{intervalId}/status/description", worklogDescriptionHandler::getDescription)
+                POST("/interval/{intervalId}/status/description/update", worklogDescriptionHandler::updateDescription)
+                POST("/collaborator/{collaboratorId}/status/has-work-ended", worklogStartEndHandler::hasWorkEnded)
+                POST("/collaborator/{collaboratorId}/status/has-work-started", worklogStartEndHandler::hasWorkStarted)
+                POST("/collaborator/{collaboratorId}/status/project-of-started-work",
+                        worklogStartEndHandler::hasWorkStarted)
+
+                "status".nest {
                     POST("/end", worklogStartEndHandler::end)
-                    POST("/endWithTimestamp", worklogStartEndHandler::endWithTimestamp)
-                    POST("/endAllStartedWorkWhereWorkTimeEnded", worklogStartEndHandler::endAllStartedWorkWhereWorkTimeEnded)
-                    POST("/hasWorkEnded", worklogStartEndHandler::hasWorkEnded)
+                    POST("/end/timestamp/{timestamp}", worklogStartEndHandler::endWithTimestamp)
+                    POST("/end/all-started-work-where-worktime-ended",
+                            worklogStartEndHandler::endAllStartedWorkWhereWorkTimeEnded)
                     POST("/start", worklogStartEndHandler::start)
-                    POST("/startWithTimestamp", worklogStartEndHandler::startWithTimestamp)
-                    GET("/hasWorkStarted", worklogStartEndHandler::hasWorkStarted)
-                    GET("/getProjectOfStartedWork", worklogStartEndHandler::getProjectOfStartedWork)
+                    POST("/start/timestamp/{timestamp}", worklogStartEndHandler::startWithTimestamp)
 
                     "/message".nest {
-                        POST("/logWork", worklogMessageHandler::logWork)
+                        POST("/log-work", worklogMessageHandler::logWork)
                     }
 
                     "/location".nest {
-                        POST("/logWork", worklogLocationHandler::logWork)
+                        POST("/log-work", worklogLocationHandler::logWork)
                     }
                 }
 

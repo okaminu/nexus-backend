@@ -11,7 +11,7 @@ import reactor.core.publisher.Mono
 open class WorklogDescriptionHandler(private val worklogDescriptionService: WorklogDescriptionService) {
 
     open fun getDescription(req: ServerRequest): Mono<ServerResponse> =
-        ok().body(Mono.just(worklogDescriptionService.getDescription(req.pathVariable("userId"))))
+        ok().body(Mono.just(worklogDescriptionService.getDescription(req.pathVariable("intervalId"))))
 
     open fun updateDescription(req: ServerRequest): Mono<ServerResponse> =
         req.bodyToMono<String>()
