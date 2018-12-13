@@ -18,8 +18,6 @@
     <import resource="cache.xml"/>
 
     <import resource="plugin/aws-pinpoint.xml"/>
-    <import resource="plugin/aws-sns.xml"/>
-    <import resource="plugin/crowbar.xml"/>
     <import resource="plugin/google-maps.xml"/>
     <import resource="plugin/mongodb.xml"/>
 
