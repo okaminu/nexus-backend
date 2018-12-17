@@ -11,17 +11,12 @@
         <context:include-filter type="regex" expression="lt.boldadmin.nexus.service.*"/>
         <context:include-filter type="regex" expression="lt.boldadmin.nexus.provider.*"/>
         <context:include-filter type="regex" expression="lt.boldadmin.nexus.visitor.*"/>
+        <context:include-filter type="regex" expression="lt.boldadmin.nexus.exception.converter.*"/>
     </context:component-scan>
 
-    <bean id="validatorToExceptionConverter" class="lt.boldadmin.nexus.exception.converter.ValidatorToExceptionConverter"/>
     <bean id="uniqueProjectNameValidator" class="lt.boldadmin.nexus.api.validator.UniqueProjectNameValidator">
         <property name="userService" ref="userService"/>
     </bean>
-
-    <bean id="saveEntityVisitor" class="lt.boldadmin.nexus.visitor.SaveEntityVisitor"/>
-    <bean id="uniqueNameEntityVisitor" class="lt.boldadmin.nexus.visitor.UniqueNameEntityVisitor" scope="prototype"/>
-    <bean id="validateEntityVisitor" class="lt.boldadmin.nexus.visitor.ValidateEntityVisitor"/>
-
 
 </beans>
 
