@@ -14,7 +14,6 @@
     <aop:aspectj-autoproxy/>
 
     <import resource="nexus.xml"/>
-    <import resource="repository.xml"/>
     <import resource="cache.xml"/>
 
     <import resource="plugin/aws-pinpoint.xml"/>
