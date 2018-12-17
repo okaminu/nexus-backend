@@ -14,6 +14,7 @@ import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.reactive.CorsWebFilter
 import org.springframework.web.reactive.function.client.WebClient
 import java.util.*
+import javax.validation.Validation
 
 fun beans() = beans {
 
@@ -44,6 +45,15 @@ fun beans() = beans {
 
     bean("webClient") {
         WebClient.create()
+    }
+
+    bean("validator") {
+        Validation
+            .byDefaultProvider()
+            .configure()
+            .constraintValidatorFactory(ref<ValidatorBeanFactory>())
+            .buildValidatorFactory()
+            .validator
     }
 
     bean("corsFilter") {
