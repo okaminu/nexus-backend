@@ -25,8 +25,9 @@ fun worklogRoutes(applicationContext: AbstractApplicationContext): RouterFunctio
 
     accept(MediaType.APPLICATION_JSON).nest {
         "/status".nest(worklogStatusRoutes(worklogStartEndHandler, worklogMessageHandler, worklogLocationHandler))
-        "/collaborator/{collaboratorId}".nest(
-                worklogCollaboratorStatusRoutes(worklogStartEndHandler, worklogHandler, worklogDescriptionHandler))
+        "/collaborator/{collaboratorId}/status".nest(
+                worklogCollaboratorStatusRoutes(worklogStartEndHandler, worklogDescriptionHandler))
+        GET("/collaborator/{collaboratorId}", worklogHandler::getByCollaboratorId)
 
         GET("/intervals/{intervalIds}/durations-sum", worklogDurationHandler::sumWorkDurations)
         GET("/intervals/{intervalIds}/collaborator/{collaboratorId}/has-intervals",
@@ -34,6 +35,7 @@ fun worklogRoutes(applicationContext: AbstractApplicationContext): RouterFunctio
 
         GET("/project/{projectId}/collaborator/{collaboratorId}/exists",
                 worklogHandler::existsByProjectIdAndCollaboratorId)
+
 
         GET("/project/{projectId}", worklogHandler::getByProjectId)
         GET("/interval/{intervalId}/status/description", worklogDescriptionHandler::getDescription)
