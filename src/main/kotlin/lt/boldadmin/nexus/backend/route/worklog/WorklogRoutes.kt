@@ -38,12 +38,16 @@ fun worklogRoutes(applicationContext: AbstractApplicationContext): RouterFunctio
 
 
         GET("/project/{projectId}", worklogHandler::getByProjectId)
-        GET("/interval/{intervalId}/status/description", worklogDescriptionHandler::getDescription)
-        GET("/interval/{intervalId}", worklogHandler::getIntervalEndpoints)
-        POST("/interval/{intervalId}/status/description/update", worklogDescriptionHandler::updateDescription)
-        GET("/duration", worklogDurationHandler::measureDuration)
-        GET("/user/{userId}/has-interval", worklogAuthHandler::doesUserHaveWorkLogInterval)
-        GET("/collaborator/{collaboratorId}/has-interval", worklogAuthHandler::doesCollaboratorHaveWorkLogInterval)
+
+        "/interval".nest {
+            GET("/{intervalId}/endpoints", worklogHandler::getIntervalEndpoints)
+            GET("/{intervalId}/status/description", worklogDescriptionHandler::getDescription)
+            GET("/{intervalId}/user/{userId}/has-interval", worklogAuthHandler::doesUserHaveWorkLogInterval)
+            GET("/{intervalId}/collaborator/{collaboratorId}/has-interval",
+                    worklogAuthHandler::doesCollaboratorHaveWorkLogInterval)
+            GET("/{intervalId}/duration", worklogDurationHandler::measureDuration)
+            POST("/{intervalId}/status/description/update", worklogDescriptionHandler::updateDescription)
+        }
     }
 
 }
