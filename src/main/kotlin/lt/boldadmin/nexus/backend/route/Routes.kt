@@ -30,7 +30,7 @@ class Routes(private val applicationContext: AbstractApplicationContext) {
 
         "/company".nest {
             accept(MediaType.APPLICATION_JSON).nest {
-                GET("/name/{companyName}", applicationContext.getBean<CompanyHandler>()::getByName)
+                GET("/name/{companyName}/exists", applicationContext.getBean<CompanyHandler>()::existsByName)
                 POST("/save", applicationContext.getBean<CompanyHandler>()::save)
             }
         }

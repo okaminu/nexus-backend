@@ -16,7 +16,7 @@ open class CompanyHandler(private val companyService: CompanyService) {
             .doOnNext { companyService.save(it) }
             .flatMap { ok().build() }
 
-    open fun getByName(req: ServerRequest): Mono<ServerResponse> =
-        ok().body(Mono.just(companyService.getByName(req.pathVariable("companyName"))?: ""))
+    open fun existsByName(req: ServerRequest): Mono<ServerResponse> =
+        ok().body(Mono.just(companyService.existsByName(req.pathVariable("companyName"))))
 
 }
