@@ -25,6 +25,9 @@ open class UserHandler(private val userService: UserService) {
     open fun getByEmail(req: ServerRequest): Mono<ServerResponse> =
         ok().body(Mono.just(userService.getByEmail(req.pathVariable("email"))?: ""))
 
+    open fun existsByEmail(req: ServerRequest): Mono<ServerResponse> =
+        ok().body(Mono.just(userService.existsByEmail(req.pathVariable("email"))))
+
     open fun getByProjectId(req: ServerRequest): Mono<ServerResponse> =
         ok().body(Mono.just(userService.getByProjectId(req.pathVariable("projectId"))))
 

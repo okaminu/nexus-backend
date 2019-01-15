@@ -13,6 +13,7 @@ fun userRoutes(userHandler: UserHandler): RouterFunctionDsl.() -> Unit = {
         GET("/{userId}/project/{projectId}/name/{projectName}/is-unique", userHandler::isProjectNameUnique)
         GET("/project/{projectId}", userHandler::getByProjectId)
         GET("/email/{email}", userHandler::getByEmail)
+        GET("/email/{email}/exists", userHandler::existsByEmail)
         GET("/create-with-defaults", userHandler::createWithDefaults)
         POST("/save", userHandler::save)
     }
