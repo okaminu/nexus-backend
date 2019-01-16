@@ -11,10 +11,10 @@ fun startedProjectWorkTokenRoutes(startedProjectWorkTokenHandler: StartedProject
         POST("/delete", startedProjectWorkTokenHandler::deleteById)
         GET("/project/{projectId}/exists", startedProjectWorkTokenHandler::existsById)
         GET("/project/{projectId}/token", startedProjectWorkTokenHandler::findTokenById)
-        "/token/{token}".nest {
-            GET("/id", startedProjectWorkTokenHandler::findIdByToken)
-            GET("/project", startedProjectWorkTokenHandler::findProjectByToken)
-            GET("/collaborators/working", startedProjectWorkTokenHandler::findWorkingCollaboratorIdsByToken
+        "/token".nest {
+            GET("/{token}/id", startedProjectWorkTokenHandler::findIdByToken)
+            GET("/{token}/project", startedProjectWorkTokenHandler::findProjectByToken)
+            GET("/{token}/collaborators/working", startedProjectWorkTokenHandler::findWorkingCollaboratorIdsByToken
             )
         }
     }
