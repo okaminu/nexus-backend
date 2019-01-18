@@ -1,6 +1,5 @@
 package lt.boldadmin.nexus.backend.route.worklog
 
-import lt.boldadmin.nexus.backend.handler.worklog.status.WorklogDescriptionHandler
 import lt.boldadmin.nexus.backend.handler.worklog.status.WorklogStartEndHandler
 import lt.boldadmin.nexus.backend.handler.worklog.status.location.WorklogLocationHandler
 import lt.boldadmin.nexus.backend.handler.worklog.status.message.WorklogMessageHandler
@@ -26,18 +25,4 @@ fun worklogStatusRoutes(
         }
     }
 }
-
-fun worklogCollaboratorStatusRoutes(
-    worklogStartEndHandler: WorklogStartEndHandler,
-    worklogDescriptionHandler: WorklogDescriptionHandler
-): RouterFunctionDsl.() -> Unit = {
-
-    accept(MediaType.APPLICATION_JSON).nest {
-        GET("/has-work-started", worklogStartEndHandler::hasWorkStarted)
-        GET("/has-work-ended", worklogStartEndHandler::hasWorkEnded)
-        GET("/project-of-started-work", worklogStartEndHandler::getProjectOfStartedWork)
-        POST("/description/update", worklogDescriptionHandler::updateDescriptionByCollaboratorId)
-    }
-}
-
 
