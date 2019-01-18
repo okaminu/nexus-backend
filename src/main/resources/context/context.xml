@@ -26,6 +26,7 @@
         <context:include-filter type="regex" expression="lt.boldadmin.nexus.backend.config.*"/>
         <context:include-filter type="regex" expression="lt.boldadmin.nexus.backend.handler.*"/>
         <context:include-filter type="regex" expression="lt.boldadmin.nexus.backend.route.*"/>
+        <context:include-filter type="regex" expression="lt.boldadmin.nexus.backend.exception.*"/>
     </context:component-scan>
 
 </beans>
