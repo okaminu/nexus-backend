@@ -7,6 +7,8 @@ import org.springframework.web.reactive.function.server.RouterFunctionDsl
 fun userRoutes(userHandler: UserHandler): RouterFunctionDsl.() -> Unit = {
     accept(MediaType.APPLICATION_JSON).nest {
         GET("/create-with-defaults", userHandler::createWithDefaults)
+        POST("/save", userHandler::save)
+        GET("/exists-any", userHandler::existsAny)
         GET("/{userId}", userHandler::getById)
         GET("/{userId}/collaborator/{collaboratorId}/has-collaborator", userHandler::doesUserHaveCollaborator)
         GET("/{userId}/customer/{customerId}/has-customer", userHandler::doesUserHaveCustomer)
@@ -15,6 +17,5 @@ fun userRoutes(userHandler: UserHandler): RouterFunctionDsl.() -> Unit = {
         GET("/project/{projectId}", userHandler::getByProjectId)
         GET("/email/{email}", userHandler::getByEmail)
         GET("/email/{email}/exists", userHandler::existsByEmail)
-        POST("/save", userHandler::save)
     }
 }

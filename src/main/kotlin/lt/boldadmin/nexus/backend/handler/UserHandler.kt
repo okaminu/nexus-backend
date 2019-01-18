@@ -16,6 +16,9 @@ open class UserHandler(private val userService: UserService) {
             .doOnNext { userService.save(it) }
             .flatMap { ok().build() }
 
+    open fun existsAny(req: ServerRequest): Mono<ServerResponse> =
+        ok().body(Mono.just(userService.existsAny()))
+
     open fun createWithDefaults(req: ServerRequest): Mono<ServerResponse> =
         ok().body(Mono.just(userService.createWithDefaults()))
 
