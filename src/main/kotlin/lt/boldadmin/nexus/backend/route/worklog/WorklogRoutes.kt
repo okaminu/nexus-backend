@@ -14,13 +14,13 @@ import org.springframework.web.reactive.function.server.RouterFunctionDsl
 
 fun worklogRoutes(applicationContext: AbstractApplicationContext): RouterFunctionDsl.() -> Unit = {
 
-    val worklogStartEndHandler = applicationContext.getBean<WorklogStartEndHandler>()
-    val worklogHandler = applicationContext.getBean<WorklogHandler>()
-    val worklogDescriptionHandler = applicationContext.getBean<WorklogDescriptionHandler>()
-    val worklogMessageHandler = applicationContext.getBean<WorklogMessageHandler>()
-    val worklogLocationHandler = applicationContext.getBean<WorklogLocationHandler>()
-    val worklogDurationHandler = applicationContext.getBean<WorklogDurationHandler>()
-    val worklogAuthHandler = applicationContext.getBean<WorklogAuthHandler>()
+    val worklogStartEndHandler: WorklogStartEndHandler = applicationContext.getBean()
+    val worklogHandler: WorklogHandler = applicationContext.getBean()
+    val worklogDescriptionHandler: WorklogDescriptionHandler = applicationContext.getBean()
+    val worklogMessageHandler: WorklogMessageHandler = applicationContext.getBean()
+    val worklogLocationHandler: WorklogLocationHandler = applicationContext.getBean()
+    val worklogDurationHandler: WorklogDurationHandler = applicationContext.getBean()
+    val worklogAuthHandler: WorklogAuthHandler = applicationContext.getBean()
 
 
     accept(MediaType.APPLICATION_JSON).nest {
