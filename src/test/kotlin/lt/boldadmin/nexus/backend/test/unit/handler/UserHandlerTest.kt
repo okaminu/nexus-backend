@@ -33,13 +33,11 @@ class UserHandlerTest {
     private lateinit var contextStub: AbstractApplicationContext
 
     @Mock
-    private lateinit var userServiceStub: UserService
-
-    private lateinit var userHandler: UserHandler
+    private lateinit var userServiceSpy: UserService
 
     @Before
     fun setUp() {
-        userHandler = UserHandler(userServiceStub)
+        val userHandler = UserHandler(userServiceSpy)
 
         doReturn(mock<StartedProjectWorkTokenHandler>()).`when`(contextStub).getBean(StartedProjectWorkTokenHandler::class.java)
         doReturn(mock<WorklogDurationHandler>()).`when`(contextStub).getBean(WorklogDurationHandler::class.java)
@@ -60,7 +58,7 @@ class UserHandlerTest {
     @Test
     fun `Creates user with defaults`() {
         val user = User().apply { id = "someFancyId" }
-        doReturn(user).`when`(userServiceStub).createWithDefaults()
+        doReturn(user).`when`(userServiceSpy).createWithDefaults()
 
         val routerFunction = Routes(contextStub).router()
         val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
@@ -77,7 +75,7 @@ class UserHandlerTest {
 
     @Test
     fun `Exists any user`() {
-        doReturn(true).`when`(userServiceStub).existsAny()
+        doReturn(true).`when`(userServiceSpy).existsAny()
 
         val routerFunction = Routes(contextStub).router()
         val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
@@ -95,7 +93,7 @@ class UserHandlerTest {
     @Test
     fun `Gets user by id`() {
         val user = User().apply { id = "someFancyId" }
-        doReturn(user).`when`(userServiceStub).getById(user.id)
+        doReturn(user).`when`(userServiceSpy).getById(user.id)
 
         val routerFunction = Routes(contextStub).router()
         val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
@@ -113,7 +111,7 @@ class UserHandlerTest {
     @Test
     fun `Gets user by email`() {
         val user = User().apply { email = "someFancyEmail" }
-        doReturn(user).`when`(userServiceStub).getByEmail(user.email)
+        doReturn(user).`when`(userServiceSpy).getByEmail(user.email)
 
         val routerFunction = Routes(contextStub).router()
         val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
@@ -131,7 +129,7 @@ class UserHandlerTest {
     @Test
     fun `Exists user by email`() {
         val user = User().apply { email = "someFancyEmail" }
-        doReturn(true).`when`(userServiceStub).existsByEmail(user.email)
+        doReturn(true).`when`(userServiceSpy).existsByEmail(user.email)
 
         val routerFunction = Routes(contextStub).router()
         val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
@@ -150,7 +148,7 @@ class UserHandlerTest {
     fun `Gets user by project id`() {
         val projectId = "projectId"
         val user = User().apply { id = "someFancyId" }
-        doReturn(user).`when`(userServiceStub).getByProjectId(projectId)
+        doReturn(user).`when`(userServiceSpy).getByProjectId(projectId)
 
         val routerFunction = Routes(contextStub).router()
         val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
@@ -169,7 +167,7 @@ class UserHandlerTest {
     fun `User has customer`() {
         val customerId = "customerId"
         val userId = "userId"
-        doReturn(true).`when`(userServiceStub).doesUserHaveCustomer(userId, customerId)
+        doReturn(true).`when`(userServiceSpy).doesUserHaveCustomer(userId, customerId)
 
         val routerFunction = Routes(contextStub).router()
         val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
@@ -188,7 +186,7 @@ class UserHandlerTest {
     fun `User has project`() {
         val projectId = "projectId"
         val userId = "userId"
-        doReturn(true).`when`(userServiceStub).doesUserHaveProject(userId, projectId)
+        doReturn(true).`when`(userServiceSpy).doesUserHaveProject(userId, projectId)
 
         val routerFunction = Routes(contextStub).router()
         val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
@@ -207,7 +205,7 @@ class UserHandlerTest {
     fun `User has collaborator`() {
         val collaboratorId = "collaboratorId"
         val userId = "userId"
-        doReturn(true).`when`(userServiceStub).doesUserHaveCollaborator(userId, collaboratorId)
+        doReturn(true).`when`(userServiceSpy).doesUserHaveCollaborator(userId, collaboratorId)
 
         val routerFunction = Routes(contextStub).router()
         val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
@@ -227,7 +225,7 @@ class UserHandlerTest {
         val projectName = "projectName"
         val projectId = "projectId"
         val userId = "userId"
-        doReturn(true).`when`(userServiceStub).isProjectNameUnique(projectName, projectId, userId)
+        doReturn(true).`when`(userServiceSpy).isProjectNameUnique(projectName, projectId, userId)
 
         val routerFunction = Routes(contextStub).router()
         val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
@@ -258,7 +256,7 @@ class UserHandlerTest {
             .isEmpty
 
         argumentCaptor<User>().apply {
-            verify(userServiceStub).save(capture())
+            verify(userServiceSpy).save(capture())
             assertEquals(user.id, firstValue.id)
         }
     }
