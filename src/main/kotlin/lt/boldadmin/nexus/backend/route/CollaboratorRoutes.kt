@@ -12,7 +12,7 @@ fun collaboratorRoutes(collaboratorHandler: CollaboratorHandler): RouterFunction
         POST("/save", collaboratorHandler::save)
         GET("/{collaboratorId}", collaboratorHandler::getById)
         GET("/{collaboratorId}/exists", collaboratorHandler::existsById)
-        POST("/{collaboratorId}/attribute/{attributeName}/update", collaboratorHandler::update)
         POST("/{collaboratorId}/attribute/order-number/update", collaboratorHandler::updateOrderNumber)
+        POST("/{collaboratorId}/attribute/{attributeName}/update", collaboratorHandler::update)
     }
 }
