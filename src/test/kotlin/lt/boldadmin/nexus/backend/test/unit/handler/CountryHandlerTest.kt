@@ -20,14 +20,16 @@ class CountryHandlerTest {
     @Mock
     private lateinit var countryServiceStub: CountryService
 
-    private val contextStub = create()
+    private lateinit var webClient: WebTestClient
 
     @Before
     fun setUp() {
-        val countryHandler = CountryHandler(countryServiceStub)
+        val contextStub = create()
         lenient()
             .`when`(contextStub.getBean(CountryHandler::class.java))
-            .doReturn(countryHandler)
+            .doReturn(CountryHandler(countryServiceStub))
+
+        webClient = WebTestClient.bindToRouterFunction(Routes(contextStub).router()).build()
     }
 
     @Test
@@ -35,9 +37,7 @@ class CountryHandlerTest {
         val country = Country("Lithuania")
         doReturn(listOf(country)).`when`(countryServiceStub).countries
 
-        val routerFunction = Routes(contextStub).router()
-        val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
-        val response = webTestClient.get()
+        val response = webClient.get()
                 .uri("/countries")
                 .exchange()
                 .expectStatus()

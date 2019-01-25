@@ -24,14 +24,16 @@ class CollaboratorHandlerTest {
     @Mock
     private lateinit var collaboratorServiceSpy: CollaboratorService
 
-    private val contextStub = create()
+    private lateinit var webClient: WebTestClient
 
     @Before
     fun setUp() {
-        val collaboratorHandler = CollaboratorHandler(collaboratorServiceSpy)
+        val contextStub = create()
         lenient()
             .`when`(contextStub.getBean(CollaboratorHandler::class.java))
-            .doReturn(collaboratorHandler)
+            .doReturn(CollaboratorHandler(collaboratorServiceSpy))
+
+        webClient = WebTestClient.bindToRouterFunction(Routes(contextStub).router()).build()
     }
 
     @Test
@@ -39,9 +41,7 @@ class CollaboratorHandlerTest {
         val collaborator = Collaborator().apply { id = "collaboratorId" }
         doReturn(collaborator).`when`(collaboratorServiceSpy).createWithDefaults()
 
-        val routerFunction = Routes(contextStub).router()
-        val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
-        val response = webTestClient.get()
+        val response = webClient.get()
                 .uri("/collaborator/create-with-defaults")
                 .exchange()
                 .expectStatus()
@@ -57,9 +57,7 @@ class CollaboratorHandlerTest {
         val collaborator = Collaborator().apply { id = "collaboratorId" }
         doReturn(collaborator).`when`(collaboratorServiceSpy).getById(collaborator.id)
 
-        val routerFunction = Routes(contextStub).router()
-        val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
-        val response = webTestClient.get()
+        val response = webClient.get()
             .uri("/collaborator/${collaborator.id}")
             .exchange()
             .expectStatus()
@@ -77,9 +75,7 @@ class CollaboratorHandlerTest {
             .`when`(collaboratorServiceSpy)
             .getByMobileNumber(collaborator.mobileNumber)
 
-        val routerFunction = Routes(contextStub).router()
-        val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
-        val response = webTestClient.get()
+        val response = webClient.get()
             .uri("/collaborator/mobile-number/${collaborator.mobileNumber}")
             .exchange()
             .expectStatus()
@@ -95,9 +91,7 @@ class CollaboratorHandlerTest {
         val collaboratorId = "collaboratorId"
         doReturn(true).`when`(collaboratorServiceSpy).existsById(collaboratorId)
 
-        val routerFunction = Routes(contextStub).router()
-        val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
-        val response = webTestClient.get()
+        val response = webClient.get()
             .uri("/collaborator/$collaboratorId/exists")
             .exchange()
             .expectStatus()
@@ -113,9 +107,7 @@ class CollaboratorHandlerTest {
         val mobileNumber = "mobileNumber"
         doReturn(true).`when`(collaboratorServiceSpy).existsByMobileNumber(mobileNumber)
 
-        val routerFunction = Routes(contextStub).router()
-        val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
-        val response = webTestClient.get()
+        val response = webClient.get()
             .uri("/collaborator/mobile-number/$mobileNumber/exists")
             .exchange()
             .expectStatus()
@@ -131,9 +123,7 @@ class CollaboratorHandlerTest {
         val collaboratorId = "collaboratorId"
         val attributeName = "attributeName"
         val attributeValue = "attributeValue"
-        val routerFunction = Routes(contextStub).router()
-        val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
-        webTestClient.post()
+        webClient.post()
             .uri("/collaborator/$collaboratorId/attribute/$attributeName/update")
             .body(attributeValue.toMono(), String::class.java)
             .exchange()
@@ -149,9 +139,7 @@ class CollaboratorHandlerTest {
     fun `Updates order number`() {
         val collaboratorId = "collaboratorId"
         val orderNumber: Short = 5
-        val routerFunction = Routes(contextStub).router()
-        val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
-        webTestClient.post()
+        webClient.post()
             .uri("/collaborator/$collaboratorId/attribute/order-number/update")
             .body(orderNumber.toMono(), Short::class.java)
             .exchange()
@@ -167,9 +155,7 @@ class CollaboratorHandlerTest {
     fun `Saves collaborator`() {
         val collaborator = Collaborator().apply { id = "someFancyId" }
 
-        val routerFunction = Routes(contextStub).router()
-        val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
-        webTestClient.post()
+        webClient.post()
             .uri("/collaborator/save")
             .body(collaborator.toMono(), Collaborator::class.java)
             .exchange()

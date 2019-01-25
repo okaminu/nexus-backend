@@ -24,14 +24,16 @@ class CompanyHandlerTest {
     @Mock
     private lateinit var companyServiceSpy: CompanyService
 
-    private val contextStub = create()
+    private lateinit var webClient: WebTestClient
 
     @Before
     fun setUp() {
-        val companyHandler = CompanyHandler(companyServiceSpy)
+        val contextStub = create()
         lenient()
             .`when`(contextStub.getBean(CompanyHandler::class.java))
-            .doReturn(companyHandler)
+            .doReturn(CompanyHandler(companyServiceSpy))
+
+        webClient = WebTestClient.bindToRouterFunction(Routes(contextStub).router()).build()
     }
 
 
@@ -40,9 +42,7 @@ class CompanyHandlerTest {
         val companyName = "companyName"
         doReturn(true).`when`(companyServiceSpy).existsByName(companyName)
 
-        val routerFunction = Routes(contextStub).router()
-        val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
-        val response = webTestClient.get()
+        val response = webClient.get()
             .uri("/company/name/$companyName/exists")
             .exchange()
             .expectStatus()
@@ -59,9 +59,7 @@ class CompanyHandlerTest {
     fun `Saves customer`() {
         val company = Company().apply { id = "someFancyId" }
 
-        val routerFunction = Routes(contextStub).router()
-        val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
-        webTestClient.post()
+        webClient.post()
             .uri("/company/save")
             .body(company.toMono(), Company::class.java)
             .exchange()

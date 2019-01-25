@@ -23,12 +23,16 @@ class CustomerHandlerTest {
     @Mock
     private lateinit var customerServiceSpy: CustomerService
 
-    private val contextStub = create()
+    private lateinit var webClient: WebTestClient
 
     @Before
     fun setUp() {
-        val customerHandler = CustomerHandler(customerServiceSpy)
-        lenient().`when`(contextStub.getBean(CustomerHandler::class.java)).doReturn(customerHandler)
+        val contextStub = create()
+        lenient()
+            .`when`(contextStub.getBean(CustomerHandler::class.java))
+            .doReturn(CustomerHandler(customerServiceSpy))
+
+        webClient = WebTestClient.bindToRouterFunction(Routes(contextStub).router()).build()
     }
 
     @Test
@@ -37,9 +41,7 @@ class CustomerHandlerTest {
         val customer = Customer().apply { id = "customerId" }
         doReturn(customer).`when`(customerServiceSpy).createWithDefaults(userId)
 
-        val routerFunction = Routes(contextStub).router()
-        val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
-        val response = webTestClient.get()
+        val response = webClient.get()
                 .uri("/customer/user/$userId/create-with-defaults")
                 .exchange()
                 .expectStatus()
@@ -55,9 +57,7 @@ class CustomerHandlerTest {
         val customer = Customer().apply { id = "customerId" }
         doReturn(customer).`when`(customerServiceSpy).getById(customer.id)
 
-        val routerFunction = Routes(contextStub).router()
-        val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
-        val response = webTestClient.get()
+        val response = webClient.get()
             .uri("/customer/${customer.id}")
             .exchange()
             .expectStatus()
@@ -73,9 +73,7 @@ class CustomerHandlerTest {
         val customerId = "customerId"
         val attributeName = "attributeName"
         val attributeValue = "attributeValue"
-        val routerFunction = Routes(contextStub).router()
-        val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
-        webTestClient.post()
+        webClient.post()
             .uri("/customer/$customerId/attribute/$attributeName/update")
             .body(attributeValue.toMono(), String::class.java)
             .exchange()
@@ -91,9 +89,7 @@ class CustomerHandlerTest {
     fun `Updates order number`() {
         val customerId = "customerId"
         val orderNumber: Short = 5
-        val routerFunction = Routes(contextStub).router()
-        val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
-        webTestClient.post()
+        webClient.post()
             .uri("/customer/$customerId/attribute/order-number/update")
             .body(orderNumber.toMono(), Short::class.java)
             .exchange()
@@ -109,9 +105,7 @@ class CustomerHandlerTest {
     fun `Saves customer`() {
         val customer = Customer().apply { id = "someFancyId" }
 
-        val routerFunction = Routes(contextStub).router()
-        val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
-        webTestClient.post()
+        webClient.post()
             .uri("/customer/save")
             .body(customer.toMono(), Customer::class.java)
             .exchange()

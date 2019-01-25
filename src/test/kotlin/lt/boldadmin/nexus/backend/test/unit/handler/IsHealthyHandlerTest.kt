@@ -10,12 +10,10 @@ import kotlin.test.assertTrue
 @RunWith(MockitoJUnitRunner::class)
 class IsHealthyHandlerTest {
 
-    private val contextStub = create()
-
     @Test
     fun `Checks if is healthy`() {
 
-        val routerFunction = Routes(contextStub).router()
+        val routerFunction = Routes(create()).router()
         val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
         val isHealthyResponse = webTestClient.get()
                 .uri("/is-healthy")

@@ -22,12 +22,16 @@ class ProjectHandlerTest {
     @Mock
     private lateinit var projectServiceSpy: ProjectService
 
-    private val contextStub = create()
+    private lateinit var webClient: WebTestClient
 
     @Before
     fun setUp() {
-        val projectHandler = ProjectHandler(projectServiceSpy)
-        lenient().`when`(contextStub.getBean(ProjectHandler::class.java)).doReturn(projectHandler)
+        val contextStub = create()
+        lenient()
+            .`when`(contextStub.getBean(ProjectHandler::class.java))
+            .doReturn(ProjectHandler(projectServiceSpy))
+
+        webClient = WebTestClient.bindToRouterFunction(Routes(contextStub).router()).build()
     }
 
     @Test
@@ -36,9 +40,7 @@ class ProjectHandlerTest {
         val project = Project().apply { id = "projectId" }
         doReturn(project).`when`(projectServiceSpy).createWithDefaults(userId)
 
-        val routerFunction = Routes(contextStub).router()
-        val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
-        val response = webTestClient.get()
+        val response = webClient.get()
                 .uri("/project/user/$userId/create-with-defaults")
                 .exchange()
                 .expectStatus()
@@ -54,9 +56,7 @@ class ProjectHandlerTest {
         val project = Project().apply { id = "projectId" }
         doReturn(project).`when`(projectServiceSpy).getById(project.id)
 
-        val routerFunction = Routes(contextStub).router()
-        val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
-        val response = webTestClient.get()
+        val response = webClient.get()
             .uri("/project/${project.id}")
             .exchange()
             .expectStatus()
@@ -72,9 +72,7 @@ class ProjectHandlerTest {
         val projectId = "projectId"
         val attributeName = "attributeName"
         val attributeValue = "attributeValue"
-        val routerFunction = Routes(contextStub).router()
-        val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
-        webTestClient.post()
+        webClient.post()
             .uri("/project/$projectId/attribute/$attributeName/update")
             .body(attributeValue.toMono(), String::class.java)
             .exchange()
@@ -90,9 +88,7 @@ class ProjectHandlerTest {
     fun `Updates order number`() {
         val projectId = "projectId"
         val orderNumber: Short = 5
-        val routerFunction = Routes(contextStub).router()
-        val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
-        webTestClient.post()
+        webClient.post()
             .uri("/project/$projectId/attribute/order-number/update")
             .body(orderNumber.toMono(), Short::class.java)
             .exchange()

@@ -24,14 +24,16 @@ class UserHandlerTest {
     @Mock
     private lateinit var userServiceSpy: UserService
 
-    private val contextStub = create()
+    private lateinit var webClient: WebTestClient
 
     @Before
     fun setUp() {
-        val userHandler = UserHandler(userServiceSpy)
+        val contextStub = create()
         lenient()
             .`when`(contextStub.getBean(UserHandler::class.java))
-            .doReturn(userHandler)
+            .doReturn(UserHandler(userServiceSpy))
+
+        webClient = WebTestClient.bindToRouterFunction(Routes(contextStub).router()).build()
     }
 
     @Test
@@ -39,9 +41,7 @@ class UserHandlerTest {
         val user = User().apply { id = "someFancyId" }
         doReturn(user).`when`(userServiceSpy).createWithDefaults()
 
-        val routerFunction = Routes(contextStub).router()
-        val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
-        val response = webTestClient.get()
+        val response = webClient.get()
                 .uri("/user/create-with-defaults")
                 .exchange()
                 .expectStatus()
@@ -56,9 +56,7 @@ class UserHandlerTest {
     fun `Exists any user`() {
         doReturn(true).`when`(userServiceSpy).existsAny()
 
-        val routerFunction = Routes(contextStub).router()
-        val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
-        val response = webTestClient.get()
+        val response = webClient.get()
             .uri("/user/exists-any")
             .exchange()
             .expectStatus()
@@ -74,9 +72,7 @@ class UserHandlerTest {
         val user = User().apply { id = "someFancyId" }
         doReturn(user).`when`(userServiceSpy).getById(user.id)
 
-        val routerFunction = Routes(contextStub).router()
-        val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
-        val response = webTestClient.get()
+        val response = webClient.get()
             .uri("/user/${user.id}")
             .exchange()
             .expectStatus()
@@ -92,9 +88,7 @@ class UserHandlerTest {
         val user = User().apply { email = "someFancyEmail" }
         doReturn(user).`when`(userServiceSpy).getByEmail(user.email)
 
-        val routerFunction = Routes(contextStub).router()
-        val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
-        val response = webTestClient.get()
+        val response = webClient.get()
             .uri("/user/email/${user.email}")
             .exchange()
             .expectStatus()
@@ -110,9 +104,7 @@ class UserHandlerTest {
         val user = User().apply { email = "someFancyEmail" }
         doReturn(true).`when`(userServiceSpy).existsByEmail(user.email)
 
-        val routerFunction = Routes(contextStub).router()
-        val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
-        val response = webTestClient.get()
+        val response = webClient.get()
             .uri("/user/email/${user.email}/exists")
             .exchange()
             .expectStatus()
@@ -129,9 +121,7 @@ class UserHandlerTest {
         val user = User().apply { id = "someFancyId" }
         doReturn(user).`when`(userServiceSpy).getByProjectId(projectId)
 
-        val routerFunction = Routes(contextStub).router()
-        val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
-        val response = webTestClient.get()
+        val response = webClient.get()
             .uri("/user/project/$projectId")
             .exchange()
             .expectStatus()
@@ -148,9 +138,7 @@ class UserHandlerTest {
         val userId = "userId"
         doReturn(true).`when`(userServiceSpy).doesUserHaveCustomer(userId, customerId)
 
-        val routerFunction = Routes(contextStub).router()
-        val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
-        val response = webTestClient.get()
+        val response = webClient.get()
             .uri("/user/$userId/customer/$customerId/has-customer")
             .exchange()
             .expectStatus()
@@ -167,9 +155,7 @@ class UserHandlerTest {
         val userId = "userId"
         doReturn(true).`when`(userServiceSpy).doesUserHaveProject(userId, projectId)
 
-        val routerFunction = Routes(contextStub).router()
-        val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
-        val response = webTestClient.get()
+        val response = webClient.get()
             .uri("/user/$userId/project/$projectId/has-project")
             .exchange()
             .expectStatus()
@@ -186,9 +172,7 @@ class UserHandlerTest {
         val userId = "userId"
         doReturn(true).`when`(userServiceSpy).doesUserHaveCollaborator(userId, collaboratorId)
 
-        val routerFunction = Routes(contextStub).router()
-        val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
-        val response = webTestClient.get()
+        val response = webClient.get()
             .uri("/user/$userId/collaborator/$collaboratorId/has-collaborator")
             .exchange()
             .expectStatus()
@@ -206,9 +190,7 @@ class UserHandlerTest {
         val userId = "userId"
         doReturn(true).`when`(userServiceSpy).isProjectNameUnique(projectName, projectId, userId)
 
-        val routerFunction = Routes(contextStub).router()
-        val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
-        val response = webTestClient.get()
+        val response = webClient.get()
             .uri("/user/$userId/project/$projectId/name/$projectName/is-unique")
             .exchange()
             .expectStatus()
@@ -223,9 +205,7 @@ class UserHandlerTest {
     fun `Saves user`() {
         val user = User().apply { id = "someFancyId" }
 
-        val routerFunction = Routes(contextStub).router()
-        val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
-        webTestClient.post()
+        webClient.post()
             .uri("/user/save")
             .body(user.toMono(), User::class.java)
             .exchange()

@@ -24,15 +24,16 @@ class StartedProjectWorkTokenHandlerTest {
     @Mock
     private lateinit var serviceSpy: StartedProjectWorkTokenService
 
-    private val contextStub = create()
-
+    private lateinit var webClient: WebTestClient
 
     @Before
     fun setUp() {
-        val handler = StartedProjectWorkTokenHandler(serviceSpy)
+        val contextStub = create()
         lenient()
             .`when`(contextStub.getBean(StartedProjectWorkTokenHandler::class.java))
-            .doReturn(handler)
+            .doReturn(StartedProjectWorkTokenHandler(serviceSpy))
+
+        webClient = WebTestClient.bindToRouterFunction(Routes(contextStub).router()).build()
     }
 
     @Test
@@ -40,9 +41,7 @@ class StartedProjectWorkTokenHandlerTest {
         val project = Project().apply { id = "someFancyId" }
         doReturn(true).`when`(serviceSpy).existsById(project.id)
 
-        val routerFunction = Routes(contextStub).router()
-        val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
-        val response = webTestClient.get()
+        val response = webClient.get()
                 .uri("/started-project-work-token/project/${project.id}/exists")
                 .exchange()
                 .expectStatus()
@@ -59,9 +58,7 @@ class StartedProjectWorkTokenHandlerTest {
         val projectId = "projectId"
         doReturn(token).`when`(serviceSpy).findTokenById(projectId)
 
-        val routerFunction = Routes(contextStub).router()
-        val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
-        val response = webTestClient.get()
+        val response = webClient.get()
             .uri("/started-project-work-token/project/$projectId/token")
             .exchange()
             .expectStatus()
@@ -78,9 +75,7 @@ class StartedProjectWorkTokenHandlerTest {
         val tokenId = "tokenId"
         doReturn(tokenId).`when`(serviceSpy).findIdByToken(token)
 
-        val routerFunction = Routes(contextStub).router()
-        val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
-        val response = webTestClient.get()
+        val response = webClient.get()
             .uri("/started-project-work-token/token/$token/id")
             .exchange()
             .expectStatus()
@@ -97,9 +92,7 @@ class StartedProjectWorkTokenHandlerTest {
         val project = Project().apply { id = "projectId" }
         doReturn(project).`when`(serviceSpy).findProjectByToken(token)
 
-        val routerFunction = Routes(contextStub).router()
-        val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
-        val response = webTestClient.get()
+        val response = webClient.get()
             .uri("/started-project-work-token/token/$token/project")
             .exchange()
             .expectStatus()
@@ -116,9 +109,7 @@ class StartedProjectWorkTokenHandlerTest {
         val collaboratorIds = listOf("collaboratorId")
         doReturn(collaboratorIds).`when`(serviceSpy).findWorkingCollaboratorIdsByToken(token)
 
-        val routerFunction = Routes(contextStub).router()
-        val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
-        val response = webTestClient.get()
+        val response = webClient.get()
             .uri("/started-project-work-token/token/$token/collaborators/working")
             .exchange()
             .expectStatus()
@@ -133,9 +124,7 @@ class StartedProjectWorkTokenHandlerTest {
     fun `Generates dashboard link for project`() {
         val projectId = "projectId"
 
-        val routerFunction = Routes(contextStub).router()
-        val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
-        webTestClient.post()
+        webClient.post()
             .uri("/started-project-work-token/generate-and-store")
             .body(projectId.toMono(), String::class.java)
             .exchange()
@@ -154,9 +143,7 @@ class StartedProjectWorkTokenHandlerTest {
     fun `Removes dashboard link for project`() {
         val projectId = "projectId"
 
-        val routerFunction = Routes(contextStub).router()
-        val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
-        webTestClient.post()
+        webClient.post()
             .uri("/started-project-work-token/delete")
             .body(projectId.toMono(), String::class.java)
             .exchange()
