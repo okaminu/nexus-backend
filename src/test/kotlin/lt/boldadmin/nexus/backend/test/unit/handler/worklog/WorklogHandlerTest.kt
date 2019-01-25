@@ -52,7 +52,8 @@ class WorklogHandlerTest {
             .expectBody(Collection::class.java)
             .returnResult()
 
-        assertEquals(listOf(worklog), response.responseBody!!)
+        assertEquals(1, response.responseBody!!.size)
+        assertEquals(worklog.id, (response.responseBody!!.first() as Map<*, *>)["id"])
     }
 
     @Test
@@ -69,7 +70,8 @@ class WorklogHandlerTest {
             .expectBody(Collection::class.java)
             .returnResult()
 
-        assertEquals(listOf(worklog), response.responseBody!!)
+        assertEquals(1, response.responseBody!!.size)
+        assertEquals(worklog.id, (response.responseBody!!.first() as Map<*, *>)["id"])
     }
 
     @Test
@@ -105,7 +107,8 @@ class WorklogHandlerTest {
             .expectBody(Collection::class.java)
             .returnResult()
 
-        assertEquals(listOf(worklog), response.responseBody!!)
+        assertEquals(1, response.responseBody!!.size)
+        assertEquals(worklog.id, (response.responseBody!!.first() as Map<*, *>)["id"])
     }
 
     @Test
