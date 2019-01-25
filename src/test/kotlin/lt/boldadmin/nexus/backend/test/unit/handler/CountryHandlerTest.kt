@@ -32,8 +32,8 @@ class CountryHandlerTest {
 
     @Test
     fun `Gets all countries`() {
-        val countries = listOf(Country("Lithuania"))
-        doReturn(countries).`when`(countryServiceStub).countries
+        val country = Country("Lithuania")
+        doReturn(listOf(country)).`when`(countryServiceStub).countries
 
         val routerFunction = Routes(contextStub).router()
         val webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
@@ -46,6 +46,7 @@ class CountryHandlerTest {
                 .returnResult()
 
         assertEquals(1, response.responseBody!!.size)
+        assertEquals(country.name, (response.responseBody!!.first() as Map<*, *>)["name"])
     }
 
 }
