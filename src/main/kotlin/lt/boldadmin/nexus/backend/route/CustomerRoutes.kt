@@ -9,7 +9,7 @@ fun customerRoutes(customerHandler: CustomerHandler): RouterFunctionDsl.() -> Un
         GET("/user/{userId}/create-with-defaults", customerHandler::createWithDefaults)
         POST("/save", customerHandler::save)
         GET("/{customerId}", customerHandler::getById)
-        POST("/{customerId}/attribute/{attributeName}/update", customerHandler::update)
         POST("/{customerId}/attribute/order-number/update", customerHandler::updateOrderNumber)
+        POST("/{customerId}/attribute/{attributeName}/update", customerHandler::update)
     }
 }
