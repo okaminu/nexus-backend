@@ -101,11 +101,11 @@ class WorklogStartEndHandlerTest {
     fun `Starts work progress`() {
         val project = Project().apply { id = "projectId" }
         val collaborator = Collaborator().apply { id = "collaboratorId" }
-        val collaboratorAndProject = Pair(collaborator, project)
+        val projectOfCollaborator = Pair(collaborator, project)
 
         webClient.post()
             .uri("/worklog/status/start")
-            .body(collaboratorAndProject.toMono(), collaboratorAndProject.javaClass)
+            .body(projectOfCollaborator.toMono(), projectOfCollaborator.javaClass)
             .exchange()
             .expectStatus()
             .isOk
@@ -147,11 +147,11 @@ class WorklogStartEndHandlerTest {
         val project = Project().apply { id = "projectId" }
         val collaborator = Collaborator().apply { id = "collaboratorId" }
         val timestamp = 1234567L
-        val collaboratorAndProject = Pair(collaborator, project)
+        val projectOfCollaborator = Pair(collaborator, project)
 
         webClient.post()
             .uri("/worklog/status/start/timestamp/$timestamp")
-            .body(collaboratorAndProject.toMono(), collaboratorAndProject.javaClass)
+            .body(projectOfCollaborator.toMono(), projectOfCollaborator.javaClass)
             .exchange()
             .expectStatus()
             .isOk
