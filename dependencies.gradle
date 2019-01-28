@@ -1,6 +1,7 @@
 apply from: 'aws-credentials.gradle'
 
 repositories {
+    mavenLocal()
     mavenCentral()
     maven { url "https://repo.spring.io/milestone" }
     repositories {

@@ -1,3 +1,8 @@
+**Nexus Backend**
+
+This is a thin web wrapper around nexus module
+
+
 Environment variables:
 
 GECKO_DRIVER_LOCATION - location of gecko driver used by selenium to launch web browser
