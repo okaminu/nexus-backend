@@ -72,25 +72,6 @@ class WorklogAuthHandlerTest {
     }
 
     @Test
-    fun `Collaborator has single worklog of possible multiple worklogs`() {
-        val intervalId = "intervalId"
-        val collaboratorId = "collaboratorId"
-        doReturn(true)
-            .`when`(worklogAuthServiceStub)
-            .doesCollaboratorHaveWorkLogIntervals(collaboratorId, listOf(intervalId))
-
-        val response = webClient.get()
-            .uri("/worklog/intervals/$intervalId/collaborator/$collaboratorId/has-intervals")
-            .exchange()
-            .expectStatus()
-            .isOk
-            .expectBody(Boolean::class.java)
-            .returnResult()
-
-        assertTrue(response.responseBody!!)
-    }
-
-    @Test
     fun `Collaborator has multiple worklogs`() {
         val intervalId1 = "intervalId1"
         val intervalId2 = "intervalId2"
