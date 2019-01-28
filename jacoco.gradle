@@ -3,7 +3,12 @@ jacoco {
     toolVersion = "0.8.2"
 }
 
-def fileFilter = ['**/*$*$*.*', '**/ApplicationKt*', '**/factory/**']
+def fileFilter = ['**/*$*$*.*', 
+                  '**/ApplicationKt*',
+                  '**/factory/BeanFactoryKt*',
+                  '**/factory/RedisFactoryKt*', 
+                  '**/factory/ValidatorBeanFactory*',
+                  '**/config/*']
 def debugTree = fileTree(dir: "${buildDir}/classes/kotlin/main", excludes: fileFilter)
 
 jacocoTestReport {
