@@ -8,7 +8,7 @@ import javax.validation.ConstraintValidator
 import javax.validation.ConstraintValidatorFactory
 
 @Component
-class ValidatorBeanFactory: ConstraintValidatorFactory {
+object ValidatorBeanFactory: ConstraintValidatorFactory {
 
     @Autowired
     private var context: ApplicationContext? = null

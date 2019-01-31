@@ -4,7 +4,6 @@ import com.nhaarman.mockito_kotlin.*
 import lt.boldadmin.nexus.api.exception.LocationNotFoundException
 import lt.boldadmin.nexus.backend.exception.handler.LocationNotFoundExceptionHandler
 import lt.boldadmin.nexus.backend.exception.handler.TemplateExceptionHandler
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.ExpectedException
@@ -21,12 +20,7 @@ class LocationNotFoundExceptionHandlerTest {
     @JvmField
     val expectedException = ExpectedException.none()!!
 
-    private lateinit var handler: LocationNotFoundExceptionHandler
-
-    @Before
-    fun `Set up`() {
-        handler = LocationNotFoundExceptionHandler()
-    }
+    private val handler = LocationNotFoundExceptionHandler
 
     @Test
     fun `Handles exception`() {

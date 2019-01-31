@@ -4,7 +4,7 @@ import lt.boldadmin.nexus.api.exception.LocationNotFoundException
 import org.springframework.http.HttpStatus
 import org.springframework.web.server.ServerWebExchange
 
-class LocationNotFoundExceptionHandler : TemplateExceptionHandler() {
+object LocationNotFoundExceptionHandler : TemplateExceptionHandler() {
 
     override fun canHandle(ex: Throwable) = ex is LocationNotFoundException
 

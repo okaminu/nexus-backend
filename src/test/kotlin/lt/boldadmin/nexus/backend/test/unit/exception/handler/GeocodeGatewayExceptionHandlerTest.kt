@@ -4,7 +4,6 @@ import com.nhaarman.mockito_kotlin.*
 import lt.boldadmin.nexus.api.exception.GeocodeGatewayException
 import lt.boldadmin.nexus.backend.exception.handler.GeocodeGatewayExceptionHandler
 import lt.boldadmin.nexus.backend.exception.handler.TemplateExceptionHandler
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.ExpectedException
@@ -21,12 +20,7 @@ class GeocodeGatewayExceptionHandlerTest {
     @JvmField
     val expectedException = ExpectedException.none()!!
 
-    private lateinit var handler: GeocodeGatewayExceptionHandler
-
-    @Before
-    fun `Set up`() {
-        handler = GeocodeGatewayExceptionHandler()
-    }
+    private val handler = GeocodeGatewayExceptionHandler
 
     @Test
     fun `Handles exception`() {

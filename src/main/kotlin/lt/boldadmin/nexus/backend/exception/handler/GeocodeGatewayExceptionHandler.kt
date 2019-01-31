@@ -4,7 +4,7 @@ import lt.boldadmin.nexus.api.exception.GeocodeGatewayException
 import org.springframework.http.HttpStatus
 import org.springframework.web.server.ServerWebExchange
 
-class GeocodeGatewayExceptionHandler : TemplateExceptionHandler() {
+object GeocodeGatewayExceptionHandler : TemplateExceptionHandler() {
 
     override fun canHandle(ex: Throwable) = ex is GeocodeGatewayException
 
