@@ -4,9 +4,9 @@ apply from: 'aws-credentials.gradle'
 publishing {
     publications {
         shadow(MavenPublication) { publication ->
-            groupId group
+            groupId gradle.ext.group
             artifactId = rootProject.name
-            version version
+            version gradle.ext.version
             project.shadow.component(publication)
 
             repositories {
