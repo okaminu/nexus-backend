@@ -15,3 +15,4 @@ AWS_ACCESS_KEY_ID - Amazon Web Service Key ID
 AWS_SECRET_KEY - Amazon Web Service Key
 GOOGLE_MAPS_API_KEY - Google Maps API Key
 PROJECT_LOCATION_CACHE_TTL - time to live for location cache in days
+AWS_PINPOINT_APP_ID - Amazon Pinpoint app id used for sending messages
