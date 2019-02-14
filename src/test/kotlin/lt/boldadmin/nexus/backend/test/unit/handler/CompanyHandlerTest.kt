@@ -27,7 +27,7 @@ class CompanyHandlerTest {
     private lateinit var webClient: WebTestClient
 
     @Before
-    fun setUp() {
+    fun `Set up`() {
         val contextStub = create()
         lenient()
             .`when`(contextStub.getBean(CompanyHandler::class.java))
@@ -38,7 +38,7 @@ class CompanyHandlerTest {
 
 
     @Test
-    fun `Exists company by name`() {
+    fun `Company exists by name`() {
         val companyName = "companyName"
         doReturn(true).`when`(companyServiceSpy).existsByName(companyName)
 
@@ -52,8 +52,6 @@ class CompanyHandlerTest {
 
         assertTrue(response.responseBody!!)
     }
-
-
 
     @Test
     fun `Saves customer`() {

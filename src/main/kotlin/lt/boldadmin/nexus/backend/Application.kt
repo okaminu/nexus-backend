@@ -28,7 +28,8 @@ private fun initializeBeans(context: GenericApplicationContext) {
     XmlBeanDefinitionReader(context).loadBeanDefinitions("classpath:context/context.xml")
 }
 
-private fun getWebHttpHandler(context: GenericApplicationContext) = WebHttpHandlerBuilder
+private fun getWebHttpHandler(context: GenericApplicationContext) =
+    WebHttpHandlerBuilder
         .applicationContext(context)
         .apply { if (context.containsBean("corsFilter")) filter(context.getBean<CorsWebFilter>()) }
         .build()

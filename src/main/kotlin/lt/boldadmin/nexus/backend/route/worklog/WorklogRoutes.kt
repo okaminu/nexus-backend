@@ -14,13 +14,13 @@ import org.springframework.web.reactive.function.server.RouterFunctionDsl
 
 fun worklogRoutes(applicationContext: AbstractApplicationContext): RouterFunctionDsl.() -> Unit = {
 
-    val worklogStartEndHandler: WorklogStartEndHandler = applicationContext.getBean()
-    val worklogHandler: WorklogHandler = applicationContext.getBean()
-    val worklogDescriptionHandler: WorklogDescriptionHandler = applicationContext.getBean()
-    val worklogMessageHandler: WorklogMessageHandler = applicationContext.getBean()
-    val worklogLocationHandler: WorklogLocationHandler = applicationContext.getBean()
-    val worklogDurationHandler: WorklogDurationHandler = applicationContext.getBean()
     val worklogAuthHandler: WorklogAuthHandler = applicationContext.getBean()
+    val worklogDescriptionHandler: WorklogDescriptionHandler = applicationContext.getBean()
+    val worklogDurationHandler: WorklogDurationHandler = applicationContext.getBean()
+    val worklogHandler: WorklogHandler = applicationContext.getBean()
+    val worklogLocationHandler: WorklogLocationHandler = applicationContext.getBean()
+    val worklogMessageHandler: WorklogMessageHandler = applicationContext.getBean()
+    val worklogStartEndHandler: WorklogStartEndHandler = applicationContext.getBean()
 
 
     accept(MediaType.APPLICATION_JSON).nest {
@@ -31,17 +31,12 @@ fun worklogRoutes(applicationContext: AbstractApplicationContext): RouterFunctio
             GET("/{collaboratorId}/status/has-work-started", worklogStartEndHandler::hasWorkStarted)
             GET("/{collaboratorId}/status/has-work-ended", worklogStartEndHandler::hasWorkEnded)
             GET("/{collaboratorId}/status/project-of-started-work", worklogStartEndHandler::getProjectOfStartedWork)
-            POST("/{collaboratorId}/status/description/update", worklogDescriptionHandler::updateDescriptionByCollaboratorId)        }
-
-
-        GET("/intervals/{intervalIds}/durations-sum", worklogDurationHandler::sumWorkDurations)
-        GET("/intervals/{intervalIds}/collaborator/{collaboratorId}/has-intervals",
-                worklogAuthHandler::doesCollaboratorHaveWorkLogIntervals)
+            POST("/{collaboratorId}/status/description/update",
+                worklogDescriptionHandler::updateDescriptionByCollaboratorId)
+        }
 
         GET("/project/{projectId}/collaborator/{collaboratorId}/exists",
-                worklogHandler::existsByProjectIdAndCollaboratorId)
-
-
+            worklogHandler::existsByProjectIdAndCollaboratorId)
         GET("/project/{projectId}", worklogHandler::getByProjectId)
 
         "/interval".nest {
@@ -53,6 +48,9 @@ fun worklogRoutes(applicationContext: AbstractApplicationContext): RouterFunctio
             GET("/{intervalId}/duration", worklogDurationHandler::measureDuration)
             POST("/{intervalId}/status/description/update", worklogDescriptionHandler::updateDescription)
         }
+        GET("/intervals/{intervalIds}/durations-sum", worklogDurationHandler::sumWorkDurations)
+        GET("/intervals/{intervalIds}/collaborator/{collaboratorId}/has-intervals",
+            worklogAuthHandler::doesCollaboratorHaveWorkLogIntervals)
     }
 
 }

@@ -27,7 +27,7 @@ class CollaboratorHandlerTest {
     private lateinit var webClient: WebTestClient
 
     @Before
-    fun setUp() {
+    fun `Set up`() {
         val contextStub = create()
         lenient()
             .`when`(contextStub.getBean(CollaboratorHandler::class.java))
@@ -87,7 +87,7 @@ class CollaboratorHandlerTest {
     }
 
     @Test
-    fun `Exists collaborator by id`() {
+    fun `Collaborator exists by id`() {
         val collaboratorId = "collaboratorId"
         doReturn(true).`when`(collaboratorServiceSpy).existsById(collaboratorId)
 
@@ -103,7 +103,7 @@ class CollaboratorHandlerTest {
     }
 
     @Test
-    fun `Exists collaborator by mobile number`() {
+    fun `Collaborator exists by mobile number`() {
         val mobileNumber = "mobileNumber"
         doReturn(true).`when`(collaboratorServiceSpy).existsByMobileNumber(mobileNumber)
 
@@ -123,6 +123,7 @@ class CollaboratorHandlerTest {
         val collaboratorId = "collaboratorId"
         val attributeName = "attributeName"
         val attributeValue = "attributeValue"
+
         webClient.post()
             .uri("/collaborator/$collaboratorId/attribute/$attributeName/update")
             .body(attributeValue.toMono(), String::class.java)
@@ -139,6 +140,7 @@ class CollaboratorHandlerTest {
     fun `Updates order number`() {
         val collaboratorId = "collaboratorId"
         val orderNumber: Short = 5
+
         webClient.post()
             .uri("/collaborator/$collaboratorId/attribute/order-number/update")
             .body(orderNumber.toMono(), Short::class.java)

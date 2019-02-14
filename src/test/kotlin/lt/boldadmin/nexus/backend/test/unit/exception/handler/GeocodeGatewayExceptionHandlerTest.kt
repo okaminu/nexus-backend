@@ -12,6 +12,7 @@ import org.springframework.http.server.reactive.ServerHttpResponse
 import org.springframework.web.server.ServerWebExchange
 import reactor.core.publisher.Mono
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class GeocodeGatewayExceptionHandlerTest {
@@ -33,13 +34,14 @@ class GeocodeGatewayExceptionHandlerTest {
     }
 
     @Test
-    fun `Returns error when exception could not be handled`() {
+    fun `Throws an error when exception could not be handled`() {
         expectedException.expect(Exception::class.java)
         doReturn(false).`when`(mock<TemplateExceptionHandler>()).canHandle(any())
 
         val response = handler.handle(mock(), mock<Exception>())
         response.block()
     }
+
     @Test
     fun `Logs an exception`() {
         val exceptionSpy = ExceptionSpy()
@@ -63,6 +65,7 @@ class GeocodeGatewayExceptionHandlerTest {
     @Test
     fun `Checks if exception type is GeocodeGatewayException`() {
         assertTrue(handler.canHandle(GeocodeGatewayException("message")))
+        assertFalse(handler.canHandle(RuntimeException("message")))
     }
 
     class ExceptionSpy: Exception() {

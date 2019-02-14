@@ -26,7 +26,7 @@ class CustomerHandlerTest {
     private lateinit var webClient: WebTestClient
 
     @Before
-    fun setUp() {
+    fun `Set up`() {
         val contextStub = create()
         lenient()
             .`when`(contextStub.getBean(CustomerHandler::class.java))
@@ -53,7 +53,7 @@ class CustomerHandlerTest {
     }
 
     @Test
-    fun `Create with defaults`() {
+    fun `Finds customer by id`() {
         val customer = Customer().apply { id = "customerId" }
         doReturn(customer).`when`(customerServiceSpy).getById(customer.id)
 
@@ -73,6 +73,7 @@ class CustomerHandlerTest {
         val customerId = "customerId"
         val attributeName = "attributeName"
         val attributeValue = "attributeValue"
+
         webClient.post()
             .uri("/customer/$customerId/attribute/$attributeName/update")
             .body(attributeValue.toMono(), String::class.java)
@@ -89,6 +90,7 @@ class CustomerHandlerTest {
     fun `Updates order number`() {
         val customerId = "customerId"
         val orderNumber: Short = 5
+
         webClient.post()
             .uri("/customer/$customerId/attribute/order-number/update")
             .body(orderNumber.toMono(), Short::class.java)

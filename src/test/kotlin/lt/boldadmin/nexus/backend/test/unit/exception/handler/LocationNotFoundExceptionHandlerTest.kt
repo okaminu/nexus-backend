@@ -12,6 +12,7 @@ import org.springframework.http.server.reactive.ServerHttpResponse
 import org.springframework.web.server.ServerWebExchange
 import reactor.core.publisher.Mono
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class LocationNotFoundExceptionHandlerTest {
@@ -40,6 +41,7 @@ class LocationNotFoundExceptionHandlerTest {
         val response = handler.handle(mock(), mock<Exception>())
         response.block()
     }
+
     @Test
     fun `Logs an exception`() {
         val exceptionSpy = ExceptionSpy()
@@ -63,6 +65,7 @@ class LocationNotFoundExceptionHandlerTest {
     @Test
     fun `Checks if exception type is LocationNotFoundException`() {
         assertTrue(handler.canHandle(LocationNotFoundException("message")))
+        assertFalse(handler.canHandle(RuntimeException("message")))
     }
 
     class ExceptionSpy: Exception() {

@@ -27,7 +27,7 @@ class UserHandlerTest {
     private lateinit var webClient: WebTestClient
 
     @Before
-    fun setUp() {
+    fun `Set up`() {
         val contextStub = create()
         lenient()
             .`when`(contextStub.getBean(UserHandler::class.java))

@@ -7,17 +7,18 @@ import org.springframework.stereotype.Component
 import javax.validation.ConstraintValidator
 import javax.validation.ConstraintValidatorFactory
 
+@Suppress("ReplaceCallWithBinaryOperator")
 @Component
 class ValidatorBeanFactory: ConstraintValidatorFactory {
 
     @Autowired
     private var context: ApplicationContext? = null
 
-    override fun <T: ConstraintValidator<*, *>> getInstance(clazz: Class<T>): T {
-        return if (clazz.equals(UniqueProjectNameValidator::class.java))
-            context!!.getBean(clazz)
+    override fun <T: ConstraintValidator<*, *>> getInstance(type: Class<T>): T {
+        return if (type.equals(UniqueProjectNameValidator::class.java))
+            context!!.getBean(type)
         else
-            clazz.newInstance()
+            type.getDeclaredConstructor().newInstance()
     }
 
     override fun releaseInstance(instance: ConstraintValidator<*, *>) {}

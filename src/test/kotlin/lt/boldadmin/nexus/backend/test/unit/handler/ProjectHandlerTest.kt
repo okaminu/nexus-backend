@@ -25,7 +25,7 @@ class ProjectHandlerTest {
     private lateinit var webClient: WebTestClient
 
     @Before
-    fun setUp() {
+    fun `Set up`() {
         val contextStub = create()
         lenient()
             .`when`(contextStub.getBean(ProjectHandler::class.java))
@@ -72,6 +72,7 @@ class ProjectHandlerTest {
         val projectId = "projectId"
         val attributeName = "attributeName"
         val attributeValue = "attributeValue"
+
         webClient.post()
             .uri("/project/$projectId/attribute/$attributeName/update")
             .body(attributeValue.toMono(), String::class.java)
@@ -88,6 +89,7 @@ class ProjectHandlerTest {
     fun `Updates order number`() {
         val projectId = "projectId"
         val orderNumber: Short = 5
+
         webClient.post()
             .uri("/project/$projectId/attribute/order-number/update")
             .body(orderNumber.toMono(), Short::class.java)

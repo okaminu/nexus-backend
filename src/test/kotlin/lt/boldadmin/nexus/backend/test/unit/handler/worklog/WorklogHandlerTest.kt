@@ -28,7 +28,7 @@ class WorklogHandlerTest {
     private lateinit var webClient: WebTestClient
 
     @Before
-    fun setUp() {
+    fun `Set up`() {
         val contextStub = create()
         lenient()
             .`when`(contextStub.getBean(WorklogHandler::class.java))
@@ -75,7 +75,7 @@ class WorklogHandlerTest {
     }
 
     @Test
-    fun `Exists worklog by project and collaborator`() {
+    fun `Worklog exists by project and collaborator`() {
         val collaboratorId = "collaboratorId"
         val projectId = "projectId"
         doReturn(true)

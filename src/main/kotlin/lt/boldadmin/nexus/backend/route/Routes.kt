@@ -17,7 +17,6 @@ class Routes(private val applicationContext: AbstractApplicationContext) {
 
     @Bean
     fun router() = router {
-
         "/started-project-work-token".nest(startedProjectWorkTokenRoutes(applicationContext.getBean()))
         "/user".nest(userRoutes(applicationContext.getBean()))
         "/project".nest(projectRoutes(applicationContext.getBean()))

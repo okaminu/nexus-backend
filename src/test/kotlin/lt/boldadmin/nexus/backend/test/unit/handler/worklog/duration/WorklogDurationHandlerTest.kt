@@ -37,9 +37,7 @@ class WorklogDurationHandlerTest {
     fun `Measures duration`() {
         val intervalId = "intervalId"
         val duration = 354L
-        doReturn(duration)
-            .`when`(worklogDurationServiceStub)
-            .measureDuration(intervalId)
+        doReturn(duration).`when`(worklogDurationServiceStub).measureDuration(intervalId)
 
         val response = webClient.get()
             .uri("/worklog/interval/$intervalId/duration")
@@ -57,9 +55,7 @@ class WorklogDurationHandlerTest {
         val intervalId1 = "intervalId1"
         val intervalId2 = "intervalId2"
         val durationSum = 354L
-        doReturn(durationSum)
-            .`when`(worklogDurationServiceStub)
-            .sumWorkDurations(listOf(intervalId1, intervalId2))
+        doReturn(durationSum).`when`(worklogDurationServiceStub).sumWorkDurations(listOf(intervalId1, intervalId2))
 
         val response = webClient.get()
             .uri("/worklog/intervals/$intervalId1,$intervalId2/durations-sum")

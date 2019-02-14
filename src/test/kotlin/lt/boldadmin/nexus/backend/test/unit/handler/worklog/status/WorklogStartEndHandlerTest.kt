@@ -30,7 +30,7 @@ class WorklogStartEndHandlerTest {
     private lateinit var webClient: WebTestClient
 
     @Before
-    fun setUp() {
+    fun `Set up`() {
         val contextStub = create()
         lenient()
             .`when`(contextStub.getBean(WorklogStartEndHandler::class.java))
@@ -63,9 +63,7 @@ class WorklogStartEndHandlerTest {
     fun `Has work started`() {
         val collaboratorId = "collaboratorId"
 
-        doReturn(true)
-            .`when`(worklogStartEndServiceSpy)
-            .hasWorkStarted(collaboratorId)
+        doReturn(true).`when`(worklogStartEndServiceSpy).hasWorkStarted(collaboratorId)
 
         val response = webClient.get()
             .uri("/worklog/collaborator/$collaboratorId/status/has-work-started")
@@ -82,9 +80,7 @@ class WorklogStartEndHandlerTest {
     fun `Has work ended`() {
         val collaboratorId = "collaboratorId"
 
-        doReturn(true)
-            .`when`(worklogStartEndServiceSpy)
-            .hasWorkEnded(collaboratorId)
+        doReturn(true).`when`(worklogStartEndServiceSpy).hasWorkEnded(collaboratorId)
 
         val response = webClient.get()
             .uri("/worklog/collaborator/$collaboratorId/status/has-work-ended")

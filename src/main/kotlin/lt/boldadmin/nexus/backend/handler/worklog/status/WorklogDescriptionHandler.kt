@@ -21,6 +21,6 @@ open class WorklogDescriptionHandler(private val worklogDescriptionService: Work
     open fun updateDescriptionByCollaboratorId(req: ServerRequest): Mono<ServerResponse> =
         req.bodyToMono<String>()
             .doOnNext {
-                worklogDescriptionService.updateDescriptionByCollaboratorId(req.pathVariable("collaboratorId"), it) }
-            .flatMap { ok().build() }
+                worklogDescriptionService.updateDescriptionByCollaboratorId(req.pathVariable("collaboratorId"), it)
+            }.flatMap { ok().build() }
 }

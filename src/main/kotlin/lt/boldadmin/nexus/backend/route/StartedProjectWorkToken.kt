@@ -14,8 +14,7 @@ fun startedProjectWorkTokenRoutes(startedProjectWorkTokenHandler: StartedProject
         "/token".nest {
             GET("/{token}/id", startedProjectWorkTokenHandler::findIdByToken)
             GET("/{token}/project", startedProjectWorkTokenHandler::findProjectByToken)
-            GET("/{token}/collaborators/working", startedProjectWorkTokenHandler::findWorkingCollaboratorIdsByToken
-            )
+            GET("/{token}/collaborators/working", startedProjectWorkTokenHandler::findWorkingCollaboratorIdsByToken)
         }
     }
 }

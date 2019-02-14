@@ -9,6 +9,5 @@ import reactor.core.publisher.Mono
 
 open class CountryHandler(private val countryService: CountryService) {
 
-    open fun getAll(req: ServerRequest): Mono<ServerResponse> =
-        ok().body(Mono.just(countryService.countries))
+    open fun getAll(req: ServerRequest): Mono<ServerResponse> = ok().body(Mono.just(countryService.countries))
 }
