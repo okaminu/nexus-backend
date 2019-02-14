@@ -47,12 +47,13 @@ dependencies {
 
     implementation "com.fasterxml.jackson.module:jackson-module-kotlin"
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
+    implementation "org.glassfish:javax.el:3.0.0"
 
     runtime "javax.xml.bind:jaxb-api:2.2.11"
     runtime "com.sun.xml.bind:jaxb-core:2.2.11"
     runtime "com.sun.xml.bind:jaxb-impl:2.2.11"
     runtime "javax.activation:activation:1.1.1"
-    
+
     testImplementation "org.springframework:spring-test"
     testImplementation "junit:junit:4.12"
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
