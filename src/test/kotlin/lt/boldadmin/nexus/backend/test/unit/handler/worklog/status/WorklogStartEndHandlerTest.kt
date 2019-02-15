@@ -62,7 +62,6 @@ class WorklogStartEndHandlerTest {
     @Test
     fun `Has work started`() {
         val collaboratorId = "collaboratorId"
-
         doReturn(true).`when`(worklogStartEndServiceSpy).hasWorkStarted(collaboratorId)
 
         val response = webClient.get()
@@ -79,7 +78,6 @@ class WorklogStartEndHandlerTest {
     @Test
     fun `Has work ended`() {
         val collaboratorId = "collaboratorId"
-
         doReturn(true).`when`(worklogStartEndServiceSpy).hasWorkEnded(collaboratorId)
 
         val response = webClient.get()

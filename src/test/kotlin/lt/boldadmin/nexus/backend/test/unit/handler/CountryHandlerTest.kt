@@ -5,6 +5,7 @@ import lt.boldadmin.nexus.api.service.CountryService
 import lt.boldadmin.nexus.api.type.valueobject.Country
 import lt.boldadmin.nexus.backend.handler.CountryHandler
 import lt.boldadmin.nexus.backend.route.Routes
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
@@ -19,13 +20,20 @@ class CountryHandlerTest {
     @Mock
     private lateinit var countryServiceStub: CountryService
 
-    @Test
-    fun `Gets all countries`() {
+    private lateinit var webClient: WebTestClient
+
+    @Before
+    fun `Set up`() {
         val contextStub = create()
         lenient()
             .`when`(contextStub.getBean(CountryHandler::class.java))
             .doReturn(CountryHandler(countryServiceStub))
-        val webClient = WebTestClient.bindToRouterFunction(Routes(contextStub).router()).build()
+
+        webClient = WebTestClient.bindToRouterFunction(Routes(contextStub).router()).build()
+    }
+
+    @Test
+    fun `Gets all countries`() {
         val country = Country("Lithuania")
         doReturn(listOf(country)).`when`(countryServiceStub).countries
 
