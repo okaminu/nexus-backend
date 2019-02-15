@@ -34,7 +34,7 @@ class LocationNotFoundExceptionHandlerTest {
     }
 
     @Test
-    fun `Returns error when exception could not be handled`() {
+    fun `Throws error when exception could not be handled`() {
         expectedException.expect(Exception::class.java)
         doReturn(false).`when`(mock<TemplateExceptionHandler>()).canHandle(any())
 

@@ -36,9 +36,8 @@ open class WorklogStartEndHandler(private val worklogStartEndService: WorklogSta
 
     open fun endWithTimestamp(req: ServerRequest): Mono<ServerResponse> =
         req.bodyToMono<Collaborator>()
-            .doOnNext {
-                worklogStartEndService.end(it, req.pathVariable("timestamp").toLong())
-            }.flatMap { ok().build() }
+            .doOnNext { worklogStartEndService.end(it, req.pathVariable("timestamp").toLong()) }
+            .flatMap { ok().build() }
 
     open fun endAllStartedWorkWhereWorkTimeEnded(req: ServerRequest): Mono<ServerResponse> =
         ok().body(Mono.just(worklogStartEndService.endAllStartedWorkWhereWorkTimeEnded()))
