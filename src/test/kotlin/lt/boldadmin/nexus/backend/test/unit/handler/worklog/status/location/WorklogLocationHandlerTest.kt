@@ -10,6 +10,7 @@ import lt.boldadmin.nexus.api.type.valueobject.Location
 import lt.boldadmin.nexus.backend.handler.worklog.status.location.WorklogLocationHandler
 import lt.boldadmin.nexus.backend.route.Routes
 import lt.boldadmin.nexus.backend.test.unit.handler.create
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
@@ -25,14 +26,21 @@ class WorklogLocationHandlerTest {
     @Mock
     private lateinit var worklogLocationServiceSpy: WorklogLocationService
 
-    @Test
-    fun `Logs work by location`() {
+    private lateinit var webClient: WebTestClient
+
+    @Before
+    fun `Set up`() {
         val contextStub = create()
         lenient()
             .`when`(contextStub.getBean(WorklogLocationHandler::class.java))
             .doReturn(WorklogLocationHandler(worklogLocationServiceSpy))
 
-        val webClient = WebTestClient.bindToRouterFunction(Routes(contextStub).router()).build()
+        webClient = WebTestClient.bindToRouterFunction(Routes(contextStub).router()).build()
+    }
+
+    @Test
+    fun `Logs work by location`() {
+
         val collaborator = Collaborator().apply { id = "collaboratorId" }
         val location = Location(1234.toDouble(), 1234.toDouble())
         val locationOfCollaborator = Pair(collaborator, location)
