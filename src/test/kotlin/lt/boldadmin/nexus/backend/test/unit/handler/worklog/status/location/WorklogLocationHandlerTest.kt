@@ -40,7 +40,6 @@ class WorklogLocationHandlerTest {
 
     @Test
     fun `Logs work by location`() {
-
         val collaborator = Collaborator().apply { id = "collaboratorId" }
         val location = Location(1234.toDouble(), 1234.toDouble())
         val locationOfCollaborator = Pair(collaborator, location)
