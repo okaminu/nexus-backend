@@ -4,6 +4,7 @@ import com.nhaarman.mockito_kotlin.argumentCaptor
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.verify
 import lt.boldadmin.nexus.api.service.UserService
+import lt.boldadmin.nexus.api.type.entity.Collaborator
 import lt.boldadmin.nexus.api.type.entity.User
 import lt.boldadmin.nexus.backend.handler.UserHandler
 import lt.boldadmin.nexus.backend.route.Routes
@@ -130,6 +131,25 @@ class UserHandlerTest {
             .returnResult()
 
         assertEquals(user.id, response.responseBody!!.id)
+    }
+
+    @Test
+    fun `Gets collaborators by user id`() {
+        val userId = "userId"
+        val collab = Collaborator().apply { id = "Collab" }
+        val collaborators = setOf(collab)
+        doReturn(collaborators).`when`(userServiceSpy).getCollaborators(userId)
+
+        val response = webClient.get()
+            .uri("/user/$userId/collaborators")
+            .exchange()
+            .expectStatus()
+            .isOk
+            .expectBody(Set::class.java)
+            .returnResult()
+
+        assertEquals(1, response.responseBody!!.size)
+        assertEquals(collab.id, (response.responseBody!!.first() as Map<*, *>)["id"])
     }
 
     @Test

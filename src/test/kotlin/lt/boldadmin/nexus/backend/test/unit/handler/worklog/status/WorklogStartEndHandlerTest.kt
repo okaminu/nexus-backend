@@ -76,6 +76,23 @@ class WorklogStartEndHandlerTest {
     }
 
     @Test
+    fun `Has work started in a project`() {
+        val collaboratorId = "collaboratorId"
+        val projectId = "projectId"
+        doReturn(true).`when`(worklogStartEndServiceSpy).hasWorkStarted(collaboratorId, projectId)
+
+        val response = webClient.get()
+            .uri("/worklog/collaborator/$collaboratorId/project/$projectId/status/has-work-started")
+            .exchange()
+            .expectStatus()
+            .isOk
+            .expectBody(Boolean::class.java)
+            .returnResult()
+
+        assertTrue(response.responseBody!!)
+    }
+
+    @Test
     fun `Has work ended`() {
         val collaboratorId = "collaboratorId"
         doReturn(true).`when`(worklogStartEndServiceSpy).hasWorkEnded(collaboratorId)

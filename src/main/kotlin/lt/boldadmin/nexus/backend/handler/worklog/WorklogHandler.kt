@@ -25,9 +25,4 @@ open class WorklogHandler(private val worklogService: WorklogService) {
     open fun getIntervalEndpoints(req: ServerRequest): Mono<ServerResponse> =
         ok().body(Mono.just(worklogService.getIntervalEndpoints(req.pathVariable("intervalId"))))
 
-    open fun existsByProjectIdAndCollaboratorId(req: ServerRequest): Mono<ServerResponse> =
-        ok().body(Mono.just(worklogService.existsByProjectIdAndCollaboratorId(
-                req.pathVariable("projectId"),
-                req.pathVariable("collaboratorId"))))
-
 }

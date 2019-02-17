@@ -28,6 +28,10 @@ open class WorklogStartEndHandler(private val worklogStartEndService: WorklogSta
     open fun hasWorkStarted(req: ServerRequest): Mono<ServerResponse> =
         ok().body(Mono.just(worklogStartEndService.hasWorkStarted(req.pathVariable("collaboratorId"))))
 
+    open fun hasWorkStartedInProject(req: ServerRequest): Mono<ServerResponse> =
+        ok().body(Mono.just(worklogStartEndService.hasWorkStarted(req.pathVariable("collaboratorId"),
+            req.pathVariable("projectId"))))
+
     open fun end(req: ServerRequest): Mono<ServerResponse> =
         req.bodyToMono<Collaborator>()
             .doOnNext {

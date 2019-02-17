@@ -34,6 +34,9 @@ open class UserHandler(private val userService: UserService) {
     open fun getByProjectId(req: ServerRequest): Mono<ServerResponse> =
         ok().body(Mono.just(userService.getByProjectId(req.pathVariable("projectId"))))
 
+    open fun getCollaborators(req: ServerRequest): Mono<ServerResponse> =
+        ok().body(Mono.just(userService.getCollaborators(req.pathVariable("userId"))))
+
     open fun doesUserHaveCustomer(req: ServerRequest): Mono<ServerResponse> =
         ok().body(
                 Mono.just(userService.doesUserHaveCustomer(

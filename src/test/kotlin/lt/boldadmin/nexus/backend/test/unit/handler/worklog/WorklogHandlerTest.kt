@@ -75,25 +75,6 @@ class WorklogHandlerTest {
     }
 
     @Test
-    fun `Worklog exists by project and collaborator`() {
-        val collaboratorId = "collaboratorId"
-        val projectId = "projectId"
-        doReturn(true)
-            .`when`(worklogServiceSpy)
-            .existsByProjectIdAndCollaboratorId(projectId, collaboratorId)
-
-        val response = webClient.get()
-            .uri("/worklog/project/$projectId/collaborator/$collaboratorId/exists")
-            .exchange()
-            .expectStatus()
-            .isOk
-            .expectBody(Boolean::class.java)
-            .returnResult()
-
-        assertTrue(response.responseBody!!)
-    }
-
-    @Test
     fun `Finds interval endpoints by interval id`() {
         val intervalId = "intervalId"
         val worklog = Worklog().apply { id = "worklogId" }
