@@ -17,7 +17,6 @@ import org.mockito.junit.MockitoJUnitRunner
 import org.springframework.test.web.reactive.server.WebTestClient
 import reactor.core.publisher.toMono
 import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 
 @RunWith(MockitoJUnitRunner::class)
 class WorklogHandlerTest {
