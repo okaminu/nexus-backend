@@ -6,7 +6,6 @@ import lt.boldadmin.nexus.backend.handler.*
 import lt.boldadmin.nexus.backend.handler.worklog.WorklogAuthHandler
 import lt.boldadmin.nexus.backend.handler.worklog.WorklogHandler
 import lt.boldadmin.nexus.backend.handler.worklog.duration.WorklogDurationHandler
-import lt.boldadmin.nexus.backend.handler.worklog.status.WorklogDescriptionHandler
 import lt.boldadmin.nexus.backend.handler.worklog.status.WorklogStartEndHandler
 import lt.boldadmin.nexus.backend.handler.worklog.status.location.WorklogLocationHandler
 import lt.boldadmin.nexus.backend.handler.worklog.status.message.WorklogMessageHandler
@@ -20,7 +19,6 @@ fun create() = mock<AbstractApplicationContext>().also {
     doReturn(mock<ProjectHandler>()).`when`(it).getBean(ProjectHandler::class.java)
     doReturn(mock<UserHandler>()).`when`(it).getBean(UserHandler::class.java)
     doReturn(mock<WorklogAuthHandler>()).`when`(it).getBean(WorklogAuthHandler::class.java)
-    doReturn(mock<WorklogDescriptionHandler>()).`when`(it).getBean(WorklogDescriptionHandler::class.java)
     doReturn(mock<WorklogDurationHandler>()).`when`(it).getBean(WorklogDurationHandler::class.java)
     doReturn(mock<WorklogHandler>()).`when`(it).getBean(WorklogHandler::class.java)
     doReturn(mock<WorklogLocationHandler>()).`when`(it).getBean(WorklogLocationHandler::class.java)
