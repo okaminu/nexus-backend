@@ -13,6 +13,7 @@ import org.mockito.Mock
 import org.mockito.Mockito.lenient
 import org.mockito.junit.MockitoJUnitRunner
 import org.springframework.test.web.reactive.server.WebTestClient
+import reactor.core.publisher.Mono
 import reactor.core.publisher.toMono
 import kotlin.test.assertEquals
 
@@ -83,6 +84,23 @@ class ProjectHandlerTest {
             .isEmpty
 
         verify(projectServiceSpy).update(projectId, attributeName, attributeValue)
+    }
+
+    @Test
+    fun `Updates attribute with empty value when body is empty`() {
+        val projectId = "projectId"
+        val attributeName = "attributeName"
+
+        webClient.post()
+            .uri("/project/$projectId/attribute/$attributeName/update")
+            .body(Mono.empty(), String::class.java)
+            .exchange()
+            .expectStatus()
+            .isOk
+            .expectBody()
+            .isEmpty
+
+        verify(projectServiceSpy).update(projectId, attributeName, "")
     }
 
     @Test
