@@ -1,11 +1,8 @@
 package lt.boldadmin.nexus.backend.handler
 
 import lt.boldadmin.nexus.api.service.ProjectService
-import org.springframework.web.reactive.function.server.ServerRequest
-import org.springframework.web.reactive.function.server.ServerResponse
+import org.springframework.web.reactive.function.server.*
 import org.springframework.web.reactive.function.server.ServerResponse.ok
-import org.springframework.web.reactive.function.server.body
-import org.springframework.web.reactive.function.server.bodyToMono
 import reactor.core.publisher.Mono
 
 open class ProjectHandler(private val projectService: ProjectService) {
@@ -18,6 +15,7 @@ open class ProjectHandler(private val projectService: ProjectService) {
 
     open fun update(req: ServerRequest): Mono<ServerResponse> =
         req.bodyToMono<String>()
+            .defaultIfEmpty("")
             .doOnNext { projectService.update(req.pathVariable("projectId"), req.pathVariable("attributeName"), it) }
             .flatMap { ok().build() }
 

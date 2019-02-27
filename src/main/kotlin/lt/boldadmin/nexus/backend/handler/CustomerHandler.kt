@@ -2,11 +2,8 @@ package lt.boldadmin.nexus.backend.handler
 
 import lt.boldadmin.nexus.api.service.CustomerService
 import lt.boldadmin.nexus.api.type.entity.Customer
-import org.springframework.web.reactive.function.server.ServerRequest
-import org.springframework.web.reactive.function.server.ServerResponse
+import org.springframework.web.reactive.function.server.*
 import org.springframework.web.reactive.function.server.ServerResponse.ok
-import org.springframework.web.reactive.function.server.body
-import org.springframework.web.reactive.function.server.bodyToMono
 import reactor.core.publisher.Mono
 
 open class CustomerHandler(private val customerService: CustomerService) {
@@ -24,6 +21,7 @@ open class CustomerHandler(private val customerService: CustomerService) {
 
     open fun update(req: ServerRequest): Mono<ServerResponse> =
         req.bodyToMono<String>()
+            .defaultIfEmpty("")
             .doOnNext { customerService.update(req.pathVariable("customerId"), req.pathVariable("attributeName"), it) }
             .flatMap { ok().build() }
 
