@@ -26,7 +26,8 @@ open class CustomerHandler(private val customerService: CustomerService) {
             .flatMap { ok().build() }
 
     open fun updateOrderNumber(req: ServerRequest): Mono<ServerResponse> =
-        req.bodyToMono<Short>()
+        req.bodyToMono<String>()
+            .map { it.toShort() }
             .doOnNext { customerService.updateOrderNumber(req.pathVariable("customerId"), it) }
             .flatMap { ok().build() }
 

@@ -106,17 +106,17 @@ class ProjectHandlerTest {
     @Test
     fun `Updates order number`() {
         val projectId = "projectId"
-        val orderNumber: Short = 5
+        val orderNumber = "5"
 
         webClient.post()
             .uri("/project/$projectId/attribute/order-number/update")
-            .body(orderNumber.toMono(), Short::class.java)
+            .body(orderNumber.toMono(), String::class.java)
             .exchange()
             .expectStatus()
             .isOk
             .expectBody()
             .isEmpty
 
-        verify(projectServiceSpy).updateOrderNumber(projectId, orderNumber)
+        verify(projectServiceSpy).updateOrderNumber(projectId, orderNumber.toShort())
     }
 }

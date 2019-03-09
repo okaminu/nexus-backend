@@ -36,7 +36,8 @@ open class CollaboratorHandler(private val collaboratorService: CollaboratorServ
             }.flatMap { ok().build() }
 
     open fun updateOrderNumber(req: ServerRequest): Mono<ServerResponse> =
-        req.bodyToMono<Short>()
+        req.bodyToMono<String>()
+            .map { it.toShort() }
             .doOnNext { collaboratorService.updateOrderNumber(req.pathVariable("collaboratorId"), it) }
             .flatMap { ok().build() }
 

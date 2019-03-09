@@ -107,18 +107,18 @@ class CustomerHandlerTest {
     @Test
     fun `Updates order number`() {
         val customerId = "customerId"
-        val orderNumber: Short = 5
+        val orderNumber = "5"
 
         webClient.post()
             .uri("/customer/$customerId/attribute/order-number/update")
-            .body(orderNumber.toMono(), Short::class.java)
+            .body(orderNumber.toMono(), String::class.java)
             .exchange()
             .expectStatus()
             .isOk
             .expectBody()
             .isEmpty
 
-        verify(customerServiceSpy).updateOrderNumber(customerId, orderNumber)
+        verify(customerServiceSpy).updateOrderNumber(customerId, orderNumber.toShort())
     }
 
     @Test
