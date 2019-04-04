@@ -1,6 +1,7 @@
 package lt.boldadmin.nexus.backend.handler
 
 import lt.boldadmin.nexus.api.service.ProjectService
+import lt.boldadmin.nexus.api.type.valueobject.Location
 import org.springframework.web.reactive.function.server.*
 import org.springframework.web.reactive.function.server.ServerResponse.ok
 import reactor.core.publisher.Mono
@@ -24,5 +25,11 @@ open class ProjectHandler(private val projectService: ProjectService) {
             .map { it.toShort() }
             .doOnNext { projectService.updateOrderNumber(req.pathVariable("projectId"), it) }
             .flatMap { ok().build() }
+
+    open fun updateLocation(req: ServerRequest): Mono<ServerResponse> {
+        return req.bodyToMono<Location>()
+            .doOnNext { projectService.updateLocation(req.pathVariable("projectId"), it) }
+            .flatMap { ok().build() }
+    }
 
 }
