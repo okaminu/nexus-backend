@@ -11,5 +11,6 @@ fun projectRoutes(projectHandler: ProjectHandler): RouterFunctionDsl.() -> Unit 
         POST("/{projectId}/attribute/order-number/update", projectHandler::updateOrderNumber)
         POST("/{projectId}/attribute/location/update", projectHandler::updateLocation)
         POST("/{projectId}/attribute/{attributeName}/update", projectHandler::update)
+        DELETE("/{projectId}/attribute/location", projectHandler::deleteLocation)
     }
 }
