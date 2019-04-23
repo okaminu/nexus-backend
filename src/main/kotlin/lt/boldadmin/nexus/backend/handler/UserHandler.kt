@@ -14,8 +14,7 @@ open class UserHandler(private val userService: UserService) {
             .doOnNext { userService.save(it) }
             .flatMap { ok().build() }
 
-    open fun existsAny(req: ServerRequest): Mono<ServerResponse> =
-        ok().body(just(userService.existsAny()))
+    open fun existsAny(req: ServerRequest): Mono<ServerResponse> = ok().body(just(userService.existsAny()))
 
     open fun createWithDefaults(req: ServerRequest): Mono<ServerResponse> =
         ok().body(just(userService.createWithDefaults()))
@@ -39,19 +38,16 @@ open class UserHandler(private val userService: UserService) {
         ok().body(just(userService.getCollaborators(req.pathVariable("userId"))))
 
     open fun doesUserHaveProject(req: ServerRequest): Mono<ServerResponse> =
-        ok().body(
-            just(userService.doesUserHaveProject(
-                req.pathVariable("userId"),
-                req.pathVariable("projectId")
-        ))
-        )
+        ok().body(just(userService.doesUserHaveProject(req.pathVariable("userId"), req.pathVariable("projectId"))))
 
     open fun doesUserHaveCollaborator(req: ServerRequest): Mono<ServerResponse> =
         ok().body(
-            just(userService.doesUserHaveCollaborator(
-                req.pathVariable("userId"),
-                req.pathVariable("collaboratorId")
-        ))
+            just(
+                userService.doesUserHaveCollaborator(
+                    req.pathVariable("userId"),
+                    req.pathVariable("collaboratorId")
+                )
+            )
         )
 
     open fun isProjectNameUnique(req: ServerRequest): Mono<ServerResponse> =
