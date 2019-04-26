@@ -42,20 +42,17 @@ open class UserHandler(private val userService: UserService) {
 
     open fun doesUserHaveCollaborator(req: ServerRequest): Mono<ServerResponse> =
         ok().body(
-            just(
-                userService.doesUserHaveCollaborator(
-                    req.pathVariable("userId"),
-                    req.pathVariable("collaboratorId")
-                )
-            )
+            just(userService.doesUserHaveCollaborator(req.pathVariable("userId"), req.pathVariable("collaboratorId")))
         )
 
     open fun isProjectNameUnique(req: ServerRequest): Mono<ServerResponse> =
         ok().body(
-            just(userService.isProjectNameUnique(
-                req.pathVariable("projectName"),
-                req.pathVariable("projectId"),
-                req.pathVariable("userId")
-        ))
+            just(
+                userService.isProjectNameUnique(
+                    req.pathVariable("projectName"),
+                    req.pathVariable("projectId"),
+                    req.pathVariable("userId")
+                )
+            )
         )
 }
