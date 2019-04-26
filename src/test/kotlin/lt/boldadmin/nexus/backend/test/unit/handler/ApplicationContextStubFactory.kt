@@ -13,8 +13,6 @@ import org.springframework.context.support.AbstractApplicationContext
 
 fun create() = mock<AbstractApplicationContext>().also {
     doReturn(mock<CollaboratorHandler>()).`when`(it).getBean(CollaboratorHandler::class.java)
-    doReturn(mock<CompanyHandler>()).`when`(it).getBean(CompanyHandler::class.java)
-    doReturn(mock<CustomerHandler>()).`when`(it).getBean(CustomerHandler::class.java)
     doReturn(mock<CountryHandler>()).`when`(it).getBean(CountryHandler::class.java)
     doReturn(mock<ProjectHandler>()).`when`(it).getBean(ProjectHandler::class.java)
     doReturn(mock<UserHandler>()).`when`(it).getBean(UserHandler::class.java)

@@ -20,7 +20,8 @@ open class ProjectHandler(private val projectService: ProjectService) {
             .flatMap { ok().build() }
 
     open fun updateOrderNumber(req: ServerRequest): Mono<ServerResponse> =
-        req.bodyToMono<Short>()
+        req.bodyToMono<String>()
+            .map { it.toShort() }
             .doOnNext { projectService.updateOrderNumber(req.pathVariable("projectId"), it) }
             .flatMap { ok().build() }
 

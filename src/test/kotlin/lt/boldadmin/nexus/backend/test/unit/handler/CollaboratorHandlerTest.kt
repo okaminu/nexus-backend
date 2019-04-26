@@ -157,18 +157,18 @@ class CollaboratorHandlerTest {
     @Test
     fun `Updates order number`() {
         val collaboratorId = "collaboratorId"
-        val orderNumber: Short = 5
+        val orderNumber = "5"
 
         webClient.post()
             .uri("/collaborator/$collaboratorId/attribute/order-number/update")
-            .body(orderNumber.toMono(), Short::class.java)
+            .body(orderNumber.toMono(), String::class.java)
             .exchange()
             .expectStatus()
             .isOk
             .expectBody()
             .isEmpty
 
-        verify(collaboratorServiceSpy).updateOrderNumber(collaboratorId, orderNumber)
+        verify(collaboratorServiceSpy).updateOrderNumber(collaboratorId, orderNumber.toShort())
     }
 
     @Test
