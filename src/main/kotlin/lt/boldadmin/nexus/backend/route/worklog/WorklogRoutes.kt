@@ -31,6 +31,7 @@ fun worklogRoutes(applicationContext: AbstractApplicationContext): RouterFunctio
                 worklogStartEndHandler::hasWorkStartedInProject)
             GET("/{collaboratorId}/status/has-work-ended", worklogStartEndHandler::hasWorkEnded)
             GET("/{collaboratorId}/status/project-of-started-work", worklogStartEndHandler::getProjectOfStartedWork)
+            GET("/{collaboratorId}/durations-sum", worklogDurationHandler::getWorkdurationSumByCollaboratorId)
         }
 
         GET("/project/{projectId}", worklogHandler::getByProjectId)
