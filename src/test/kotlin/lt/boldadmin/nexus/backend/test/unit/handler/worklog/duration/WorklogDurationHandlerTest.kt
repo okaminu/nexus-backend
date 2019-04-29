@@ -69,7 +69,7 @@ class WorklogDurationHandlerTest {
     }
 
     @Test
-    fun `Sums work durations`() {
+    fun `Sums work durations by collaborator`() {
         val collaboratorId = "id"
         val durationSum = 354L
         doReturn(durationSum).`when`(worklogDurationServiceStub).sumWorkDurationsByCollaboratorId(collaboratorId)
@@ -83,5 +83,23 @@ class WorklogDurationHandlerTest {
             .returnResult()
 
         assertEquals(durationSum, response.responseBody)
+    }
+
+    @Test
+    fun `Sums work durations by project`() {
+        val projectId = "id"
+        val durationSum = 354L
+        doReturn(durationSum).`when`(worklogDurationServiceStub).sumWorkDurationsByProjectId(projectId)
+
+        val response = webClient.get()
+            .uri("/worklog/project/id/durations-sum")
+            .exchange()
+            .expectStatus()
+            .isOk
+            .expectBody(Long::class.java)
+            .returnResult()
+
+        assertEquals(durationSum, response.responseBody)
+
     }
 }
