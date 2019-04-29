@@ -117,6 +117,22 @@ class UserHandlerTest {
     }
 
     @Test
+    fun `Exists user by company name`() {
+        val user = User().apply { companyName = "boldadmin" }
+        doReturn(true).`when`(userServiceSpy).existsByCompanyName(user.companyName)
+
+        val response = webClient.get()
+            .uri("/user/company-name/${user.companyName}/exists")
+            .exchange()
+            .expectStatus()
+            .isOk
+            .expectBody(Boolean::class.java)
+            .returnResult()
+
+        assertTrue(response.responseBody!!)
+    }
+
+    @Test
     fun `Gets user by project id`() {
         val projectId = "projectId"
         val user = User().apply { id = "someFancyId" }
@@ -150,23 +166,6 @@ class UserHandlerTest {
 
         assertEquals(1, response.responseBody!!.size)
         assertEquals(collab.id, (response.responseBody!!.first() as Map<*, *>)["id"])
-    }
-
-    @Test
-    fun `User has customer`() {
-        val customerId = "customerId"
-        val userId = "userId"
-        doReturn(true).`when`(userServiceSpy).doesUserHaveCustomer(userId, customerId)
-
-        val response = webClient.get()
-            .uri("/user/$userId/customer/$customerId/has-customer")
-            .exchange()
-            .expectStatus()
-            .isOk
-            .expectBody(Boolean::class.java)
-            .returnResult()
-
-        assertTrue(response.responseBody!!)
     }
 
     @Test
