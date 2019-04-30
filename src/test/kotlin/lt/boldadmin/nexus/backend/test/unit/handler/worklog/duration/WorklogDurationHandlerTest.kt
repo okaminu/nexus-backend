@@ -100,6 +100,5 @@ class WorklogDurationHandlerTest {
             .returnResult()
 
         assertEquals(durationSum, response.responseBody)
-
     }
 }
