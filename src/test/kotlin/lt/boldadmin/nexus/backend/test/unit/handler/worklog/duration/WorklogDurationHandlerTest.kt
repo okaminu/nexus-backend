@@ -49,24 +49,24 @@ class WorklogDurationHandlerTest {
 
         assertEquals(duration, response.responseBody)
     }
-
-    @Test
-    fun `Sums work duration`() {
-        val intervalId1 = "intervalId1"
-        val intervalId2 = "intervalId2"
-        val durationSum = 354L
-        doReturn(durationSum).`when`(worklogDurationServiceStub).sumWorkDurations(listOf(intervalId1, intervalId2))
-
-        val response = webClient.get()
-            .uri("/worklog/intervals/$intervalId1,$intervalId2/durations-sum")
-            .exchange()
-            .expectStatus()
-            .isOk
-            .expectBody(Long::class.java)
-            .returnResult()
-
-        assertEquals(durationSum, response.responseBody)
-    }
+//
+//    @Test
+//    fun `Sums work duration`() {
+//        val intervalId1 = "intervalId1"
+//        val intervalId2 = "intervalId2"
+//        val durationSum = 354L
+//        doReturn(durationSum).`when`(worklogDurationServiceStub).sumWorkDurations(listOf(intervalId1, intervalId2))
+//
+//        val response = webClient.get()
+//            .uri("/worklog/intervals/$intervalId1,$intervalId2/durations-sum")
+//            .exchange()
+//            .expectStatus()
+//            .isOk
+//            .expectBody(Long::class.java)
+//            .returnResult()
+//
+//        assertEquals(durationSum, response.responseBody)
+//    }
 
     @Test
     fun `Sums work durations by collaborator`() {

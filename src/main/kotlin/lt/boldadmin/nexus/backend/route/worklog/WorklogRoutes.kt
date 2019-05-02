@@ -49,7 +49,6 @@ fun worklogRoutes(applicationContext: AbstractApplicationContext): RouterFunctio
             )
             GET("/{intervalId}/duration", worklogDurationHandler::measureDuration)
         }
-        GET("/intervals/{intervalIds}/durations-sum", worklogDurationHandler::sumWorkDurations)
         GET(
             "/intervals/{intervalIds}/collaborator/{collaboratorId}/has-intervals",
             worklogAuthHandler::doesCollaboratorHaveWorkLogIntervals
