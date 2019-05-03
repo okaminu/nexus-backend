@@ -27,17 +27,16 @@ fun worklogRoutes(applicationContext: AbstractApplicationContext): RouterFunctio
         "/collaborator".nest {
             GET("/{collaboratorId}", worklogHandler::getByCollaboratorId)
             GET("/{collaboratorId}/status/has-work-started", worklogStartEndHandler::hasWorkStarted)
-            GET(
-                "/{collaboratorId}/project/{projectId}/status/has-work-started",
+            GET("/{collaboratorId}/project/{projectId}/status/has-work-started",
                 worklogStartEndHandler::hasWorkStartedInProject
             )
             GET("/{collaboratorId}/status/has-work-ended", worklogStartEndHandler::hasWorkEnded)
             GET("/{collaboratorId}/status/project-of-started-work", worklogStartEndHandler::getProjectOfStartedWork)
-            GET("/{collaboratorId}/durations-sum", worklogDurationHandler::getWorkdurationSumByCollaboratorId)
+            GET("/{collaboratorId}/durations-sum", worklogDurationHandler::sumWorkDurationsByCollaboratorId)
         }
         "/project".nest {
             GET("/{projectId}", worklogHandler::getByProjectId)
-            GET("/{projectId}/durations-sum", worklogDurationHandler::getWorkdurationSumByProjectId)
+            GET("/{projectId}/durations-sum", worklogDurationHandler::sumWorkDurationsByProjectId)
         }
 
         "/interval".nest {
