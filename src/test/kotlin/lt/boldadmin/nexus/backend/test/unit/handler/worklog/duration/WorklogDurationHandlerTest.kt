@@ -52,10 +52,11 @@ class WorklogDurationHandlerTest {
     @Test
     fun `Sums work durations by collaborator`() {
         val durationsSum = 354L
-        doReturn(durationsSum).`when`(worklogDurationServiceStub).sumWorkDurationsByCollaboratorId("id")
+        val collaboratorId= "id"
+        doReturn(durationsSum).`when`(worklogDurationServiceStub).sumWorkDurationsByCollaboratorId(collaboratorId)
 
         val response = webClient.get()
-            .uri("/worklog/collaborator/id/durations-sum")
+            .uri("/worklog/collaborator/$collaboratorId/durations-sum")
             .exchange()
             .expectStatus()
             .isOk
@@ -68,10 +69,11 @@ class WorklogDurationHandlerTest {
     @Test
     fun `Sums work durations by project`() {
         val durationsSum = 354L
-        doReturn(durationsSum).`when`(worklogDurationServiceStub).sumWorkDurationsByProjectId("id")
+        val projectId = "id"
+        doReturn(durationsSum).`when`(worklogDurationServiceStub).sumWorkDurationsByProjectId(projectId)
 
         val response = webClient.get()
-            .uri("/worklog/project/id/durations-sum")
+            .uri("/worklog/project/$projectId/durations-sum")
             .exchange()
             .expectStatus()
             .isOk

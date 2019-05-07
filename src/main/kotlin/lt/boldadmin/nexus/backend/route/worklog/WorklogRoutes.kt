@@ -42,14 +42,12 @@ fun worklogRoutes(applicationContext: AbstractApplicationContext): RouterFunctio
         "/interval".nest {
             GET("/{intervalId}/endpoints", worklogHandler::getIntervalEndpoints)
             GET("/{intervalId}/user/{userId}/has-interval", worklogAuthHandler::doesUserHaveWorkLogInterval)
-            GET(
-                "/{intervalId}/collaborator/{collaboratorId}/has-interval",
+            GET("/{intervalId}/collaborator/{collaboratorId}/has-interval",
                 worklogAuthHandler::doesCollaboratorHaveWorkLogInterval
             )
             GET("/{intervalId}/duration", worklogDurationHandler::measureDuration)
         }
-        GET(
-            "/intervals/{intervalIds}/collaborator/{collaboratorId}/has-intervals",
+        GET("/intervals/{intervalIds}/collaborator/{collaboratorId}/has-intervals",
             worklogAuthHandler::doesCollaboratorHaveWorkLogIntervals
         )
     }
