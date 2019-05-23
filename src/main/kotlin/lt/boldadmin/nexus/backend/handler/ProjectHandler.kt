@@ -26,11 +26,10 @@ open class ProjectHandler(private val projectService: ProjectService) {
             .doOnNext { projectService.updateOrderNumber(req.pathVariable("projectId"), it) }
             .flatMap { ok().build() }
 
-    open fun updateLocation(req: ServerRequest): Mono<ServerResponse> {
-        return req.bodyToMono<Location>()
+    open fun updateLocation(req: ServerRequest): Mono<ServerResponse> =
+        req.bodyToMono<Location>()
             .doOnNext { projectService.updateLocation(req.pathVariable("projectId"), it) }
             .flatMap { ok().build() }
-    }
 
     open fun deleteLocation(req: ServerRequest): Mono<ServerResponse> =
         Mono.just(projectService.deleteLocation(req.pathVariable("projectId")))
