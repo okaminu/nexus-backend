@@ -24,27 +24,32 @@ fun worklogRoutes(applicationContext: AbstractApplicationContext): RouterFunctio
     accept(MediaType.APPLICATION_JSON).nest {
         POST("/save", worklogHandler::save)
         "/status".nest(worklogStatusRoutes(worklogStartEndHandler, worklogMessageHandler, worklogLocationHandler))
-        "/collaborator".nest{
+        "/collaborator".nest {
             GET("/{collaboratorId}", worklogHandler::getByCollaboratorId)
             GET("/{collaboratorId}/status/has-work-started", worklogStartEndHandler::hasWorkStarted)
             GET("/{collaboratorId}/project/{projectId}/status/has-work-started",
-                worklogStartEndHandler::hasWorkStartedInProject)
+                worklogStartEndHandler::hasWorkStartedInProject
+            )
             GET("/{collaboratorId}/status/has-work-ended", worklogStartEndHandler::hasWorkEnded)
             GET("/{collaboratorId}/status/project-of-started-work", worklogStartEndHandler::getProjectOfStartedWork)
+            GET("/{collaboratorId}/durations-sum", worklogDurationHandler::sumWorkDurationsByCollaboratorId)
         }
-
-        GET("/project/{projectId}", worklogHandler::getByProjectId)
+        "/project".nest {
+            GET("/{projectId}", worklogHandler::getByProjectId)
+            GET("/{projectId}/durations-sum", worklogDurationHandler::sumWorkDurationsByProjectId)
+        }
 
         "/interval".nest {
             GET("/{intervalId}/endpoints", worklogHandler::getIntervalEndpoints)
             GET("/{intervalId}/user/{userId}/has-interval", worklogAuthHandler::doesUserHaveWorkLogInterval)
             GET("/{intervalId}/collaborator/{collaboratorId}/has-interval",
-                    worklogAuthHandler::doesCollaboratorHaveWorkLogInterval)
+                worklogAuthHandler::doesCollaboratorHaveWorkLogInterval
+            )
             GET("/{intervalId}/duration", worklogDurationHandler::measureDuration)
         }
-        GET("/intervals/{intervalIds}/durations-sum", worklogDurationHandler::sumWorkDurations)
         GET("/intervals/{intervalIds}/collaborator/{collaboratorId}/has-intervals",
-            worklogAuthHandler::doesCollaboratorHaveWorkLogIntervals)
+            worklogAuthHandler::doesCollaboratorHaveWorkLogIntervals
+        )
     }
 
 }

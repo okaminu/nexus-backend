@@ -14,10 +14,8 @@
     <aop:aspectj-autoproxy/>
 
     <import resource="nexus.xml"/>
-    <import resource="cache.xml"/>
 
     <import resource="plugin/aws-pinpoint.xml"/>
-    <import resource="plugin/google-maps.xml"/>
     <import resource="plugin/mongodb.xml"/>
 
     <context:annotation-config/>

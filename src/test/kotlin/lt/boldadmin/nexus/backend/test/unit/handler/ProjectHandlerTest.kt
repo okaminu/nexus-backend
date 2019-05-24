@@ -4,6 +4,7 @@ import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.verify
 import lt.boldadmin.nexus.api.service.ProjectService
 import lt.boldadmin.nexus.api.type.entity.Project
+import lt.boldadmin.nexus.api.type.valueobject.Location
 import lt.boldadmin.nexus.backend.handler.ProjectHandler
 import lt.boldadmin.nexus.backend.route.Routes
 import org.junit.Before
@@ -118,5 +119,37 @@ class ProjectHandlerTest {
             .isEmpty
 
         verify(projectServiceSpy).updateOrderNumber(projectId, orderNumber.toShort())
+    }
+
+    @Test
+    fun `Updates location`() {
+        val projectId = "projectId"
+        val location = Location(0.0, 1.0)
+
+        webClient.post()
+            .uri("/project/$projectId/attribute/location/update")
+            .body(location.toMono(), Location::class.java)
+            .exchange()
+            .expectStatus()
+            .isOk
+            .expectBody()
+            .isEmpty
+
+        verify(projectServiceSpy).updateLocation(projectId, location)
+    }
+
+    @Test
+    fun `Deletes location`() {
+        val projectId = "projectId"
+
+        webClient.delete()
+            .uri("/project/$projectId/attribute/location")
+            .exchange()
+            .expectStatus()
+            .isOk
+            .expectBody()
+            .isEmpty
+
+        verify(projectServiceSpy).deleteLocation(projectId)
     }
 }
