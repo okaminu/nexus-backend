@@ -12,7 +12,13 @@ open class WorklogDurationHandler(private val worklogDurationService: WorklogDur
     open fun measureDuration(req: ServerRequest): Mono<ServerResponse> =
         ok().body(Mono.just(worklogDurationService.measureDuration(req.pathVariable("intervalId"))))
 
-    open fun sumWorkDurations(req: ServerRequest): Mono<ServerResponse> =
-        ok().body(Mono.just(worklogDurationService.sumWorkDurations(req.pathVariable("intervalIds").split(","))))
+    open fun sumWorkDurationsByCollaboratorId(req: ServerRequest): Mono<ServerResponse> =
+        ok().body(
+            Mono.just(
+                worklogDurationService.sumWorkDurationsByCollaboratorId(req.pathVariable("collaboratorId"))
+            )
+        )
 
+    open fun sumWorkDurationsByProjectId(req: ServerRequest): Mono<ServerResponse> =
+        ok().body(Mono.just(worklogDurationService.sumWorkDurationsByProjectId(req.pathVariable("projectId"))))
 }

@@ -32,7 +32,6 @@ class WorklogDurationHandlerTest {
         webClient = WebTestClient.bindToRouterFunction(Routes(contextStub).router()).build()
     }
 
-
     @Test
     fun `Measures duration`() {
         val intervalId = "intervalId"
@@ -51,20 +50,36 @@ class WorklogDurationHandlerTest {
     }
 
     @Test
-    fun `Sums work duration`() {
-        val intervalId1 = "intervalId1"
-        val intervalId2 = "intervalId2"
-        val durationSum = 354L
-        doReturn(durationSum).`when`(worklogDurationServiceStub).sumWorkDurations(listOf(intervalId1, intervalId2))
+    fun `Sums work durations by collaborator`() {
+        val durationsSum = 354L
+        val collaboratorId= "id"
+        doReturn(durationsSum).`when`(worklogDurationServiceStub).sumWorkDurationsByCollaboratorId(collaboratorId)
 
         val response = webClient.get()
-            .uri("/worklog/intervals/$intervalId1,$intervalId2/durations-sum")
+            .uri("/worklog/collaborator/$collaboratorId/durations-sum")
             .exchange()
             .expectStatus()
             .isOk
             .expectBody(Long::class.java)
             .returnResult()
 
-        assertEquals(durationSum, response.responseBody)
+        assertEquals(durationsSum, response.responseBody)
+    }
+
+    @Test
+    fun `Sums work durations by project`() {
+        val durationsSum = 354L
+        val projectId = "id"
+        doReturn(durationsSum).`when`(worklogDurationServiceStub).sumWorkDurationsByProjectId(projectId)
+
+        val response = webClient.get()
+            .uri("/worklog/project/$projectId/durations-sum")
+            .exchange()
+            .expectStatus()
+            .isOk
+            .expectBody(Long::class.java)
+            .returnResult()
+
+        assertEquals(durationsSum, response.responseBody)
     }
 }
