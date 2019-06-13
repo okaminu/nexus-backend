@@ -27,7 +27,7 @@ dependencies {
     runtime "lt.boldadmin.nexus:nexus-aws-pinpoint-plugin:$gradle.ext.version"
     runtime "lt.boldadmin.nexus:nexus-mongodb-plugin:$gradle.ext.version"
 
-    implementation "org.hibernate:hibernate-validator:5.2.4.Final"
+    implementation "org.hibernate:hibernate-validator:6.0.16.Final"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 
@@ -37,7 +37,7 @@ dependencies {
     implementation "org.springframework.data:spring-data-redis"
     implementation "org.springframework:spring-context"
 
-    implementation 'io.lettuce:lettuce-core:5.0.5.RELEASE'
+    implementation 'io.lettuce:lettuce-core:5.1.7.RELEASE'
 
     implementation "io.projectreactor.ipc:reactor-netty"
 
@@ -48,15 +48,15 @@ dependencies {
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
     implementation "org.glassfish:javax.el:3.0.0"
 
-    runtime "javax.xml.bind:jaxb-api:2.2.11"
-    runtime "com.sun.xml.bind:jaxb-core:2.2.11"
-    runtime "com.sun.xml.bind:jaxb-impl:2.2.11"
+    runtime "javax.xml.bind:jaxb-api:2.3.1"
+    runtime "com.sun.xml.bind:jaxb-core:2.3.0.1"
+    runtime "com.sun.xml.bind:jaxb-impl:2.3.2"
     runtime "javax.activation:activation:1.1.1"
 
     testImplementation "org.springframework:spring-test"
     testImplementation "junit:junit:4.12"
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
     testImplementation "com.nhaarman:mockito-kotlin:1.6.0"
-    testImplementation "org.mockito:mockito-core:2.23.4"
-    testImplementation "net.bytebuddy:byte-buddy:1.8.22"
+    testImplementation "org.mockito:mockito-core:2.28.2"
+    testImplementation "net.bytebuddy:byte-buddy:1.9.13"
 }
