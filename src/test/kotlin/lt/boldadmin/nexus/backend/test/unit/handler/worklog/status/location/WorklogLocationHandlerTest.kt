@@ -1,12 +1,9 @@
 package lt.boldadmin.nexus.backend.test.unit.handler.worklog.status.location
 
-import com.nhaarman.mockito_kotlin.any
-import com.nhaarman.mockito_kotlin.argumentCaptor
-import com.nhaarman.mockito_kotlin.doReturn
-import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockito_kotlin.*
 import lt.boldadmin.nexus.api.service.worklog.status.location.WorklogLocationService
 import lt.boldadmin.nexus.api.type.entity.Collaborator
-import lt.boldadmin.nexus.api.type.valueobject.Location
+import lt.boldadmin.nexus.api.type.valueobject.Coordinates
 import lt.boldadmin.nexus.backend.handler.worklog.status.location.WorklogLocationHandler
 import lt.boldadmin.nexus.backend.route.Routes
 import lt.boldadmin.nexus.backend.test.unit.handler.create
@@ -41,12 +38,12 @@ class WorklogLocationHandlerTest {
     @Test
     fun `Logs work by location`() {
         val collaborator = Collaborator().apply { id = "collaboratorId" }
-        val location = Location(1234.toDouble(), 1234.toDouble())
-        val locationOfCollaborator = Pair(collaborator, location)
+        val coordinates = Coordinates(1234.toDouble(), 1234.toDouble())
+        val coordinatesOfCollaborator = Pair(collaborator, coordinates)
 
         webClient.post()
             .uri("/worklog/status/log-work/location")
-            .body(locationOfCollaborator.toMono(), locationOfCollaborator.javaClass)
+            .body(coordinatesOfCollaborator.toMono(), coordinatesOfCollaborator.javaClass)
             .exchange()
             .expectStatus()
             .isOk
@@ -58,9 +55,9 @@ class WorklogLocationHandlerTest {
             assertEquals(collaborator.id, firstValue.id)
         }
 
-        argumentCaptor<Location>().apply {
+        argumentCaptor<Coordinates>().apply {
             verify(worklogLocationServiceSpy).logWork(any(), capture())
-            assertEquals(location, firstValue)
+            assertEquals(coordinates, firstValue)
         }
     }
 }
