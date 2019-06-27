@@ -16,7 +16,7 @@ import java.time.Duration
 fun redisBeans() = beans {
 
     bean("redisConnectionFactory") {
-        LettuceConnectionFactory(RedisStandaloneConfiguration(ref<Environment>()["REDIS_HOST"]))
+        LettuceConnectionFactory(RedisStandaloneConfiguration(ref<Environment>()["REDIS_HOST"]!!))
     }
 
     bean("redisCacheConfiguration") {
