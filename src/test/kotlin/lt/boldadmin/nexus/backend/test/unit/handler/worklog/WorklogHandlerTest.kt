@@ -1,8 +1,8 @@
 package lt.boldadmin.nexus.backend.test.unit.handler.worklog
 
-import com.nhaarman.mockito_kotlin.argumentCaptor
-import com.nhaarman.mockito_kotlin.doReturn
-import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockitokotlin2.argumentCaptor
+import com.nhaarman.mockitokotlin2.doReturn
+import com.nhaarman.mockitokotlin2.verify
 import lt.boldadmin.nexus.api.service.worklog.WorklogService
 import lt.boldadmin.nexus.api.type.entity.Worklog
 import lt.boldadmin.nexus.backend.handler.worklog.WorklogHandler

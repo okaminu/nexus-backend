@@ -1,7 +1,7 @@
 package lt.boldadmin.nexus.backend.test.unit.handler
 
-import com.nhaarman.mockito_kotlin.doReturn
-import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockitokotlin2.doReturn
+import com.nhaarman.mockitokotlin2.verify
 import lt.boldadmin.nexus.api.service.ProjectService
 import lt.boldadmin.nexus.api.type.entity.Project
 import lt.boldadmin.nexus.api.type.valueobject.Location

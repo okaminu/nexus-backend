@@ -26,7 +26,7 @@ fun beans() = beans {
             ServerAddress(environment["MONGO_HOST"]),
             MongoCredential.createCredential(
                 environment["MONGO_USERNAME"], environment["MONGO_AUTH_DATABASE"],
-                environment["MONGO_PASSWORD"].toCharArray()
+                environment["MONGO_PASSWORD"]!!.toCharArray()
             ),
             MongoClientOptions.builder().build()
         )

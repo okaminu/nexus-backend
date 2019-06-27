@@ -1,6 +1,6 @@
 package lt.boldadmin.nexus.backend.test.unit.handler
 
-import com.nhaarman.mockito_kotlin.doReturn
+import com.nhaarman.mockitokotlin2.doReturn
 import lt.boldadmin.nexus.api.service.CountryService
 import lt.boldadmin.nexus.api.type.valueobject.Country
 import lt.boldadmin.nexus.backend.handler.CountryHandler

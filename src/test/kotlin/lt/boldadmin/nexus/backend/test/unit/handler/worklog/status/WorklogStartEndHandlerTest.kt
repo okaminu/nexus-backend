@@ -1,9 +1,6 @@
 package lt.boldadmin.nexus.backend.test.unit.handler.worklog.status
 
-import com.nhaarman.mockito_kotlin.any
-import com.nhaarman.mockito_kotlin.argumentCaptor
-import com.nhaarman.mockito_kotlin.doReturn
-import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockitokotlin2.*
 import lt.boldadmin.nexus.api.service.worklog.status.WorklogStartEndService
 import lt.boldadmin.nexus.api.type.entity.Collaborator
 import lt.boldadmin.nexus.api.type.entity.Project

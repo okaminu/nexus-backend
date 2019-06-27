@@ -1,6 +1,6 @@
 package lt.boldadmin.nexus.backend.test.unit.handler.worklog
 
-import com.nhaarman.mockito_kotlin.doReturn
+import com.nhaarman.mockitokotlin2.doReturn
 import lt.boldadmin.nexus.api.service.worklog.WorklogAuthService
 import lt.boldadmin.nexus.backend.handler.worklog.WorklogAuthHandler
 import lt.boldadmin.nexus.backend.route.Routes
