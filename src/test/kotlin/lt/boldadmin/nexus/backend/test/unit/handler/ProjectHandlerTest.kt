@@ -4,6 +4,7 @@ import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.verify
 import lt.boldadmin.nexus.api.service.ProjectService
 import lt.boldadmin.nexus.api.type.entity.Project
+import lt.boldadmin.nexus.api.type.valueobject.Coordinates
 import lt.boldadmin.nexus.api.type.valueobject.Location
 import lt.boldadmin.nexus.backend.handler.ProjectHandler
 import lt.boldadmin.nexus.backend.route.Routes
@@ -124,7 +125,7 @@ class ProjectHandlerTest {
     @Test
     fun `Updates location`() {
         val projectId = "projectId"
-        val location = Location(0.0, 1.0)
+        val location = Location(Coordinates(0.0, 1.0))
 
         webClient.post()
             .uri("/project/$projectId/attribute/location/update")
