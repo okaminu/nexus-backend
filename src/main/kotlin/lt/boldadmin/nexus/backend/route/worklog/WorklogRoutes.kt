@@ -25,7 +25,7 @@ fun worklogRoutes(applicationContext: AbstractApplicationContext): RouterFunctio
         POST("/save", worklogHandler::save)
         "/status".nest(worklogStatusRoutes(worklogStartEndHandler, worklogMessageHandler, worklogLocationHandler))
         "/collaborator".nest {
-            GET("/{collaboratorId}", worklogHandler::getByCollaboratorId)
+            GET("/{collaboratorId}/interval-ids", worklogHandler::getIntervalIdsByCollaboratorId)
             GET("/{collaboratorId}/status/has-work-started", worklogStartEndHandler::hasWorkStarted)
             GET("/{collaboratorId}/project/{projectId}/status/has-work-started",
                 worklogStartEndHandler::hasWorkStartedInProject
@@ -35,7 +35,7 @@ fun worklogRoutes(applicationContext: AbstractApplicationContext): RouterFunctio
             GET("/{collaboratorId}/durations-sum", worklogDurationHandler::sumWorkDurationsByCollaboratorId)
         }
         "/project".nest {
-            GET("/{projectId}", worklogHandler::getByProjectId)
+            GET("/{projectId}/interval-ids", worklogHandler::getIntervalIdsByProjectId)
             GET("/{projectId}/durations-sum", worklogDurationHandler::sumWorkDurationsByProjectId)
         }
 

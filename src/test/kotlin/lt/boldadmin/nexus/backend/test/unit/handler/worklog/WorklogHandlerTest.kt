@@ -38,13 +38,13 @@ class WorklogHandlerTest {
 
 
     @Test
-    fun `Finds worklog by collaborator id`() {
+    fun `Finds interval ids by collaborator id`() {
         val collaboratorId = "collaboratorId"
-        val worklog = Worklog().apply { id = "worklogId" }
-        doReturn(listOf(worklog)).`when`(worklogServiceSpy).getByCollaboratorId(collaboratorId)
+        val expectedIntervalIds = listOf("intervalId1")
+        doReturn(expectedIntervalIds).`when`(worklogServiceSpy).getIntervalIdsByCollaboratorId(collaboratorId)
 
         val response = webClient.get()
-            .uri("/worklog/collaborator/$collaboratorId")
+            .uri("/worklog/collaborator/$collaboratorId/interval-ids")
             .exchange()
             .expectStatus()
             .isOk
@@ -52,17 +52,17 @@ class WorklogHandlerTest {
             .returnResult()
 
         assertEquals(1, response.responseBody!!.size)
-        assertEquals(worklog.id, (response.responseBody!!.first() as Map<*, *>)["id"])
+        assertEquals(expectedIntervalIds[0], (response.responseBody!!.first()))
     }
 
     @Test
-    fun `Finds worklog by project id`() {
+    fun `Finds interval ids by project id`() {
         val projectId = "projectId"
-        val worklog = Worklog().apply { id = "worklogId" }
-        doReturn(listOf(worklog)).`when`(worklogServiceSpy).getByProjectId(projectId)
+        val expectedIntervalIds = listOf("intervalId1")
+        doReturn(expectedIntervalIds).`when`(worklogServiceSpy).getIntervalIdsByProjectId(projectId)
 
         val response = webClient.get()
-            .uri("/worklog/project/$projectId")
+            .uri("/worklog/project/$projectId/interval-ids")
             .exchange()
             .expectStatus()
             .isOk
@@ -70,7 +70,7 @@ class WorklogHandlerTest {
             .returnResult()
 
         assertEquals(1, response.responseBody!!.size)
-        assertEquals(worklog.id, (response.responseBody!!.first() as Map<*, *>)["id"])
+        assertEquals(expectedIntervalIds[0], (response.responseBody!!.first()))
     }
 
     @Test
