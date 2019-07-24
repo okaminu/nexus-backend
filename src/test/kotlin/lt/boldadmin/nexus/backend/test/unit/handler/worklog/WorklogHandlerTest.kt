@@ -5,6 +5,7 @@ import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.verify
 import lt.boldadmin.nexus.api.service.worklog.WorklogService
 import lt.boldadmin.nexus.api.type.entity.Worklog
+import lt.boldadmin.nexus.api.type.valueobject.DateRange
 import lt.boldadmin.nexus.backend.handler.worklog.WorklogHandler
 import lt.boldadmin.nexus.backend.route.Routes
 import lt.boldadmin.nexus.backend.test.unit.handler.create
@@ -16,6 +17,7 @@ import org.mockito.Mockito.lenient
 import org.mockito.junit.MockitoJUnitRunner
 import org.springframework.test.web.reactive.server.WebTestClient
 import reactor.core.publisher.toMono
+import java.time.LocalDate
 import kotlin.test.assertEquals
 
 @RunWith(MockitoJUnitRunner::class)
@@ -63,6 +65,47 @@ class WorklogHandlerTest {
 
         val response = webClient.get()
             .uri("/worklog/project/$projectId/interval-ids")
+            .exchange()
+            .expectStatus()
+            .isOk
+            .expectBody(Collection::class.java)
+            .returnResult()
+
+        assertEquals(1, response.responseBody!!.size)
+        assertEquals(expectedIntervalIds[0], (response.responseBody!!.first()))
+    }
+
+
+    @Test
+    fun `Finds interval ids by project id and date range`() {
+        val projectId = "projectId"
+        val expectedIntervalIds = listOf("intervalId1")
+        val dateRange = DateRange(LocalDate.of(2019, 5, 10), LocalDate.of(2019, 5, 15))
+        doReturn(expectedIntervalIds).`when`(worklogServiceSpy).getIntervalIdsByProjectId(projectId, dateRange)
+
+        val response = webClient.get()
+            .uri("/worklog/project/$projectId/start/2019-05-10/end/2019-05-15/interval-ids")
+            .exchange()
+            .expectStatus()
+            .isOk
+            .expectBody(Collection::class.java)
+            .returnResult()
+
+        assertEquals(1, response.responseBody!!.size)
+        assertEquals(expectedIntervalIds[0], (response.responseBody!!.first()))
+    }
+
+    @Test
+    fun `Finds interval ids by collaborator id and date range`() {
+        val collaboratorId = "collaboratorId"
+        val expectedIntervalIds = listOf("intervalId1")
+        val dateRange = DateRange(LocalDate.of(2019, 5, 10), LocalDate.of(2019, 5, 15))
+        doReturn(expectedIntervalIds)
+            .`when`(worklogServiceSpy)
+            .getIntervalIdsByCollaboratorId(collaboratorId, dateRange)
+
+        val response = webClient.get()
+            .uri("/worklog/collaborator/$collaboratorId/start/2019-05-10/end/2019-05-15/interval-ids")
             .exchange()
             .expectStatus()
             .isOk
