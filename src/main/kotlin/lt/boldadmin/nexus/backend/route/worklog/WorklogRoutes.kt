@@ -37,6 +37,8 @@ fun worklogRoutes(applicationContext: AbstractApplicationContext): RouterFunctio
             GET("/{collaboratorId}/status/has-work-ended", worklogStartEndHandler::hasWorkEnded)
             GET("/{collaboratorId}/status/project-of-started-work", worklogStartEndHandler::getProjectOfStartedWork)
             GET("/{collaboratorId}/durations-sum", worklogDurationHandler::sumWorkDurationsByCollaboratorId)
+            GET("/{collaboratorId}/start/{startDate}/end/{endDate}/durations-sum",
+                worklogDurationHandler::sumWorkDurationsByCollaboratorIdAndDateRange)
         }
         "/project".nest {
             GET("/{projectId}/interval-ids", worklogHandler::getIntervalIdsByProjectId)
@@ -44,6 +46,8 @@ fun worklogRoutes(applicationContext: AbstractApplicationContext): RouterFunctio
                 "/{projectId}/start/{startDate}/end/{endDate}/interval-ids",
                 worklogHandler::getIntervalIdsByProjectIdAndDateRange)
             GET("/{projectId}/durations-sum", worklogDurationHandler::sumWorkDurationsByProjectId)
+            GET("/{projectId}/start/{startDate}/end/{endDate}/durations-sum",
+                worklogDurationHandler::sumWorkDurationsByProjectIdAndDateRange)
         }
 
         "/interval".nest {

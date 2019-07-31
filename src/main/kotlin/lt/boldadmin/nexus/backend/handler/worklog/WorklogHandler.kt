@@ -6,8 +6,6 @@ import lt.boldadmin.nexus.api.type.valueobject.DateRange
 import org.springframework.web.reactive.function.server.*
 import org.springframework.web.reactive.function.server.ServerResponse.ok
 import reactor.core.publisher.Mono
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 open class WorklogHandler(private val worklogService: WorklogService) {
 
@@ -41,7 +39,5 @@ open class WorklogHandler(private val worklogService: WorklogService) {
 
     private fun createDateRange(req: ServerRequest): DateRange =
         DateRange(req.pathVariable("startDate").toLocalDate(), req.pathVariable("endDate").toLocalDate())
-
-    private fun String.toLocalDate(): LocalDate = LocalDate.parse(this, DateTimeFormatter.ISO_LOCAL_DATE)
 
 }
