@@ -10,18 +10,18 @@ import lt.boldadmin.nexus.api.type.entity.Project
 import lt.boldadmin.nexus.backend.handler.worklog.status.WorklogStartEndHandler
 import lt.boldadmin.nexus.backend.route.Routes
 import lt.boldadmin.nexus.backend.test.unit.handler.create
-import org.junit.Before
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
 import org.mockito.Mockito.lenient
-import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.junit.jupiter.MockitoExtension
 import org.springframework.test.web.reactive.server.WebTestClient
 import reactor.core.publisher.toMono
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 
-@RunWith(MockitoJUnitRunner::class)
+@ExtendWith(MockitoExtension::class)
 class WorklogStartEndHandlerTest {
 
     @Mock
@@ -29,7 +29,7 @@ class WorklogStartEndHandlerTest {
 
     private lateinit var webClient: WebTestClient
 
-    @Before
+    @BeforeEach
     fun `Set up`() {
         val contextStub = create()
         lenient()
