@@ -11,7 +11,7 @@ import org.springframework.web.server.adapter.WebHttpHandlerBuilder
 import reactor.netty.http.server.HttpServer
 
 
-fun main(args: Array<String>) {
+fun main() {
 
     val context = GenericApplicationContext()
     initializeBeans(context)
@@ -19,7 +19,9 @@ fun main(args: Array<String>) {
 
     val httpHandler = getWebHttpHandler(context)
 
-    HttpServer.create().port(8070).handle(ReactorHttpHandlerAdapter(httpHandler))
+    HttpServer.create().port(8070).handle(ReactorHttpHandlerAdapter(httpHandler)).bindNow().apply {
+        onDispose().block()
+    }
 }
 
 private fun initializeBeans(context: GenericApplicationContext) {
