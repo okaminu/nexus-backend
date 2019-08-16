@@ -17,6 +17,7 @@
 
     <import resource="plugin/aws-pinpoint.xml"/>
     <import resource="plugin/mongodb.xml"/>
+    <import resource="plugin/google-maps.xml"/>
 
     <context:annotation-config/>
     <context:component-scan base-package="lt.boldadmin.nexus.backend">
