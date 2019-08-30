@@ -37,6 +37,8 @@ dependencies {
     implementation "org.springframework.data:spring-data-redis"
     implementation "org.springframework:spring-context"
 
+    implementation "org.apache.kafka:kafka-clients:2.3.0"
+
     implementation 'io.lettuce:lettuce-core:5.0.5.RELEASE'
 
     implementation "io.projectreactor.ipc:reactor-netty"
