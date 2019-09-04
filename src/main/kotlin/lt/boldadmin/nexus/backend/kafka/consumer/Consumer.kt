@@ -11,8 +11,7 @@ class Consumer(private val consumerFactory: KafkaConsumerFactory) {
         consumer.subscribe(listOf(topic))
 
 //        while (true) {
-            consumer.poll(ofSeconds(1))
-//                .forEach { function(it.value()) }
+            consumer.poll(ofSeconds(1)).forEach { function(it.value()) }
 //        }
     }
 }

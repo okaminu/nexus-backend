@@ -1,17 +1,21 @@
 package lt.boldadmin.nexus.backend.test.unit.kafka.consumer
 
-import io.mockk.*
+import io.mockk.MockKAnnotations
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.verify
 import lt.boldadmin.nexus.backend.kafka.consumer.Consumer
 import lt.boldadmin.nexus.backend.kafka.factory.KafkaConsumerFactory
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.clients.consumer.ConsumerRecords
 import org.apache.kafka.clients.consumer.KafkaConsumer
+import org.apache.kafka.common.TopicPartition
 import org.junit.Before
 import org.junit.Test
 import java.time.Duration
 import java.time.Duration.ofSeconds
 import java.util.*
+import kotlin.test.assertEquals
 
 class ConsumerTest {
 
@@ -27,14 +31,14 @@ class ConsumerTest {
     fun setUp() {
         MockKAnnotations.init(this)
         consumer = Consumer(consumerFactoryStub)
+        every { kafkaConsumerSpy.subscribe(any<Collection<String>>()) } returns Unit
     }
 
     @Test
-    fun `Subscribes to topic`() {
+    fun `Subscribes to topic with properties`() {
         val properties = Properties()
         every { consumerFactoryStub.create<String>(properties) } returns kafkaConsumerSpy
-        every { kafkaConsumerSpy.subscribe(any<Collection<String>>()) } returns Unit
-        every { kafkaConsumerSpy.poll(any<Duration>()) } returns mockk<ConsumerRecords<String, String>>()
+        every { kafkaConsumerSpy.poll(any<Duration>()) } returns createConsumerRecords(emptyList())
 
         consumer.consume<String>("topic", {}, properties)
 
@@ -43,29 +47,28 @@ class ConsumerTest {
 
     @Test
     fun `Polls for events each second`() {
-        val properties = Properties()
-        every { consumerFactoryStub.create<String>(properties) } returns kafkaConsumerSpy
-        every { kafkaConsumerSpy.subscribe(any<Collection<String>>()) } returns Unit
-        every { kafkaConsumerSpy.poll(any<Duration>()) } returns mockk<ConsumerRecords<String, String>>()
+        every { consumerFactoryStub.create<String>(any()) } returns kafkaConsumerSpy
+        every { kafkaConsumerSpy.poll(any<Duration>()) } returns createConsumerRecords(emptyList())
 
-        consumer.consume<String>("topic", {}, properties)
+        consumer.consume<String>("topic", {}, Properties())
 
         verify { kafkaConsumerSpy.poll(ofSeconds(1)) }
     }
 
     @Test
     fun `Executes subscription function with event data`() {
-        val properties = Properties()
-        every { consumerFactoryStub.create<String>(properties) } returns kafkaConsumerSpy
-        every { kafkaConsumerSpy.subscribe(any<Collection<String>>()) } returns Unit
-        val records = mockk<ConsumerRecords<String, String>>()
-        val record = mockk<ConsumerRecord<String, String>>()
-        every { records.iterator() } returns mutableListOf(record)
-        every { kafkaConsumerSpy.poll(any<Duration>()) } returns records
+        val actualValues = mutableListOf<String>()
+        val expectedValues = listOf("hello1", "hello2")
+        every { consumerFactoryStub.create<String>(any()) } returns kafkaConsumerSpy
+        every { kafkaConsumerSpy.poll(any<Duration>()) } returns createConsumerRecords(expectedValues)
 
-        consumer.consume<String>("topic", {}, properties)
+        consumer.consume<String>("topic", { actualValues.add(it)}, Properties())
 
-        verify { kafkaConsumerSpy.poll(ofSeconds(1)) }
+        assertEquals(expectedValues, actualValues)
     }
 
+    private fun createConsumerRecords(values : Collection<String>): ConsumerRecords<String, String> {
+        val records = values.map { ConsumerRecord("", 0, 0, "", it) }.toList()
+        return ConsumerRecords<String, String>(mutableMapOf(TopicPartition("", 0) to records))
+    }
 }
