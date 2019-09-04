@@ -30,7 +30,11 @@ class ConsumerTest {
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
-        consumer = Consumer(consumerFactoryStub)
+        consumer = object: Consumer(consumerFactoryStub) {
+            override fun executeInfinitely(function: () -> Unit) {
+                function()
+            }
+        }
         every { kafkaConsumerSpy.subscribe(any<Collection<String>>()) } returns Unit
     }
 
@@ -65,6 +69,20 @@ class ConsumerTest {
         consumer.consume<String>("topic", { actualValues.add(it)}, Properties())
 
         assertEquals(expectedValues, actualValues)
+    }
+
+    @Test
+    fun `Executes polling infinitely`() {
+        every { consumerFactoryStub.create<String>(any()) } returns kafkaConsumerSpy
+        every { kafkaConsumerSpy.poll(any<Duration>()) } returns createConsumerRecords(emptyList())
+
+        Thread { run { Consumer(consumerFactoryStub).consume<String>("topic", {}, Properties()) } }
+            .apply {
+                start()
+                join(100)
+            }
+
+        verify(atLeast = 3) { kafkaConsumerSpy.poll(ofSeconds(1)) }
     }
 
     private fun createConsumerRecords(values : Collection<String>): ConsumerRecords<String, String> {
