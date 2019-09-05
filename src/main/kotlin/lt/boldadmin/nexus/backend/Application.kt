@@ -1,8 +1,7 @@
 package lt.boldadmin.nexus.backend
 
-import lt.boldadmin.nexus.backend.httpserver.factory.beans
-import lt.boldadmin.nexus.backend.httpserver.factory.redisBeans
-import lt.boldadmin.nexus.backend.kafka.consumer.LogWorkByLocationConsumer
+import lt.boldadmin.nexus.backend.factory.beans
+import lt.boldadmin.nexus.backend.factory.redisBeans
 import org.springframework.beans.factory.getBean
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader
 import org.springframework.context.support.GenericApplicationContext
@@ -19,8 +18,6 @@ fun main(args: Array<String>) {
     context.refresh()
 
     val httpHandler = getWebHttpHandler(context)
-
-    Thread { run { context.getBean<LogWorkByLocationConsumer>().consume() } }.start()
 
     HttpServer.create(8070).startAndAwait(ReactorHttpHandlerAdapter(httpHandler))
 }

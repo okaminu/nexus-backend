@@ -25,10 +25,6 @@
         <context:include-filter type="regex" expression="lt.boldadmin.nexus.backend.httpserver.handler.*"/>
         <context:include-filter type="regex" expression="lt.boldadmin.nexus.backend.httpserver.route.*"/>
         <context:include-filter type="regex" expression="lt.boldadmin.nexus.backend.httpserver.exception.*"/>
-
-        <context:include-filter type="regex" expression="lt.boldadmin.nexus.backend.kafka.*"/>
-        <context:include-filter type="regex" expression="lt.boldadmin.nexus.backend.kafka.consumer*"/>
-        <context:include-filter type="regex" expression="lt.boldadmin.nexus.backend.kafka.factory.*"/>
     </context:component-scan>
 
 </beans>
