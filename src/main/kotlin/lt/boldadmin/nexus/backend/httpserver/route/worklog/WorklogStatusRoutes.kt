@@ -13,10 +13,6 @@ fun worklogStatusRoutes(
 ): RouterFunctionDsl.() -> Unit = {
 
     accept(MediaType.APPLICATION_JSON).nest {
-        POST("/start", worklogStartEndHandler::start)
-        POST("/start/timestamp/{timestamp}", worklogStartEndHandler::startWithTimestamp)
-        POST("/end", worklogStartEndHandler::end)
-        POST("/end/timestamp/{timestamp}", worklogStartEndHandler::endWithTimestamp)
         POST("/end/all-started-work-on-ended-work-time", worklogStartEndHandler::endAllStartedWorkWhereWorkTimeEnded)
 
         "/log-work".nest {

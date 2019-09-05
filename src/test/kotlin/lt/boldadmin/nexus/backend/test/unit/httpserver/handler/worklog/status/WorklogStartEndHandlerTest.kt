@@ -1,6 +1,8 @@
 package lt.boldadmin.nexus.backend.test.unit.httpserver.handler.worklog.status
 
-import com.nhaarman.mockito_kotlin.*
+import com.nhaarman.mockito_kotlin.argumentCaptor
+import com.nhaarman.mockito_kotlin.doReturn
+import com.nhaarman.mockito_kotlin.verify
 import lt.boldadmin.nexus.api.service.worklog.status.WorklogStartEndService
 import lt.boldadmin.nexus.api.type.entity.Collaborator
 import lt.boldadmin.nexus.api.type.entity.Project
@@ -89,23 +91,6 @@ class WorklogStartEndHandlerTest {
         assertTrue(response.responseBody!!)
     }
 
-    @Test
-    fun `Has work ended`() {
-        val collaboratorId = "collaboratorId"
-        doReturn(true).`when`(worklogStartEndServiceSpy).hasWorkEnded(collaboratorId)
-
-        val response = webClient.get()
-            .uri("/worklog/collaborator/$collaboratorId/status/has-work-ended")
-            .exchange()
-            .expectStatus()
-            .isOk
-            .expectBody(Boolean::class.java)
-            .returnResult()
-
-        assertTrue(response.responseBody!!)
-    }
-
-    @Test
     fun `Starts work progress`() {
         val project = Project().apply { id = "projectId" }
         val collaborator = Collaborator().apply { id = "collaboratorId" }
@@ -121,89 +106,7 @@ class WorklogStartEndHandlerTest {
             .isEmpty
 
         argumentCaptor<Collaborator>().apply {
-            verify(worklogStartEndServiceSpy).start(capture(), any())
-            assertEquals(collaborator.id, firstValue.id)
-        }
-
-        argumentCaptor<Project>().apply {
-            verify(worklogStartEndServiceSpy).start(any(), capture())
             assertEquals(project.id, firstValue.id)
-        }
-    }
-
-    @Test
-    fun `Ends work progress`() {
-        val collaborator = Collaborator().apply { id = "collaboratorId" }
-
-        webClient.post()
-            .uri("/worklog/status/end")
-            .body(collaborator.toMono(), collaborator.javaClass)
-            .exchange()
-            .expectStatus()
-            .isOk
-            .expectBody()
-            .isEmpty
-
-        argumentCaptor<Collaborator>().apply {
-            verify(worklogStartEndServiceSpy).end(capture())
-            assertEquals(collaborator.id, firstValue.id)
-        }
-    }
-
-    @Test
-    fun `Starts work progress with timestamp`() {
-        val project = Project().apply { id = "projectId" }
-        val collaborator = Collaborator().apply { id = "collaboratorId" }
-        val timestamp = 1234567L
-        val projectOfCollaborator = Pair(collaborator, project)
-
-        webClient.post()
-            .uri("/worklog/status/start/timestamp/$timestamp")
-            .body(projectOfCollaborator.toMono(), projectOfCollaborator.javaClass)
-            .exchange()
-            .expectStatus()
-            .isOk
-            .expectBody()
-            .isEmpty
-
-        argumentCaptor<Collaborator>().apply {
-            verify(worklogStartEndServiceSpy).start(capture(), any(), any())
-            assertEquals(collaborator.id, firstValue.id)
-        }
-
-        argumentCaptor<Project>().apply {
-            verify(worklogStartEndServiceSpy).start(any(), capture(), any())
-            assertEquals(project.id, firstValue.id)
-        }
-
-        argumentCaptor<Long>().apply {
-            verify(worklogStartEndServiceSpy).start(any(), any(), capture())
-            assertEquals(timestamp, firstValue)
-        }
-    }
-
-    @Test
-    fun `Ends work progress with timestamp`() {
-        val collaborator = Collaborator().apply { id = "collaboratorId" }
-        val timestamp = 1234567L
-
-        webClient.post()
-            .uri("/worklog/status/end/timestamp/$timestamp")
-            .body(collaborator.toMono(), collaborator.javaClass)
-            .exchange()
-            .expectStatus()
-            .isOk
-            .expectBody()
-            .isEmpty
-
-        argumentCaptor<Collaborator>().apply {
-            verify(worklogStartEndServiceSpy).end(capture(), any())
-            assertEquals(collaborator.id, firstValue.id)
-        }
-
-        argumentCaptor<Long>().apply {
-            verify(worklogStartEndServiceSpy).end(any(), capture())
-            assertEquals(timestamp, firstValue)
         }
     }
 
