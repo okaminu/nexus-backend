@@ -1,6 +1,6 @@
 package lt.boldadmin.nexus.backend.httpserver.handler.worklog.duration
 
-import lt.boldadmin.nexus.api.service.worklog.duration.WorklogDurationService
+import lt.boldadmin.nexus.api.service.worklog.WorklogDurationService
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
 import org.springframework.web.reactive.function.server.ServerResponse.ok

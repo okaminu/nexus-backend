@@ -3,7 +3,7 @@ package lt.boldadmin.nexus.backend.test.unit.httpserver.handler.worklog.status
 import com.nhaarman.mockito_kotlin.argumentCaptor
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.verify
-import lt.boldadmin.nexus.api.service.worklog.status.WorklogStartEndService
+import lt.boldadmin.nexus.api.service.worklog.WorklogStartEndService
 import lt.boldadmin.nexus.api.type.entity.Collaborator
 import lt.boldadmin.nexus.api.type.entity.Project
 import lt.boldadmin.nexus.backend.httpserver.handler.worklog.status.WorklogStartEndHandler

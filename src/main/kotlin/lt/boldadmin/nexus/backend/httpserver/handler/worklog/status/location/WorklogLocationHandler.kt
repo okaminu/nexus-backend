@@ -1,6 +1,5 @@
 package lt.boldadmin.nexus.backend.httpserver.handler.worklog.status.location
 
-import lt.boldadmin.nexus.api.service.worklog.status.location.WorklogLocationService
 import lt.boldadmin.nexus.api.type.valueobject.Coordinates
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse

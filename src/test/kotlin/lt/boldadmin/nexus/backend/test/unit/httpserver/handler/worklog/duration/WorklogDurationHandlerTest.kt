@@ -1,7 +1,7 @@
 package lt.boldadmin.nexus.backend.test.unit.httpserver.handler.worklog.duration
 
 import com.nhaarman.mockito_kotlin.doReturn
-import lt.boldadmin.nexus.api.service.worklog.duration.WorklogDurationService
+import lt.boldadmin.nexus.api.service.worklog.WorklogDurationService
 import lt.boldadmin.nexus.backend.httpserver.handler.worklog.duration.WorklogDurationHandler
 import lt.boldadmin.nexus.backend.httpserver.route.Routes
 import lt.boldadmin.nexus.backend.test.unit.httpserver.handler.create

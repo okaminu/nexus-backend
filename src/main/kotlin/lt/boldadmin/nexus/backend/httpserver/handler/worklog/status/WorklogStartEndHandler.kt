@@ -1,6 +1,6 @@
 package lt.boldadmin.nexus.backend.httpserver.handler.worklog.status
 
-import lt.boldadmin.nexus.api.service.worklog.status.WorklogStartEndService
+import lt.boldadmin.nexus.api.service.worklog.WorklogStartEndService
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
 import org.springframework.web.reactive.function.server.ServerResponse.ok
