@@ -54,7 +54,7 @@ class WorklogHandlerTest {
             .returnResult()
 
         assertEquals(1, response.responseBody!!.size)
-        assertEquals(expectedIntervalIds[0], (response.responseBody!!.first()))
+        assertEquals(expectedIntervalIds[0], response.responseBody!!.first())
     }
 
     @Test
@@ -72,9 +72,8 @@ class WorklogHandlerTest {
             .returnResult()
 
         assertEquals(1, response.responseBody!!.size)
-        assertEquals(expectedIntervalIds[0], (response.responseBody!!.first()))
+        assertEquals(expectedIntervalIds[0], response.responseBody!!.first())
     }
-
 
     @Test
     fun `Finds interval ids by project id and date range`() {
@@ -113,7 +112,7 @@ class WorklogHandlerTest {
             .returnResult()
 
         assertEquals(1, response.responseBody!!.size)
-        assertEquals(expectedIntervalIds[0], (response.responseBody!!.first()))
+        assertEquals(expectedIntervalIds[0], response.responseBody!!.first())
     }
 
     @Test
