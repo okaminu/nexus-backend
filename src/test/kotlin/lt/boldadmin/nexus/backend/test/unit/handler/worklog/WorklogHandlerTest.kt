@@ -9,6 +9,7 @@ import lt.boldadmin.nexus.api.type.valueobject.DateRange
 import lt.boldadmin.nexus.backend.handler.worklog.WorklogHandler
 import lt.boldadmin.nexus.backend.route.Routes
 import lt.boldadmin.nexus.backend.test.unit.handler.create
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -53,8 +54,7 @@ class WorklogHandlerTest {
             .expectBody(Collection::class.java)
             .returnResult()
 
-        assertEquals(1, response.responseBody!!.size)
-        assertEquals(expectedIntervalIds[0], response.responseBody!!.first())
+        assertThat(response.responseBody!!).hasSize(1).contains(expectedIntervalIds[0])
     }
 
     @Test
@@ -111,8 +111,7 @@ class WorklogHandlerTest {
             .expectBody(Collection::class.java)
             .returnResult()
 
-        assertEquals(1, response.responseBody!!.size)
-        assertEquals(expectedIntervalIds[0], response.responseBody!!.first())
+        assertThat(response.responseBody!!).hasSize(1).contains(expectedIntervalIds[0])
     }
 
     @Test
