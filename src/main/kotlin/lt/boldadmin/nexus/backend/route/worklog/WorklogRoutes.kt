@@ -31,34 +31,41 @@ fun worklogRoutes(applicationContext: AbstractApplicationContext): RouterFunctio
                 worklogHandler::getIntervalIdsByCollaboratorIdAndDateRange
             )
             GET("/{collaboratorId}/status/has-work-started", worklogStartEndHandler::hasWorkStarted)
-            GET("/{collaboratorId}/project/{projectId}/status/has-work-started",
+            GET(
+                "/{collaboratorId}/project/{projectId}/status/has-work-started",
                 worklogStartEndHandler::hasWorkStartedInProject
             )
             GET("/{collaboratorId}/status/has-work-ended", worklogStartEndHandler::hasWorkEnded)
             GET("/{collaboratorId}/status/project-of-started-work", worklogStartEndHandler::getProjectOfStartedWork)
             GET("/{collaboratorId}/durations-sum", worklogDurationHandler::sumWorkDurationsByCollaboratorId)
-            GET("/{collaboratorId}/start/{startDate}/end/{endDate}/durations-sum",
-                worklogDurationHandler::sumWorkDurationsByCollaboratorIdAndDateRange)
+            GET(
+                "/{collaboratorId}/start/{startDate}/end/{endDate}/durations-sum",
+                worklogDurationHandler::sumWorkDurationsByCollaboratorIdAndDateRange
+            )
         }
         "/project".nest {
             GET("/{projectId}/interval-ids", worklogHandler::getIntervalIdsByProjectId)
             GET(
                 "/{projectId}/start/{startDate}/end/{endDate}/interval-ids",
-                worklogHandler::getIntervalIdsByProjectIdAndDateRange)
+                worklogHandler::getIntervalIdsByProjectIdAndDateRange
+            )
             GET("/{projectId}/durations-sum", worklogDurationHandler::sumWorkDurationsByProjectId)
-            GET("/{projectId}/start/{startDate}/end/{endDate}/durations-sum",
-                worklogDurationHandler::sumWorkDurationsByProjectIdAndDateRange)
+            GET(
+                "/{projectId}/start/{startDate}/end/{endDate}/durations-sum",
+                worklogDurationHandler::sumWorkDurationsByProjectIdAndDateRange
+            )
         }
-
         "/interval".nest {
             GET("/{intervalId}/endpoints", worklogHandler::getIntervalEndpoints)
             GET("/{intervalId}/user/{userId}/has-interval", worklogAuthHandler::doesUserHaveWorkLogInterval)
-            GET("/{intervalId}/collaborator/{collaboratorId}/has-interval",
+            GET(
+                "/{intervalId}/collaborator/{collaboratorId}/has-interval",
                 worklogAuthHandler::doesCollaboratorHaveWorkLogInterval
             )
             GET("/{intervalId}/duration", worklogDurationHandler::measureDuration)
         }
-        GET("/intervals/{intervalIds}/collaborator/{collaboratorId}/has-intervals",
+        GET(
+            "/intervals/{intervalIds}/collaborator/{collaboratorId}/has-intervals",
             worklogAuthHandler::doesCollaboratorHaveWorkLogIntervals
         )
     }
