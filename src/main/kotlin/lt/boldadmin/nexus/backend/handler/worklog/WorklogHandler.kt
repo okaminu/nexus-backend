@@ -32,7 +32,6 @@ open class WorklogHandler(private val worklogService: WorklogService) {
                 worklogService.getIntervalIdsByCollaboratorId(req.pathVariable("collaboratorId"), createDateRange(req))
             ))
 
-
     open fun getIntervalEndpoints(req: ServerRequest): Mono<ServerResponse> =
         ok().body(Mono.just(worklogService.getIntervalEndpoints(req.pathVariable("intervalId"))))
 

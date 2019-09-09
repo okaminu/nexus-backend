@@ -71,8 +71,7 @@ class WorklogHandlerTest {
             .expectBody(Collection::class.java)
             .returnResult()
 
-        assertEquals(1, response.responseBody!!.size)
-        assertEquals(expectedIntervalIds[0], response.responseBody!!.first())
+        assertThat(response.responseBody!!).hasSize(1).contains(expectedIntervalIds[0])
     }
 
     @Test
@@ -90,8 +89,7 @@ class WorklogHandlerTest {
             .expectBody(Collection::class.java)
             .returnResult()
 
-        assertEquals(1, response.responseBody!!.size)
-        assertEquals(expectedIntervalIds[0], (response.responseBody!!.first()))
+        assertThat(response.responseBody!!).hasSize(1).contains(expectedIntervalIds[0])
     }
 
     @Test
