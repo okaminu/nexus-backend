@@ -4,8 +4,6 @@ import lt.boldadmin.nexus.backend.handler.worklog.WorklogAuthHandler
 import lt.boldadmin.nexus.backend.handler.worklog.WorklogHandler
 import lt.boldadmin.nexus.backend.handler.worklog.duration.WorklogDurationHandler
 import lt.boldadmin.nexus.backend.handler.worklog.status.WorklogStartEndHandler
-import lt.boldadmin.nexus.backend.handler.worklog.status.location.WorklogLocationHandler
-import lt.boldadmin.nexus.backend.handler.worklog.status.message.WorklogMessageHandler
 import org.springframework.beans.factory.getBean
 import org.springframework.context.support.AbstractApplicationContext
 import org.springframework.http.MediaType
@@ -16,16 +14,17 @@ fun worklogRoutes(applicationContext: AbstractApplicationContext): RouterFunctio
     val worklogAuthHandler: WorklogAuthHandler = applicationContext.getBean()
     val worklogDurationHandler: WorklogDurationHandler = applicationContext.getBean()
     val worklogHandler: WorklogHandler = applicationContext.getBean()
-    val worklogLocationHandler: WorklogLocationHandler = applicationContext.getBean()
-    val worklogMessageHandler: WorklogMessageHandler = applicationContext.getBean()
     val worklogStartEndHandler: WorklogStartEndHandler = applicationContext.getBean()
-
 
     accept(MediaType.APPLICATION_JSON).nest {
         POST("/save", worklogHandler::save)
-        "/status".nest(worklogStatusRoutes(worklogStartEndHandler, worklogMessageHandler, worklogLocationHandler))
+        POST(
+            "/status/end/all-started-work-on-ended-work-time",
+            worklogStartEndHandler::endAllStartedWorkWhereWorkTimeEnded
+        )
+
         "/collaborator".nest {
-            GET("/{collaboratorId}", worklogHandler::getByCollaboratorId)
+            GET("/{collaboratorId}/interval-ids", worklogHandler::getByCollaboratorId)
             GET("/{collaboratorId}/status/has-work-started", worklogStartEndHandler::hasWorkStarted)
             GET("/{collaboratorId}/project/{projectId}/status/has-work-started",
                 worklogStartEndHandler::hasWorkStartedInProject
@@ -34,7 +33,7 @@ fun worklogRoutes(applicationContext: AbstractApplicationContext): RouterFunctio
             GET("/{collaboratorId}/durations-sum", worklogDurationHandler::sumWorkDurationsByCollaboratorId)
         }
         "/project".nest {
-            GET("/{projectId}", worklogHandler::getByProjectId)
+            GET("/{projectId}/interval-ids", worklogHandler::getByProjectId)
             GET("/{projectId}/durations-sum", worklogDurationHandler::sumWorkDurationsByProjectId)
         }
 

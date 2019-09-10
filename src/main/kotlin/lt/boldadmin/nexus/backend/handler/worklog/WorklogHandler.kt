@@ -14,10 +14,10 @@ open class WorklogHandler(private val worklogService: WorklogService) {
             .flatMap { ok().build() }
 
     open fun getByCollaboratorId(req: ServerRequest): Mono<ServerResponse> =
-        ok().body(Mono.just(worklogService.getByCollaboratorId(req.pathVariable("collaboratorId"))))
+        ok().body(Mono.just(worklogService.getIntervalIdsByCollaboratorId(req.pathVariable("collaboratorId"))))
 
     open fun getByProjectId(req: ServerRequest): Mono<ServerResponse> =
-        ok().body(Mono.just(worklogService.getByProjectId(req.pathVariable("projectId"))))
+        ok().body(Mono.just(worklogService.getIntervalIdsByProjectId(req.pathVariable("projectId"))))
 
     open fun getIntervalEndpoints(req: ServerRequest): Mono<ServerResponse> =
         ok().body(Mono.just(worklogService.getIntervalEndpoints(req.pathVariable("intervalId"))))

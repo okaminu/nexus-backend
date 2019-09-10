@@ -17,14 +17,15 @@
 
     <import resource="plugin/aws-pinpoint.xml"/>
     <import resource="plugin/mongodb.xml"/>
+    <import resource="plugin/nexus-event-kafka-plugin.xml"/>
 
     <context:annotation-config/>
     <context:component-scan base-package="lt.boldadmin.nexus.backend">
-        <context:include-filter type="regex" expression="lt.boldadmin.nexus.backend.httpserver.factory.*"/>
-        <context:include-filter type="regex" expression="lt.boldadmin.nexus.backend.httpserver.config.*"/>
-        <context:include-filter type="regex" expression="lt.boldadmin.nexus.backend.httpserver.handler.*"/>
-        <context:include-filter type="regex" expression="lt.boldadmin.nexus.backend.httpserver.route.*"/>
-        <context:include-filter type="regex" expression="lt.boldadmin.nexus.backend.httpserver.exception.*"/>
+        <context:include-filter type="regex" expression="lt.boldadmin.nexus.backend.factory.*"/>
+        <context:include-filter type="regex" expression="lt.boldadmin.nexus.backend.config.*"/>
+        <context:include-filter type="regex" expression="lt.boldadmin.nexus.backend.handler.*"/>
+        <context:include-filter type="regex" expression="lt.boldadmin.nexus.backend.route.*"/>
+        <context:include-filter type="regex" expression="lt.boldadmin.nexus.backend.exception.*"/>
     </context:component-scan>
 
 </beans>

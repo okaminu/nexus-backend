@@ -1,5 +1,6 @@
 package lt.boldadmin.nexus.backend
 
+import lt.boldadmin.nexus.api.event.SubscriptionPoller
 import lt.boldadmin.nexus.backend.factory.beans
 import lt.boldadmin.nexus.backend.factory.redisBeans
 import org.springframework.beans.factory.getBean
@@ -16,6 +17,8 @@ fun main(args: Array<String>) {
     val context = GenericApplicationContext()
     initializeBeans(context)
     context.refresh()
+
+    context.getBean<SubscriptionPoller>().pollInNewThread()
 
     val httpHandler = getWebHttpHandler(context)
 
