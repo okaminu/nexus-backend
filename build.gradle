@@ -1,24 +1,20 @@
 buildscript {
-    ext.kotlin_version = '1.2.51'
-
-    dependencies {
-        classpath 'org.owasp:dependency-check-gradle:5.0.0-M2'
-    }
+    ext.kotlin_version = '1.3.41'
 }
 
 plugins {
-    id "org.jetbrains.kotlin.plugin.spring" version "1.2.51"
-    id 'org.jetbrains.kotlin.jvm' version "1.2.51"
-    id 'com.github.johnrengelman.shadow' version '4.0.3'
-    id 'io.spring.dependency-management' version '1.0.6.RELEASE'
+    id 'org.jetbrains.kotlin.plugin.spring' version '1.3.41'
+    id 'org.jetbrains.kotlin.jvm' version '1.3.41'
+    id 'com.github.johnrengelman.shadow' version '5.1.0'
+    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+    id 'org.owasp.dependencycheck' version '5.2.1'
 }
 
-apply plugin: 'org.owasp.dependencycheck'
-apply plugin: 'kotlin'
 apply plugin: 'application'
 apply from: 'dependencies.gradle'
 apply from: 'publish.gradle'
 apply from: 'jacoco.gradle'
+
 
 mainClassName = 'lt.boldadmin.nexus.backend.ApplicationKt'
 
@@ -31,8 +27,15 @@ shadowJar {
     mergeServiceFiles('META-INF/spring.*')
 }
 
+test {
+    useJUnitPlatform()
+    testLogging {
+        events 'passed', 'skipped', 'failed'
+    }
+}
+
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = '1.8'
     }
 }
