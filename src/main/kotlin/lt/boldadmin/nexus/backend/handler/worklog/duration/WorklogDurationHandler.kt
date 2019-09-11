@@ -1,6 +1,6 @@
 package lt.boldadmin.nexus.backend.handler.worklog.duration
 
-import lt.boldadmin.nexus.api.service.worklog.duration.WorklogDurationService
+import lt.boldadmin.nexus.api.service.worklog.WorklogDurationService
 import lt.boldadmin.nexus.api.type.valueobject.DateRange
 import lt.boldadmin.nexus.backend.handler.worklog.toLocalDate
 import org.springframework.web.reactive.function.server.ServerRequest
