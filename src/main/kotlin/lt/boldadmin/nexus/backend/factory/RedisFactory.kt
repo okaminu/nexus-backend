@@ -16,7 +16,7 @@ import java.time.Duration
 fun redisBeans() = beans {
 
     bean("redisConnectionFactory") {
-        LettuceConnectionFactory(RedisStandaloneConfiguration(ref<Environment>()["REDIS_HOST"]))
+        LettuceConnectionFactory(RedisStandaloneConfiguration(ref<Environment>()["REDIS_HOST"]!!))
     }
 
     bean("redisCacheConfiguration") {
@@ -27,7 +27,7 @@ fun redisBeans() = beans {
         ref<RedisCacheConfiguration>("redisCacheConfiguration").serializeValuesWith(
             RedisSerializationContext.SerializationPair.fromSerializer(
                 Jackson2JsonRedisSerializer(Location::class.java).apply { setObjectMapper(jacksonObjectMapper()) })
-        ).entryTtl(Duration.ofDays(ref<Environment>()["PROJECT_LOCATION_CACHE_TTL"].toLong()))
+        ).entryTtl(Duration.ofDays(ref<Environment>()["PROJECT_LOCATION_CACHE_TTL"]!!.toLong()))
     }
 
     bean("cacheManager") {

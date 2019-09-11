@@ -1,24 +1,27 @@
 package lt.boldadmin.nexus.backend.test.unit.handler.worklog
 
-import com.nhaarman.mockito_kotlin.argumentCaptor
-import com.nhaarman.mockito_kotlin.doReturn
-import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockitokotlin2.argumentCaptor
+import com.nhaarman.mockitokotlin2.doReturn
+import com.nhaarman.mockitokotlin2.verify
 import lt.boldadmin.nexus.api.service.worklog.WorklogService
 import lt.boldadmin.nexus.api.type.entity.Worklog
+import lt.boldadmin.nexus.api.type.valueobject.DateRange
 import lt.boldadmin.nexus.backend.handler.worklog.WorklogHandler
 import lt.boldadmin.nexus.backend.route.Routes
 import lt.boldadmin.nexus.backend.test.unit.handler.create
-import org.junit.Before
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
 import org.mockito.Mockito.lenient
-import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.junit.jupiter.MockitoExtension
 import org.springframework.test.web.reactive.server.WebTestClient
 import reactor.core.publisher.toMono
-import kotlin.test.assertEquals
+import java.time.LocalDate
 
-@RunWith(MockitoJUnitRunner::class)
+@ExtendWith(MockitoExtension::class)
 class WorklogHandlerTest {
 
     @Mock
@@ -26,7 +29,7 @@ class WorklogHandlerTest {
 
     private lateinit var webClient: WebTestClient
 
-    @Before
+    @BeforeEach
     fun `Set up`() {
         val contextStub = create()
         lenient()
@@ -38,39 +41,75 @@ class WorklogHandlerTest {
 
 
     @Test
-    fun `Finds worklog by collaborator id`() {
+    fun `Finds interval ids by collaborator id`() {
         val collaboratorId = "collaboratorId"
-        val worklog = Worklog().apply { id = "worklogId" }
-        doReturn(listOf(worklog)).`when`(worklogServiceSpy).getByCollaboratorId(collaboratorId)
+        val expectedIntervalIds = listOf("intervalId1")
+        doReturn(expectedIntervalIds).`when`(worklogServiceSpy).getIntervalIdsByCollaboratorId(collaboratorId)
 
         val response = webClient.get()
-            .uri("/worklog/collaborator/$collaboratorId")
+            .uri("/worklog/collaborator/$collaboratorId/interval-ids")
             .exchange()
             .expectStatus()
             .isOk
             .expectBody(Collection::class.java)
             .returnResult()
 
-        assertEquals(1, response.responseBody!!.size)
-        assertEquals(worklog.id, (response.responseBody!!.first() as Map<*, *>)["id"])
+        assertThat(response.responseBody!!).hasSize(1).contains(expectedIntervalIds[0])
     }
 
     @Test
-    fun `Finds worklog by project id`() {
+    fun `Finds interval ids by project id`() {
         val projectId = "projectId"
-        val worklog = Worklog().apply { id = "worklogId" }
-        doReturn(listOf(worklog)).`when`(worklogServiceSpy).getByProjectId(projectId)
+        val expectedIntervalIds = listOf("intervalId1")
+        doReturn(expectedIntervalIds).`when`(worklogServiceSpy).getIntervalIdsByProjectId(projectId)
 
         val response = webClient.get()
-            .uri("/worklog/project/$projectId")
+            .uri("/worklog/project/$projectId/interval-ids")
             .exchange()
             .expectStatus()
             .isOk
             .expectBody(Collection::class.java)
             .returnResult()
 
-        assertEquals(1, response.responseBody!!.size)
-        assertEquals(worklog.id, (response.responseBody!!.first() as Map<*, *>)["id"])
+        assertThat(response.responseBody!!).hasSize(1).contains(expectedIntervalIds[0])
+    }
+
+    @Test
+    fun `Finds interval ids by project id and date range`() {
+        val projectId = "projectId"
+        val expectedIntervalIds = listOf("intervalId1")
+        val dateRange = DateRange(LocalDate.of(2019, 5, 10), LocalDate.of(2019, 5, 15))
+        doReturn(expectedIntervalIds).`when`(worklogServiceSpy).getIntervalIdsByProjectId(projectId, dateRange)
+
+        val response = webClient.get()
+            .uri("/worklog/project/$projectId/start/2019-05-10/end/2019-05-15/interval-ids")
+            .exchange()
+            .expectStatus()
+            .isOk
+            .expectBody(Collection::class.java)
+            .returnResult()
+
+        assertThat(response.responseBody!!).hasSize(1).contains(expectedIntervalIds[0])
+    }
+
+    @Test
+    fun `Finds interval ids by collaborator id and date range`() {
+        val collaboratorId = "collaboratorId"
+        val expectedIntervalIds = listOf("intervalId1")
+        val dateRange = DateRange(LocalDate.of(2019, 5, 10), LocalDate.of(2019, 5, 15))
+        doReturn(expectedIntervalIds)
+            .`when`(worklogServiceSpy)
+            .getIntervalIdsByCollaboratorId(collaboratorId, dateRange)
+
+        val response = webClient.get()
+            .uri("/worklog/collaborator/$collaboratorId/start/2019-05-10/end/2019-05-15/interval-ids")
+            .exchange()
+            .expectStatus()
+            .isOk
+            .expectBody(Collection::class.java)
+            .returnResult()
+
+        assertThat(response.responseBody!!).hasSize(1).contains(expectedIntervalIds[0])
     }
 
     @Test

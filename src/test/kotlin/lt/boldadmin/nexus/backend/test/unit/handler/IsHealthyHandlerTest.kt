@@ -1,9 +1,9 @@
 package lt.boldadmin.nexus.backend.test.unit.handler
 
 import lt.boldadmin.nexus.backend.route.Routes
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Test
 import org.springframework.test.web.reactive.server.WebTestClient
-import kotlin.test.assertTrue
 
 class IsHealthyHandlerTest {
 
