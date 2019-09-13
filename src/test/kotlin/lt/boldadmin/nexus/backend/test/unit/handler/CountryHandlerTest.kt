@@ -1,20 +1,20 @@
 package lt.boldadmin.nexus.backend.test.unit.handler
 
-import com.nhaarman.mockito_kotlin.doReturn
+import com.nhaarman.mockitokotlin2.doReturn
 import lt.boldadmin.nexus.api.service.CountryService
 import lt.boldadmin.nexus.api.type.valueobject.Country
 import lt.boldadmin.nexus.backend.handler.CountryHandler
 import lt.boldadmin.nexus.backend.route.Routes
-import org.junit.Before
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
 import org.mockito.Mockito.lenient
-import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.junit.jupiter.MockitoExtension
 import org.springframework.test.web.reactive.server.WebTestClient
-import kotlin.test.assertEquals
 
-@RunWith(MockitoJUnitRunner::class)
+@ExtendWith(MockitoExtension::class)
 class CountryHandlerTest {
 
     @Mock
@@ -22,7 +22,7 @@ class CountryHandlerTest {
 
     private lateinit var webClient: WebTestClient
 
-    @Before
+    @BeforeEach
     fun `Set up`() {
         val contextStub = create()
         lenient()

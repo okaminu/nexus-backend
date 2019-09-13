@@ -1,11 +1,11 @@
 package lt.boldadmin.nexus.backend.test.unit.factory
 
-import com.nhaarman.mockito_kotlin.*
+import com.nhaarman.mockitokotlin2.*
 import lt.boldadmin.nexus.api.service.worklog.CollaboratorUpdateSubscriber
 import lt.boldadmin.nexus.backend.factory.CollaboratorUpdateSubscriberFactory
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
 import org.springframework.context.support.GenericApplicationContext
-import kotlin.test.assertEquals
 
 class CollaboratorUpdateSubscriberFactoryTest {
 

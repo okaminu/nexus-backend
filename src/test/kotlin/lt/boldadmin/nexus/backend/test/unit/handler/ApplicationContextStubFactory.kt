@@ -1,7 +1,7 @@
 package lt.boldadmin.nexus.backend.test.unit.handler
 
-import com.nhaarman.mockito_kotlin.doReturn
-import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockitokotlin2.doReturn
+import com.nhaarman.mockitokotlin2.mock
 import lt.boldadmin.nexus.backend.handler.*
 import lt.boldadmin.nexus.backend.handler.worklog.WorklogAuthHandler
 import lt.boldadmin.nexus.backend.handler.worklog.WorklogHandler
