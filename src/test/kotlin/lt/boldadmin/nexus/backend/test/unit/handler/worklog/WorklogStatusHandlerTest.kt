@@ -2,9 +2,9 @@ package lt.boldadmin.nexus.backend.test.unit.handler.worklog
 
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.verify
-import lt.boldadmin.nexus.api.service.worklog.WorklogStartEndService
+import lt.boldadmin.nexus.api.service.worklog.WorklogStatusService
 import lt.boldadmin.nexus.api.type.entity.Project
-import lt.boldadmin.nexus.backend.handler.worklog.WorklogStartEndHandler
+import lt.boldadmin.nexus.backend.handler.worklog.WorklogStatusHandler
 import lt.boldadmin.nexus.backend.route.Routes
 import lt.boldadmin.nexus.backend.test.unit.handler.create
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -18,10 +18,10 @@ import org.mockito.junit.jupiter.MockitoExtension
 import org.springframework.test.web.reactive.server.WebTestClient
 
 @ExtendWith(MockitoExtension::class)
-class WorklogStartEndHandlerTest {
+class WorklogStatusHandlerTest {
 
     @Mock
-    private lateinit var worklogStartEndServiceSpy: WorklogStartEndService
+    private lateinit var worklogStatusServiceSpy: WorklogStatusService
 
     private lateinit var webClient: WebTestClient
 
@@ -29,8 +29,8 @@ class WorklogStartEndHandlerTest {
     fun `Set up`() {
         val contextStub = create()
         lenient()
-            .`when`(contextStub.getBean(WorklogStartEndHandler::class.java))
-            .doReturn(WorklogStartEndHandler(worklogStartEndServiceSpy))
+            .`when`(contextStub.getBean(WorklogStatusHandler::class.java))
+            .doReturn(WorklogStatusHandler(worklogStatusServiceSpy))
 
         webClient = WebTestClient.bindToRouterFunction(Routes(contextStub).router()).build()
     }
@@ -41,7 +41,7 @@ class WorklogStartEndHandlerTest {
         val collaboratorId = "collaboratorId"
         val project = Project().apply { id = "projectId" }
         doReturn(project)
-            .`when`(worklogStartEndServiceSpy)
+            .`when`(worklogStatusServiceSpy)
             .getProjectOfStartedWork(collaboratorId)
 
         val response = webClient.get()
@@ -58,7 +58,7 @@ class WorklogStartEndHandlerTest {
     @Test
     fun `Has work started`() {
         val collaboratorId = "collaboratorId"
-        doReturn(true).`when`(worklogStartEndServiceSpy).hasWorkStarted(collaboratorId)
+        doReturn(true).`when`(worklogStatusServiceSpy).hasWorkStarted(collaboratorId)
 
         val response = webClient.get()
             .uri("/worklog/collaborator/$collaboratorId/status/has-work-started")
@@ -75,7 +75,7 @@ class WorklogStartEndHandlerTest {
     fun `Has work started in a project`() {
         val collaboratorId = "collaboratorId"
         val projectId = "projectId"
-        doReturn(true).`when`(worklogStartEndServiceSpy).hasWorkStarted(collaboratorId, projectId)
+        doReturn(true).`when`(worklogStatusServiceSpy).hasWorkStarted(collaboratorId, projectId)
 
         val response = webClient.get()
             .uri("/worklog/collaborator/$collaboratorId/project/$projectId/status/has-work-started")
@@ -96,6 +96,6 @@ class WorklogStartEndHandlerTest {
             .expectStatus()
             .isOk
 
-        verify(worklogStartEndServiceSpy).endAllStartedWorkWhereWorkTimeEnded()
+        verify(worklogStatusServiceSpy).endAllStartedWorkWhereWorkTimeEnded()
     }
 }

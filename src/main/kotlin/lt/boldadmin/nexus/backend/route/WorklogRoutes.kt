@@ -11,13 +11,13 @@ fun worklogRoutes(applicationContext: AbstractApplicationContext): RouterFunctio
     val worklogAuthHandler: WorklogAuthHandler = applicationContext.getBean()
     val worklogDurationHandler: WorklogDurationHandler = applicationContext.getBean()
     val worklogHandler: WorklogHandler = applicationContext.getBean()
-    val worklogStartEndHandler: WorklogStartEndHandler = applicationContext.getBean()
+    val worklogStatusHandler: WorklogStatusHandler = applicationContext.getBean()
 
     accept(MediaType.APPLICATION_JSON).nest {
         POST("/save", worklogHandler::save)
         POST(
             "/status/end/all-started-work-on-ended-work-time",
-            worklogStartEndHandler::endAllStartedWorkWhereWorkTimeEnded
+            worklogStatusHandler::endAllStartedWorkWhereWorkTimeEnded
         )
 
         "/collaborator".nest {
@@ -26,12 +26,12 @@ fun worklogRoutes(applicationContext: AbstractApplicationContext): RouterFunctio
                 "/{collaboratorId}/start/{startDate}/end/{endDate}/interval-ids",
                 worklogHandler::getIntervalIdsByCollaboratorIdAndDateRange
             )
-            GET("/{collaboratorId}/status/has-work-started", worklogStartEndHandler::hasWorkStarted)
+            GET("/{collaboratorId}/status/has-work-started", worklogStatusHandler::hasWorkStarted)
             GET(
                 "/{collaboratorId}/project/{projectId}/status/has-work-started",
-                worklogStartEndHandler::hasWorkStartedInProject
+                worklogStatusHandler::hasWorkStartedInProject
             )
-            GET("/{collaboratorId}/status/project-of-started-work", worklogStartEndHandler::getProjectOfStartedWork)
+            GET("/{collaboratorId}/status/project-of-started-work", worklogStatusHandler::getProjectOfStartedWork)
             GET("/{collaboratorId}/durations-sum", worklogDurationHandler::sumWorkDurationsByCollaboratorId)
             GET(
                 "/{collaboratorId}/start/{startDate}/end/{endDate}/durations-sum",
