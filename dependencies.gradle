@@ -28,7 +28,7 @@ dependencies {
     runtime "lt.boldadmin.nexus:nexus:$gradle.ext.version"
     runtime "lt.boldadmin.nexus:nexus-aws-pinpoint-plugin:$gradle.ext.version"
     runtime "lt.boldadmin.nexus:nexus-mongodb-plugin:$gradle.ext.version"
-    runtime "lt.boldadmin.nexus:nexus-event-kafka-plugin:$gradle.ext.version"
+    runtime "lt.boldadmin.nexus:nexus-kafka-plugin:$gradle.ext.version"
     runtime "org.apache.kafka:kafka-clients:2.3.0"
 
 
