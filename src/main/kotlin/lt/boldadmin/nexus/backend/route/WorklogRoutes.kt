@@ -1,9 +1,6 @@
-package lt.boldadmin.nexus.backend.route.worklog
+package lt.boldadmin.nexus.backend.route
 
-import lt.boldadmin.nexus.backend.handler.worklog.WorklogAuthHandler
-import lt.boldadmin.nexus.backend.handler.worklog.WorklogHandler
-import lt.boldadmin.nexus.backend.handler.worklog.duration.WorklogDurationHandler
-import lt.boldadmin.nexus.backend.handler.worklog.status.WorklogStartEndHandler
+import lt.boldadmin.nexus.backend.handler.worklog.*
 import org.springframework.beans.factory.getBean
 import org.springframework.context.support.AbstractApplicationContext
 import org.springframework.http.MediaType

@@ -1,10 +1,10 @@
-package lt.boldadmin.nexus.backend.test.unit.handler.worklog.status
+package lt.boldadmin.nexus.backend.test.unit.handler.worklog
 
-import com.nhaarman.mockitokotlin2.*
-import lt.boldadmin.nexus.api.service.worklog.status.WorklogStartEndService
-import lt.boldadmin.nexus.api.type.entity.Collaborator
+import com.nhaarman.mockitokotlin2.doReturn
+import com.nhaarman.mockitokotlin2.verify
+import lt.boldadmin.nexus.api.service.worklog.WorklogStartEndService
 import lt.boldadmin.nexus.api.type.entity.Project
-import lt.boldadmin.nexus.backend.handler.worklog.status.WorklogStartEndHandler
+import lt.boldadmin.nexus.backend.handler.worklog.WorklogStartEndHandler
 import lt.boldadmin.nexus.backend.route.Routes
 import lt.boldadmin.nexus.backend.test.unit.handler.create
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -16,7 +16,6 @@ import org.mockito.Mock
 import org.mockito.Mockito.lenient
 import org.mockito.junit.jupiter.MockitoExtension
 import org.springframework.test.web.reactive.server.WebTestClient
-import reactor.core.publisher.toMono
 
 @ExtendWith(MockitoExtension::class)
 class WorklogStartEndHandlerTest {
@@ -87,25 +86,6 @@ class WorklogStartEndHandlerTest {
             .returnResult()
 
         assertTrue(response.responseBody!!)
-    }
-
-    fun `Starts work progress`() {
-        val project = Project().apply { id = "projectId" }
-        val collaborator = Collaborator().apply { id = "collaboratorId" }
-        val projectOfCollaborator = Pair(collaborator, project)
-
-        webClient.post()
-            .uri("/worklog/status/start")
-            .body(projectOfCollaborator.toMono(), projectOfCollaborator.javaClass)
-            .exchange()
-            .expectStatus()
-            .isOk
-            .expectBody()
-            .isEmpty
-
-        argumentCaptor<Collaborator>().apply {
-            assertEquals(project.id, firstValue.id)
-        }
     }
 
     @Test
