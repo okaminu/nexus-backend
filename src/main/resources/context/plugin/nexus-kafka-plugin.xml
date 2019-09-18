@@ -9,8 +9,8 @@
        default-lazy-init="false">
 
     <context:component-scan base-package="lt.boldadmin.nexus.plugin.kafka" >
+        <context:include-filter type="regex" expression="lt.boldadmin.nexus.plugin.kafka.event.publisher.*"/>
         <context:include-filter type="regex" expression="lt.boldadmin.nexus.plugin.kafka.consumer.*"/>
-        <context:include-filter type="regex" expression="lt.boldadmin.nexus.plugin.kafka.producer.*"/>
         <context:include-filter type="regex" expression="lt.boldadmin.nexus.plugin.kafka.factory.*"/>
     </context:component-scan>
 
