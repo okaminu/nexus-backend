@@ -6,7 +6,7 @@ repositories {
     maven { url "https://repo.spring.io/milestone" }
     repositories {
         maven {
-            url 's3://repository.boldadmin.com/releases'
+            url 's3://repository.boldadmin.com/snapshots'
             credentials(AwsCredentials) {
                 accessKey awsCredentials.AWSAccessKeyId
                 secretKey awsCredentials.AWSSecretKey
