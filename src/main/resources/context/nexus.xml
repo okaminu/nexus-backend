@@ -12,7 +12,6 @@
         <context:include-filter type="regex" expression="lt.boldadmin.nexus.event.subscriber.*"/>
         <context:include-filter type="regex" expression="lt.boldadmin.nexus.factory.*"/>
         <context:include-filter type="regex" expression="lt.boldadmin.nexus.service.*"/>
-        <context:include-filter type="regex" expression="lt.boldadmin.nexus.provider.*"/>
         <context:include-filter type="regex" expression="lt.boldadmin.nexus.visitor.*"/>
         <context:include-filter type="regex" expression="lt.boldadmin.nexus.exception.converter.*"/>
     </context:component-scan>
