@@ -11,7 +11,7 @@ publishing {
 
             repositories {
                 maven {
-                    url 's3://repository.boldadmin.com/snapshots'
+                    url 's3://repository.boldadmin.com/releases'
                     credentials(AwsCredentials) {
                         accessKey = awsCredentials.AWSAccessKeyId
                         secretKey = awsCredentials.AWSSecretKey
