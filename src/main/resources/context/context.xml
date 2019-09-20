@@ -28,4 +28,8 @@
         <context:include-filter type="regex" expression="lt.boldadmin.nexus.backend.exception.*"/>
     </context:component-scan>
 
+    <bean id="worklogHandler" class="lt.boldadmin.nexus.backend.handler.worklog.WorklogHandler">
+        <constructor-arg ref="timeZoneWorklogService"/>
+    </bean>
+
 </beans>
