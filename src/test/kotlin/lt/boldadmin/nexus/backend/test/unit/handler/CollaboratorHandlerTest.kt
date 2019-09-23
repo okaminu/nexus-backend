@@ -3,8 +3,11 @@ package lt.boldadmin.nexus.backend.test.unit.handler
 import com.nhaarman.mockitokotlin2.argumentCaptor
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.verify
-import lt.boldadmin.nexus.api.service.CollaboratorService
-import lt.boldadmin.nexus.api.type.entity.Collaborator
+import lt.boldadmin.nexus.api.service.collaborator.CollaboratorCoordinatesService
+import lt.boldadmin.nexus.api.service.collaborator.CollaboratorService
+import lt.boldadmin.nexus.api.type.entity.collaborator.Collaborator
+import lt.boldadmin.nexus.api.type.entity.collaborator.CollaboratorCoordinates
+import lt.boldadmin.nexus.api.type.valueobject.Coordinates
 import lt.boldadmin.nexus.backend.handler.CollaboratorHandler
 import lt.boldadmin.nexus.backend.route.Routes
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -25,6 +28,9 @@ class CollaboratorHandlerTest {
     @Mock
     private lateinit var collaboratorServiceSpy: CollaboratorService
 
+    @Mock
+    private lateinit var collaboratorCoordinatesServiceSpy: CollaboratorCoordinatesService
+
     private lateinit var webClient: WebTestClient
 
     @BeforeEach
@@ -32,7 +38,7 @@ class CollaboratorHandlerTest {
         val contextStub = create()
         lenient()
             .`when`(contextStub.getBean(CollaboratorHandler::class.java))
-            .doReturn(CollaboratorHandler(collaboratorServiceSpy))
+            .doReturn(CollaboratorHandler(collaboratorServiceSpy, collaboratorCoordinatesServiceSpy))
 
         webClient = WebTestClient.bindToRouterFunction(Routes(contextStub).router()).build()
     }
@@ -67,6 +73,24 @@ class CollaboratorHandlerTest {
             .returnResult()
 
         assertEquals(collaborator.id, response.responseBody!!.id)
+    }
+
+    @Test
+    fun `Finds coordinates`() {
+        val coordinates = listOf(CollaboratorCoordinates("collabId", Coordinates(1.2, 3.4), 123))
+        doReturn(coordinates).`when`(collaboratorCoordinatesServiceSpy).getByCollaboratorId("collabId")
+
+        val response = webClient.get()
+            .uri("/collaborator/collabId/coordinates")
+            .exchange()
+            .expectStatus()
+            .isOk
+            .expectBody(Collection::class.java)
+            .returnResult()
+
+        assertEquals(1, response.responseBody!!.size)
+        assertEquals("collabId", (response.responseBody!!.first() as Map<*, *>)["collaboratorId"])
+        assertEquals(123, (response.responseBody!!.first() as Map<*, *>)["timestamp"])
     }
 
     @Test

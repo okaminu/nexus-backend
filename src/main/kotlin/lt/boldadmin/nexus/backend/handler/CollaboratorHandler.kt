@@ -1,12 +1,16 @@
 package lt.boldadmin.nexus.backend.handler
 
-import lt.boldadmin.nexus.api.service.CollaboratorService
-import lt.boldadmin.nexus.api.type.entity.Collaborator
+import lt.boldadmin.nexus.api.service.collaborator.CollaboratorCoordinatesService
+import lt.boldadmin.nexus.api.service.collaborator.CollaboratorService
+import lt.boldadmin.nexus.api.type.entity.collaborator.Collaborator
 import org.springframework.web.reactive.function.server.*
 import org.springframework.web.reactive.function.server.ServerResponse.ok
 import reactor.core.publisher.Mono
 
-open class CollaboratorHandler(private val collaboratorService: CollaboratorService) {
+open class CollaboratorHandler(
+    private val collaboratorService: CollaboratorService,
+    private val collaboratorCoordinatesService: CollaboratorCoordinatesService
+) {
 
     open fun existsById(req: ServerRequest): Mono<ServerResponse> =
         ok().body(Mono.just(collaboratorService.existsById(req.pathVariable("collaboratorId"))))
@@ -24,6 +28,9 @@ open class CollaboratorHandler(private val collaboratorService: CollaboratorServ
 
     open fun getById(req: ServerRequest): Mono<ServerResponse> =
         ok().body(Mono.just(collaboratorService.getById(req.pathVariable("collaboratorId"))))
+
+    open fun getCoordinates(req: ServerRequest): Mono<ServerResponse> =
+        ok().body(Mono.just(collaboratorCoordinatesService.getByCollaboratorId(req.pathVariable("collaboratorId"))))
 
     open fun getByMobileNumber(req: ServerRequest): Mono<ServerResponse> =
         ok().body(Mono.just(collaboratorService.getByMobileNumber(req.pathVariable("mobileNumber"))))
