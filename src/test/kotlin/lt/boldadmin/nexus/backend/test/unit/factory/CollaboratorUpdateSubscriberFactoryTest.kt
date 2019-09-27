@@ -19,7 +19,7 @@ class CollaboratorUpdateSubscriberFactoryTest {
             "workTime.endOfDayInMinutes" to endTimeUpdateDummy
         )
         doReturn(startTimeUpdateDummy, endTimeUpdateDummy).`when`(contextStub)
-            .getBean(any<String>(), eq(CollaboratorUpdateSubscriber::class.java))
+            .getBean(any(), eq(CollaboratorUpdateSubscriber::class.java))
 
         val actualSubscribersMap = CollaboratorUpdateSubscriberFactory(contextStub).create().invoke()
 
