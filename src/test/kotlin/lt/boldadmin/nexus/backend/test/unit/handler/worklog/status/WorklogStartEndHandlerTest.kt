@@ -2,7 +2,7 @@ package lt.boldadmin.nexus.backend.test.unit.handler.worklog.status
 
 import com.nhaarman.mockitokotlin2.*
 import lt.boldadmin.nexus.api.service.worklog.status.WorklogStartEndService
-import lt.boldadmin.nexus.api.service.worklog.status.WorklogsEndService
+import lt.boldadmin.nexus.api.service.worklog.status.WorklogOvertimeService
 import lt.boldadmin.nexus.api.type.entity.Collaborator
 import lt.boldadmin.nexus.api.type.entity.Project
 import lt.boldadmin.nexus.backend.handler.worklog.status.WorklogStartEndHandler
@@ -26,7 +26,7 @@ class WorklogStartEndHandlerTest {
     private lateinit var worklogStartEndServiceSpy: WorklogStartEndService
 
     @Mock
-    private lateinit var worklogsEndServiceStub: WorklogsEndService
+    private lateinit var worklogOvertimeServiceStub: WorklogOvertimeService
 
     private lateinit var webClient: WebTestClient
 
@@ -35,7 +35,7 @@ class WorklogStartEndHandlerTest {
         val contextStub = create()
         lenient()
             .`when`(contextStub.getBean(WorklogStartEndHandler::class.java))
-            .doReturn(WorklogStartEndHandler(worklogStartEndServiceSpy, worklogsEndServiceStub))
+            .doReturn(WorklogStartEndHandler(worklogStartEndServiceSpy, worklogOvertimeServiceStub))
 
         webClient = WebTestClient.bindToRouterFunction(Routes(contextStub).router()).build()
     }
@@ -219,6 +219,6 @@ class WorklogStartEndHandlerTest {
             .expectStatus()
             .isOk
 
-        verify(worklogsEndServiceStub).endAllStartedWorkWhereWorkTimeEnded()
+        verify(worklogOvertimeServiceStub).endAllStartedWorkWhereWorkTimeEnded()
     }
 }

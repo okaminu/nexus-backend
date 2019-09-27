@@ -1,7 +1,7 @@
 package lt.boldadmin.nexus.backend.handler.worklog.status
 
 import lt.boldadmin.nexus.api.service.worklog.status.WorklogStartEndService
-import lt.boldadmin.nexus.api.service.worklog.status.WorklogsEndService
+import lt.boldadmin.nexus.api.service.worklog.status.WorklogOvertimeService
 import lt.boldadmin.nexus.api.type.entity.Collaborator
 import lt.boldadmin.nexus.api.type.entity.Project
 import org.springframework.web.reactive.function.server.*
@@ -10,7 +10,7 @@ import reactor.core.publisher.Mono
 
 open class WorklogStartEndHandler(
     private val worklogStartEndService: WorklogStartEndService,
-    private val worklogsEndService: WorklogsEndService
+    private val worklogOvertimeService: WorklogOvertimeService
 ) {
 
     open fun getProjectOfStartedWork(req: ServerRequest): Mono<ServerResponse> =
@@ -45,7 +45,7 @@ open class WorklogStartEndHandler(
             .flatMap { ok().build() }
 
     open fun endAllStartedWorkWhereWorkTimeEnded(req: ServerRequest): Mono<ServerResponse> =
-        ok().body(Mono.just(worklogsEndService.endAllStartedWorkWhereWorkTimeEnded()))
+        ok().body(Mono.just(worklogOvertimeService.endAllStartedWorkWhereWorkTimeEnded()))
 
     open fun hasWorkEnded(req: ServerRequest): Mono<ServerResponse> =
         ok().body(Mono.just(worklogStartEndService.hasWorkEnded(req.pathVariable("collaboratorId"))))
