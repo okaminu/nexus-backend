@@ -24,7 +24,7 @@ fun redisBeans() = beans {
         RedisCacheConfiguration.defaultCacheConfig().disableCachingNullValues()
     }
 
-    bean("projectLocationCacheConfiguration") {
+    bean("projectTimeCacheConfiguration") {
         ref<RedisCacheConfiguration>("redisCacheConfiguration").serializeValuesWith(
             RedisSerializationContext.SerializationPair.fromSerializer(
                 Jackson2JsonRedisSerializer(ZoneId::class.java).apply {
@@ -35,7 +35,7 @@ fun redisBeans() = beans {
 
     bean("cacheManager") {
         RedisCacheManager.builder(ref<LettuceConnectionFactory>()).withInitialCacheConfigurations(
-            mapOf("locationToTimeZone" to ref("projectLocationCacheConfiguration"))
+            mapOf("locationToTimeZone" to ref("projectTimeCacheConfiguration"))
         ).build()
     }
 
