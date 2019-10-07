@@ -45,7 +45,7 @@ open class WorklogStartEndHandler(
             .flatMap { ok().build() }
 
     open fun endAllStartedWorkWhereWorkTimeEnded(req: ServerRequest): Mono<ServerResponse> =
-        ok().body(Mono.just(worklogOvertimeService.endAllStartedWorkWhereWorkTimeEnded()))
+        ok().body(Mono.just(worklogOvertimeService.endOnOvertime()))
 
     open fun hasWorkEnded(req: ServerRequest): Mono<ServerResponse> =
         ok().body(Mono.just(worklogStartEndService.hasWorkEnded(req.pathVariable("collaboratorId"))))

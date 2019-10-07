@@ -219,6 +219,6 @@ class WorklogStartEndHandlerTest {
             .expectStatus()
             .isOk
 
-        verify(worklogOvertimeServiceStub).endAllStartedWorkWhereWorkTimeEnded()
+        verify(worklogOvertimeServiceStub).endOnOvertime()
     }
 }
