@@ -24,18 +24,18 @@ fun redisBeans() = beans {
         RedisCacheConfiguration.defaultCacheConfig().disableCachingNullValues()
     }
 
-    bean("projectTimeCacheConfiguration") {
+    bean("timeZoneCacheConfiguration") {
         ref<RedisCacheConfiguration>("redisCacheConfiguration").serializeValuesWith(
             RedisSerializationContext.SerializationPair.fromSerializer(
                 Jackson2JsonRedisSerializer(ZoneId::class.java).apply {
                     setObjectMapper(jacksonObjectMapper().registerModule(JavaTimeModule()))
                 })
-        ).entryTtl(Duration.ofDays(ref<Environment>()["PROJECT_LOCATION_CACHE_TTL"]!!.toLong()))
+        ).entryTtl(Duration.ofDays(ref<Environment>()["COORDINATES_CACHE_TTL"]!!.toLong()))
     }
 
     bean("cacheManager") {
         RedisCacheManager.builder(ref<LettuceConnectionFactory>()).withInitialCacheConfigurations(
-            mapOf("locationToTimeZone" to ref("projectTimeCacheConfiguration"))
+            mapOf("coordinatesToTimeZone" to ref("timeZoneCacheConfiguration"))
         ).build()
     }
 

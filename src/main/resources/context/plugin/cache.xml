@@ -11,14 +11,14 @@
     http://www.springframework.org/schema/aop/spring-aop.xsd"
        default-lazy-init="true">
 
-    <cache:advice id="locationCaching">
-        <cache:caching cache="locationToTimeZone">
+    <cache:advice id="coordinatesCaching">
+        <cache:caching cache="coordinatesToTimeZone">
             <cache:cacheable method="convert"/>
         </cache:caching>
     </cache:advice>
 
     <aop:config>
-        <aop:advisor advice-ref="locationCaching"
+        <aop:advisor advice-ref="coordinatesCaching"
                      pointcut="execution(* lt.boldadmin.nexus.plugin.google.maps.time.zone.GoogleMapsTimeZoneConverterAdapter.convert(..))"/>
     </aop:config>
 
