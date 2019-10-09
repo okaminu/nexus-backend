@@ -5,6 +5,7 @@ import com.nhaarman.mockitokotlin2.mock
 import lt.boldadmin.nexus.backend.handler.*
 import lt.boldadmin.nexus.backend.handler.worklog.WorklogAuthHandler
 import lt.boldadmin.nexus.backend.handler.worklog.WorklogHandler
+import lt.boldadmin.nexus.backend.handler.worklog.WorklogOvertimeHandler
 import lt.boldadmin.nexus.backend.handler.worklog.duration.WorklogDurationHandler
 import lt.boldadmin.nexus.backend.handler.worklog.status.WorklogStartEndHandler
 import lt.boldadmin.nexus.backend.handler.worklog.status.location.WorklogLocationHandler
@@ -22,4 +23,5 @@ fun create() = mock<AbstractApplicationContext>().also {
     doReturn(mock<WorklogLocationHandler>()).`when`(it).getBean(WorklogLocationHandler::class.java)
     doReturn(mock<WorklogMessageHandler>()).`when`(it).getBean(WorklogMessageHandler::class.java)
     doReturn(mock<WorklogStartEndHandler>()).`when`(it).getBean(WorklogStartEndHandler::class.java)
+    doReturn(mock<WorklogOvertimeHandler>()).`when`(it).getBean(WorklogOvertimeHandler::class.java)
 }

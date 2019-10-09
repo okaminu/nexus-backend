@@ -17,7 +17,6 @@ fun worklogStatusRoutes(
         POST("/start/timestamp/{timestamp}", worklogStartEndHandler::startWithTimestamp)
         POST("/end", worklogStartEndHandler::end)
         POST("/end/timestamp/{timestamp}", worklogStartEndHandler::endWithTimestamp)
-        POST("/end/all-started-work-on-ended-work-time", worklogStartEndHandler::endAllStartedWorkWhereWorkTimeEnded)
 
         "/log-work".nest {
             POST("/message", worklogMessageHandler::logWork)
