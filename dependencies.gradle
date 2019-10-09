@@ -29,9 +29,8 @@ dependencies {
     runtime "lt.boldadmin.nexus:nexus-aws-pinpoint-plugin:$gradle.ext.version"
     runtime "lt.boldadmin.nexus:nexus-mongodb-plugin:$gradle.ext.version"
     runtime "lt.boldadmin.nexus:nexus-kafka-plugin:$gradle.ext.version"
+
     runtime "org.apache.kafka:kafka-clients:2.3.0"
-
-
     implementation "org.hibernate:hibernate-validator:6.0.17.Final"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"

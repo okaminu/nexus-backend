@@ -10,6 +10,7 @@ import lt.boldadmin.nexus.api.type.valueobject.CollaboratorCoordinates
 import lt.boldadmin.nexus.api.type.valueobject.Coordinates
 import lt.boldadmin.nexus.backend.handler.CollaboratorHandler
 import lt.boldadmin.nexus.backend.route.Routes
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
@@ -29,7 +30,7 @@ class CollaboratorHandlerTest {
     private lateinit var collaboratorServiceSpy: CollaboratorService
 
     @Mock
-    private lateinit var collaboratorCoordinatesServiceSpy: CollaboratorCoordinatesService
+    private lateinit var collaboratorCoordinatesServiceStub: CollaboratorCoordinatesService
 
     private lateinit var webClient: WebTestClient
 
@@ -38,7 +39,7 @@ class CollaboratorHandlerTest {
         val contextStub = create()
         lenient()
             .`when`(contextStub.getBean(CollaboratorHandler::class.java))
-            .doReturn(CollaboratorHandler(collaboratorServiceSpy, collaboratorCoordinatesServiceSpy))
+            .doReturn(CollaboratorHandler(collaboratorServiceSpy, collaboratorCoordinatesServiceStub))
 
         webClient = WebTestClient.bindToRouterFunction(Routes(contextStub).router()).build()
     }
@@ -77,14 +78,8 @@ class CollaboratorHandlerTest {
 
     @Test
     fun `Finds coordinates`() {
-        val coordinates = listOf(
-            CollaboratorCoordinates(
-                "collabId",
-                Coordinates(1.2, 3.4),
-                123
-            )
-        )
-        doReturn(coordinates).`when`(collaboratorCoordinatesServiceSpy).getByCollaboratorId("collabId")
+        val coordinates = listOf(CollaboratorCoordinates("collabId", Coordinates(1.2, 3.4), 123))
+        doReturn(coordinates).`when`(collaboratorCoordinatesServiceStub).getByCollaboratorId("collabId")
 
         val response = webClient.get()
             .uri("/collaborator/collabId/coordinates")
@@ -94,9 +89,16 @@ class CollaboratorHandlerTest {
             .expectBody(Collection::class.java)
             .returnResult()
 
-        assertEquals(1, response.responseBody!!.size)
-        assertEquals("collabId", (response.responseBody!!.first() as Map<*, *>)["collaboratorId"])
-        assertEquals(123, (response.responseBody!!.first() as Map<*, *>)["timestamp"])
+        assertThat(response.responseBody!!).hasSize(1).containsOnly(
+            mapOf(
+                "collaboratorId" to "collabId",
+                "timestamp" to 123,
+                "coordinates" to mapOf(
+                    "latitude" to 1.2,
+                    "longitude" to 3.4
+                )
+            )
+        )
     }
 
     @Test
