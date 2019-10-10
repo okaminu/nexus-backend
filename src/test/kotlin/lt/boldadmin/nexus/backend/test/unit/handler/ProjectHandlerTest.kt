@@ -139,18 +139,4 @@ class ProjectHandlerTest {
         verify(projectServiceSpy).updateLocation(projectId, location)
     }
 
-    @Test
-    fun `Deletes location`() {
-        val projectId = "projectId"
-
-        webClient.delete()
-            .uri("/project/$projectId/attribute/location")
-            .exchange()
-            .expectStatus()
-            .isOk
-            .expectBody()
-            .isEmpty
-
-        verify(projectServiceSpy).deleteLocation(projectId)
-    }
 }

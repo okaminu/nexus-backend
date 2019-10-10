@@ -31,7 +31,4 @@ open class ProjectHandler(private val projectService: ProjectService) {
             .doOnNext { projectService.updateLocation(req.pathVariable("projectId"), it) }
             .flatMap { ok().build() }
 
-    open fun deleteLocation(req: ServerRequest): Mono<ServerResponse> =
-        Mono.just(projectService.deleteLocation(req.pathVariable("projectId")))
-            .flatMap { ok().build() }
 }
