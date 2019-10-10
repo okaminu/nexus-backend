@@ -19,7 +19,9 @@
 
     <aop:config>
         <aop:advisor advice-ref="coordinatesCaching"
-                     pointcut="execution(* lt.boldadmin.nexus.plugin.google.maps.time.zone.GoogleMapsTimeZoneConverterAdapter.convert(..))"/>
+                     pointcut="execution(*
+                     lt.boldadmin.nexus.plugin.google.maps.time.zone.GoogleMapsTimeZoneConverterAdapter.convert(..))"
+        />
     </aop:config>
 
 </beans>
