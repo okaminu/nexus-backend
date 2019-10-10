@@ -26,7 +26,7 @@ fun worklogRoutes(applicationContext: AbstractApplicationContext): RouterFunctio
     accept(MediaType.APPLICATION_JSON).nest {
         POST("/save", worklogHandler::save)
         "/status".nest(worklogStatusRoutes(worklogStartEndHandler, worklogMessageHandler, worklogLocationHandler))
-        POST("/overtime/end/on-overtime", worklogOvertimeHandler::endOnOvertime)
+        POST("/overtime/end/work-in-progress", worklogOvertimeHandler::endOnOvertime)
         "/collaborator".nest {
             GET("/{collaboratorId}/interval-ids", worklogHandler::getIntervalIdsByCollaboratorId)
             GET(
