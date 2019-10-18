@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <Blacklist></Blacklist>
+  <Whitelist>
+    <ID>EmptyFunctionBlock:ValidatorBeanFactory.kt$ValidatorBeanFactory${}</ID>
+    <ID>NoConsecutiveBlankLines:</ID>
+    <ID>TooManyFunctions:UserHandler.kt$UserHandler</ID>
+    <ID>TooManyFunctions:UserHandlerTest.kt$UserHandlerTest</ID>
+  </Whitelist>
+</SmellBaseline>

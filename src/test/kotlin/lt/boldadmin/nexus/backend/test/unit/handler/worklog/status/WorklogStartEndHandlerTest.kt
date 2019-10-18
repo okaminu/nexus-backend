@@ -207,14 +207,4 @@ class WorklogStartEndHandlerTest {
         }
     }
 
-    @Test
-    fun `Ends work for collaborators where work time is ended`() {
-        webClient.post()
-            .uri("/worklog/status/end/all-started-work-on-ended-work-time")
-            .exchange()
-            .expectStatus()
-            .isOk
-
-        verify(worklogStartEndServiceSpy).endAllStartedWorkWhereWorkTimeEnded()
-    }
 }

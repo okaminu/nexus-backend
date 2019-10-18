@@ -2,6 +2,7 @@ package lt.boldadmin.nexus.backend.route.worklog
 
 import lt.boldadmin.nexus.backend.handler.worklog.WorklogAuthHandler
 import lt.boldadmin.nexus.backend.handler.worklog.WorklogHandler
+import lt.boldadmin.nexus.backend.handler.worklog.WorklogOvertimeHandler
 import lt.boldadmin.nexus.backend.handler.worklog.duration.WorklogDurationHandler
 import lt.boldadmin.nexus.backend.handler.worklog.status.WorklogStartEndHandler
 import lt.boldadmin.nexus.backend.handler.worklog.status.location.WorklogLocationHandler
@@ -19,11 +20,13 @@ fun worklogRoutes(applicationContext: AbstractApplicationContext): RouterFunctio
     val worklogLocationHandler: WorklogLocationHandler = applicationContext.getBean()
     val worklogMessageHandler: WorklogMessageHandler = applicationContext.getBean()
     val worklogStartEndHandler: WorklogStartEndHandler = applicationContext.getBean()
+    val worklogOvertimeHandler: WorklogOvertimeHandler = applicationContext.getBean()
 
 
     accept(MediaType.APPLICATION_JSON).nest {
         POST("/save", worklogHandler::save)
         "/status".nest(worklogStatusRoutes(worklogStartEndHandler, worklogMessageHandler, worklogLocationHandler))
+        POST("/overtime/end", worklogOvertimeHandler::endOnOvertime)
         "/collaborator".nest {
             GET("/{collaboratorId}/interval-ids", worklogHandler::getIntervalIdsByCollaboratorId)
             GET(
