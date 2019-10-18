@@ -35,7 +35,7 @@ class WorklogOvertimeHandlerTest {
     @Test
     fun `Ends work for collaborators where work time is ended`() {
         webClient.post()
-            .uri("/worklog/overtime/end/work-in-progress")
+            .uri("/worklog/overtime/end")
             .exchange()
             .expectStatus()
             .isOk
