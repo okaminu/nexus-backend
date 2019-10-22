@@ -54,7 +54,7 @@ class WorklogDurationHandlerTest {
     @Test
     fun `Sums work durations by collaborator`() {
         val durationsSum = 354L
-        val collaboratorId= "id"
+        val collaboratorId = "id"
         doReturn(durationsSum).`when`(worklogDurationServiceStub).sumWorkDurationsByCollaboratorId(collaboratorId)
 
         val response = webClient.get()

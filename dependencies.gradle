@@ -3,7 +3,6 @@ apply from: 'aws-credentials.gradle'
 repositories {
     mavenLocal()
     jcenter()
-    maven { url "https://repo.spring.io/milestone" }
     repositories {
         maven {
             url 's3://repository.boldadmin.com/snapshots'
@@ -28,6 +27,7 @@ dependencies {
     runtime "lt.boldadmin.nexus:nexus:$gradle.ext.version"
     runtime "lt.boldadmin.nexus:nexus-aws-pinpoint-plugin:$gradle.ext.version"
     runtime "lt.boldadmin.nexus:nexus-mongodb-plugin:$gradle.ext.version"
+    runtime "lt.boldadmin.nexus:nexus-google-maps-plugin:$gradle.ext.version"
     runtime "lt.boldadmin.nexus:nexus-kafka-plugin:$gradle.ext.version"
 
     runtime "org.apache.kafka:kafka-clients:2.3.0"
@@ -52,6 +52,8 @@ dependencies {
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
 
     runtime "org.glassfish:javax.el:3.0.0"
+
+    detektPlugins "io.gitlab.arturbosch.detekt:detekt-formatting:$detekt_version"
 
     testImplementation "org.springframework:spring-test"
 

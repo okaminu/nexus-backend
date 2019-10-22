@@ -12,14 +12,11 @@ fun worklogRoutes(applicationContext: AbstractApplicationContext): RouterFunctio
     val worklogDurationHandler: WorklogDurationHandler = applicationContext.getBean()
     val worklogHandler: WorklogHandler = applicationContext.getBean()
     val worklogStatusHandler: WorklogStatusHandler = applicationContext.getBean()
+    val worklogOvertimeHandler: WorklogOvertimeHandler = applicationContext.getBean()
 
     accept(MediaType.APPLICATION_JSON).nest {
         POST("/save", worklogHandler::save)
-        POST(
-            "/status/end/all-started-work-on-ended-work-time",
-            worklogStatusHandler::endAllStartedWorkWhereWorkTimeEnded
-        )
-
+        POST("/overtime/end", worklogOvertimeHandler::endOnOvertime)
         "/collaborator".nest {
             GET("/{collaboratorId}/interval-ids", worklogHandler::getIntervalIdsByCollaboratorId)
             GET(

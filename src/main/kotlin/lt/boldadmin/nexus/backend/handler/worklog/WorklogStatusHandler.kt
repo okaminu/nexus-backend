@@ -18,7 +18,4 @@ open class WorklogStatusHandler(private val worklogStatusService: WorklogStatusS
     open fun hasWorkStartedInProject(req: ServerRequest): Mono<ServerResponse> =
         ok().body(Mono.just(worklogStatusService.hasWorkStarted(req.pathVariable("collaboratorId"),
             req.pathVariable("projectId"))))
-
-    open fun endAllStartedWorkWhereWorkTimeEnded(req: ServerRequest): Mono<ServerResponse> =
-        ok().body(Mono.just(worklogStatusService.endAllStartedWorkWhereWorkTimeEnded()))
 }

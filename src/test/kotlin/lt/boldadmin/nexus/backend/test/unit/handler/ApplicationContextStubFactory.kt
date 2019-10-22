@@ -15,4 +15,5 @@ fun create() = mock<AbstractApplicationContext>().also {
     doReturn(mock<WorklogDurationHandler>()).`when`(it).getBean(WorklogDurationHandler::class.java)
     doReturn(mock<WorklogHandler>()).`when`(it).getBean(WorklogHandler::class.java)
     doReturn(mock<WorklogStatusHandler>()).`when`(it).getBean(WorklogStatusHandler::class.java)
+    doReturn(mock<WorklogOvertimeHandler>()).`when`(it).getBean(WorklogOvertimeHandler::class.java)
 }

@@ -1,7 +1,7 @@
 package lt.boldadmin.nexus.backend.test.unit.factory
 
 import com.nhaarman.mockitokotlin2.*
-import lt.boldadmin.nexus.api.service.worklog.CollaboratorUpdateSubscriber
+import lt.boldadmin.nexus.api.service.collaborator.CollaboratorUpdateSubscriber
 import lt.boldadmin.nexus.backend.factory.CollaboratorUpdateSubscriberFactory
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -25,5 +25,4 @@ class CollaboratorUpdateSubscriberFactoryTest {
 
         assertEquals(expectedSubscribersMap, actualSubscribersMap)
     }
-
 }

@@ -1,7 +1,6 @@
 package lt.boldadmin.nexus.backend.test.unit.handler.worklog
 
 import com.nhaarman.mockitokotlin2.doReturn
-import com.nhaarman.mockitokotlin2.verify
 import lt.boldadmin.nexus.api.service.worklog.WorklogStatusService
 import lt.boldadmin.nexus.api.type.entity.Project
 import lt.boldadmin.nexus.backend.handler.worklog.WorklogStatusHandler
@@ -86,16 +85,5 @@ class WorklogStatusHandlerTest {
             .returnResult()
 
         assertTrue(response.responseBody!!)
-    }
-
-    @Test
-    fun `Ends work for collaborators where work time is ended`() {
-        webClient.post()
-            .uri("/worklog/status/end/all-started-work-on-ended-work-time")
-            .exchange()
-            .expectStatus()
-            .isOk
-
-        verify(worklogStatusServiceSpy).endAllStartedWorkWhereWorkTimeEnded()
     }
 }
