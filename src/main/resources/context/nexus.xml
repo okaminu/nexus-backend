@@ -9,11 +9,11 @@
        default-lazy-init="true">
 
     <context:component-scan base-package="lt.boldadmin.nexus">
+        <context:include-filter type="regex" expression="lt.boldadmin.nexus.event.subscriber.*"/>
         <context:include-filter type="regex" expression="lt.boldadmin.nexus.factory.*"/>
         <context:include-filter type="regex" expression="lt.boldadmin.nexus.service.*"/>
-        <context:include-filter type="regex" expression="lt.boldadmin.nexus.provider.*"/>
         <context:include-filter type="regex" expression="lt.boldadmin.nexus.visitor.*"/>
-        <context:include-filter type="regex" expression="lt.boldadmin.nexus.exception.converter.*"/>
+        <context:include-filter type="regex" expression="lt.boldadmin.nexus.exception.ValidatorToExceptionConverter"/>
     </context:component-scan>
 
     <bean id="uniqueProjectNameValidator" class="lt.boldadmin.nexus.api.validator.UniqueProjectNameValidator">

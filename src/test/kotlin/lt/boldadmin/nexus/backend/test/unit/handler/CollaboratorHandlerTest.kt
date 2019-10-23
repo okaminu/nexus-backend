@@ -3,10 +3,14 @@ package lt.boldadmin.nexus.backend.test.unit.handler
 import com.nhaarman.mockitokotlin2.argumentCaptor
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.verify
-import lt.boldadmin.nexus.api.service.CollaboratorService
-import lt.boldadmin.nexus.api.type.entity.Collaborator
+import lt.boldadmin.nexus.api.service.collaborator.CollaboratorCoordinatesService
+import lt.boldadmin.nexus.api.service.collaborator.CollaboratorService
+import lt.boldadmin.nexus.api.type.entity.collaborator.Collaborator
+import lt.boldadmin.nexus.api.type.valueobject.CollaboratorCoordinates
+import lt.boldadmin.nexus.api.type.valueobject.Coordinates
 import lt.boldadmin.nexus.backend.handler.CollaboratorHandler
 import lt.boldadmin.nexus.backend.route.Routes
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
@@ -25,6 +29,9 @@ class CollaboratorHandlerTest {
     @Mock
     private lateinit var collaboratorServiceSpy: CollaboratorService
 
+    @Mock
+    private lateinit var collaboratorCoordinatesServiceStub: CollaboratorCoordinatesService
+
     private lateinit var webClient: WebTestClient
 
     @BeforeEach
@@ -32,7 +39,7 @@ class CollaboratorHandlerTest {
         val contextStub = create()
         lenient()
             .`when`(contextStub.getBean(CollaboratorHandler::class.java))
-            .doReturn(CollaboratorHandler(collaboratorServiceSpy))
+            .doReturn(CollaboratorHandler(collaboratorServiceSpy, collaboratorCoordinatesServiceStub))
 
         webClient = WebTestClient.bindToRouterFunction(Routes(contextStub).router()).build()
     }
@@ -67,6 +74,31 @@ class CollaboratorHandlerTest {
             .returnResult()
 
         assertEquals(collaborator.id, response.responseBody!!.id)
+    }
+
+    @Test
+    fun `Finds coordinates`() {
+        val coordinates = listOf(CollaboratorCoordinates("collabId", Coordinates(1.2, 3.4), 123))
+        doReturn(coordinates).`when`(collaboratorCoordinatesServiceStub).getByCollaboratorId("collabId")
+
+        val response = webClient.get()
+            .uri("/collaborator/collabId/coordinates")
+            .exchange()
+            .expectStatus()
+            .isOk
+            .expectBody(Collection::class.java)
+            .returnResult()
+
+        assertThat(response.responseBody!!).hasSize(1).containsOnly(
+            mapOf(
+                "collaboratorId" to "collabId",
+                "timestamp" to 123,
+                "coordinates" to mapOf(
+                    "latitude" to 1.2,
+                    "longitude" to 3.4
+                )
+            )
+        )
     }
 
     @Test

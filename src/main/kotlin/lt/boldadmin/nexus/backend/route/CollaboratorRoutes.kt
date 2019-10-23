@@ -11,6 +11,7 @@ fun collaboratorRoutes(collaboratorHandler: CollaboratorHandler): RouterFunction
         GET("/mobile-number/{mobileNumber}/exists", collaboratorHandler::existsByMobileNumber)
         POST("/save", collaboratorHandler::save)
         GET("/{collaboratorId}", collaboratorHandler::getById)
+        GET("/{collaboratorId}/coordinates", collaboratorHandler::getCoordinates)
         GET("/{collaboratorId}/exists", collaboratorHandler::existsById)
         POST("/{collaboratorId}/attribute/order-number/update", collaboratorHandler::updateOrderNumber)
         POST("/{collaboratorId}/attribute/{attributeName}/update", collaboratorHandler::update)

@@ -1,9 +1,9 @@
-package lt.boldadmin.nexus.backend.test.unit.handler.worklog.duration
+package lt.boldadmin.nexus.backend.test.unit.handler.worklog
 
 import com.nhaarman.mockitokotlin2.doReturn
-import lt.boldadmin.nexus.api.service.worklog.duration.WorklogDurationService
+import lt.boldadmin.nexus.api.service.worklog.WorklogDurationService
 import lt.boldadmin.nexus.api.type.valueobject.DateRange
-import lt.boldadmin.nexus.backend.handler.worklog.duration.WorklogDurationHandler
+import lt.boldadmin.nexus.backend.handler.worklog.WorklogDurationHandler
 import lt.boldadmin.nexus.backend.route.Routes
 import lt.boldadmin.nexus.backend.test.unit.handler.create
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -54,7 +54,7 @@ class WorklogDurationHandlerTest {
     @Test
     fun `Sums work durations by collaborator`() {
         val durationsSum = 354L
-        val collaboratorId= "id"
+        val collaboratorId = "id"
         doReturn(durationsSum).`when`(worklogDurationServiceStub).sumWorkDurationsByCollaboratorId(collaboratorId)
 
         val response = webClient.get()

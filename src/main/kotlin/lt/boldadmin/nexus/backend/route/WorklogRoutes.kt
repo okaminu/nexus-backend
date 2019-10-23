@@ -1,11 +1,6 @@
-package lt.boldadmin.nexus.backend.route.worklog
+package lt.boldadmin.nexus.backend.route
 
-import lt.boldadmin.nexus.backend.handler.worklog.WorklogAuthHandler
-import lt.boldadmin.nexus.backend.handler.worklog.WorklogHandler
-import lt.boldadmin.nexus.backend.handler.worklog.duration.WorklogDurationHandler
-import lt.boldadmin.nexus.backend.handler.worklog.status.WorklogStartEndHandler
-import lt.boldadmin.nexus.backend.handler.worklog.status.location.WorklogLocationHandler
-import lt.boldadmin.nexus.backend.handler.worklog.status.message.WorklogMessageHandler
+import lt.boldadmin.nexus.backend.handler.worklog.*
 import org.springframework.beans.factory.getBean
 import org.springframework.context.support.AbstractApplicationContext
 import org.springframework.http.MediaType
@@ -16,27 +11,24 @@ fun worklogRoutes(applicationContext: AbstractApplicationContext): RouterFunctio
     val worklogAuthHandler: WorklogAuthHandler = applicationContext.getBean()
     val worklogDurationHandler: WorklogDurationHandler = applicationContext.getBean()
     val worklogHandler: WorklogHandler = applicationContext.getBean()
-    val worklogLocationHandler: WorklogLocationHandler = applicationContext.getBean()
-    val worklogMessageHandler: WorklogMessageHandler = applicationContext.getBean()
-    val worklogStartEndHandler: WorklogStartEndHandler = applicationContext.getBean()
-
+    val worklogStatusHandler: WorklogStatusHandler = applicationContext.getBean()
+    val worklogOvertimeHandler: WorklogOvertimeHandler = applicationContext.getBean()
 
     accept(MediaType.APPLICATION_JSON).nest {
         POST("/save", worklogHandler::save)
-        "/status".nest(worklogStatusRoutes(worklogStartEndHandler, worklogMessageHandler, worklogLocationHandler))
+        POST("/overtime/end", worklogOvertimeHandler::endOnOvertime)
         "/collaborator".nest {
             GET("/{collaboratorId}/interval-ids", worklogHandler::getIntervalIdsByCollaboratorId)
             GET(
                 "/{collaboratorId}/start/{startDate}/end/{endDate}/interval-ids",
                 worklogHandler::getIntervalIdsByCollaboratorIdAndDateRange
             )
-            GET("/{collaboratorId}/status/has-work-started", worklogStartEndHandler::hasWorkStarted)
+            GET("/{collaboratorId}/status/has-work-started", worklogStatusHandler::hasWorkStarted)
             GET(
                 "/{collaboratorId}/project/{projectId}/status/has-work-started",
-                worklogStartEndHandler::hasWorkStartedInProject
+                worklogStatusHandler::hasWorkStartedInProject
             )
-            GET("/{collaboratorId}/status/has-work-ended", worklogStartEndHandler::hasWorkEnded)
-            GET("/{collaboratorId}/status/project-of-started-work", worklogStartEndHandler::getProjectOfStartedWork)
+            GET("/{collaboratorId}/status/project-of-started-work", worklogStatusHandler::getProjectOfStartedWork)
             GET("/{collaboratorId}/durations-sum", worklogDurationHandler::sumWorkDurationsByCollaboratorId)
             GET(
                 "/{collaboratorId}/start/{startDate}/end/{endDate}/durations-sum",

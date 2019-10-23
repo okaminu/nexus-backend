@@ -4,8 +4,8 @@ import com.nhaarman.mockitokotlin2.argumentCaptor
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.verify
 import lt.boldadmin.nexus.api.service.UserService
-import lt.boldadmin.nexus.api.type.entity.Collaborator
 import lt.boldadmin.nexus.api.type.entity.User
+import lt.boldadmin.nexus.api.type.entity.collaborator.Collaborator
 import lt.boldadmin.nexus.backend.handler.UserHandler
 import lt.boldadmin.nexus.backend.route.Routes
 import org.junit.jupiter.api.Assertions.assertEquals

@@ -13,11 +13,6 @@
 
     <aop:aspectj-autoproxy/>
 
-    <import resource="nexus.xml"/>
-
-    <import resource="plugin/aws-pinpoint.xml"/>
-    <import resource="plugin/mongodb.xml"/>
-
     <context:annotation-config/>
     <context:component-scan base-package="lt.boldadmin.nexus.backend">
         <context:include-filter type="regex" expression="lt.boldadmin.nexus.backend.factory.*"/>
@@ -26,5 +21,13 @@
         <context:include-filter type="regex" expression="lt.boldadmin.nexus.backend.route.*"/>
         <context:include-filter type="regex" expression="lt.boldadmin.nexus.backend.exception.*"/>
     </context:component-scan>
+
+    <import resource="nexus.xml"/>
+
+    <import resource="plugin/aws-pinpoint.xml"/>
+    <import resource="plugin/mongodb.xml"/>
+    <import resource="plugin/google-maps.xml"/>
+    <import resource="plugin/cache.xml"/>
+    <import resource="plugin/nexus-kafka-plugin.xml"/>
 
 </beans>

@@ -3,7 +3,6 @@ apply from: 'aws-credentials.gradle'
 repositories {
     mavenLocal()
     jcenter()
-    maven { url "https://repo.spring.io/milestone" }
     repositories {
         maven {
             url 's3://repository.boldadmin.com/releases'
@@ -28,7 +27,10 @@ dependencies {
     runtime "lt.boldadmin.nexus:nexus:$gradle.ext.version"
     runtime "lt.boldadmin.nexus:nexus-aws-pinpoint-plugin:$gradle.ext.version"
     runtime "lt.boldadmin.nexus:nexus-mongodb-plugin:$gradle.ext.version"
+    runtime "lt.boldadmin.nexus:nexus-google-maps-plugin:$gradle.ext.version"
+    runtime "lt.boldadmin.nexus:nexus-kafka-plugin:$gradle.ext.version"
 
+    runtime "org.apache.kafka:kafka-clients:2.3.0"
     implementation "org.hibernate:hibernate-validator:6.0.17.Final"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
@@ -51,6 +53,8 @@ dependencies {
 
     runtime "org.glassfish:javax.el:3.0.0"
 
+    detektPlugins "io.gitlab.arturbosch.detekt:detekt-formatting:$detekt_version"
+
     testImplementation "org.springframework:spring-test"
 
     testImplementation "org.junit.jupiter:junit-jupiter:5.5.1"
@@ -59,4 +63,5 @@ dependencies {
     testImplementation "org.assertj:assertj-core:3.12.2"
     testImplementation "org.mockito:mockito-core:3.0.0"
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0"
+    testImplementation "io.mockk:mockk:1.9.3"
 }

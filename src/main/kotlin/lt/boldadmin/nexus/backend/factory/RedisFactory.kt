@@ -1,7 +1,7 @@
 package lt.boldadmin.nexus.backend.factory
 
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import lt.boldadmin.nexus.api.type.valueobject.Location
 import org.springframework.context.support.beans
 import org.springframework.core.env.Environment
 import org.springframework.core.env.get
@@ -12,6 +12,7 @@ import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactor
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer
 import org.springframework.data.redis.serializer.RedisSerializationContext
 import java.time.Duration
+import java.time.ZoneId
 
 fun redisBeans() = beans {
 
@@ -23,16 +24,18 @@ fun redisBeans() = beans {
         RedisCacheConfiguration.defaultCacheConfig().disableCachingNullValues()
     }
 
-    bean("projectLocationCacheConfiguration") {
+    bean("timeZoneCacheConfiguration") {
         ref<RedisCacheConfiguration>("redisCacheConfiguration").serializeValuesWith(
             RedisSerializationContext.SerializationPair.fromSerializer(
-                Jackson2JsonRedisSerializer(Location::class.java).apply { setObjectMapper(jacksonObjectMapper()) })
-        ).entryTtl(Duration.ofDays(ref<Environment>()["PROJECT_LOCATION_CACHE_TTL"]!!.toLong()))
+                Jackson2JsonRedisSerializer(ZoneId::class.java).apply {
+                    setObjectMapper(jacksonObjectMapper().registerModule(JavaTimeModule()))
+                })
+        ).entryTtl(Duration.ofDays(ref<Environment>()["COORDINATES_CACHE_TTL"]!!.toLong()))
     }
 
     bean("cacheManager") {
         RedisCacheManager.builder(ref<LettuceConnectionFactory>()).withInitialCacheConfigurations(
-            mapOf("projectLocation" to ref("projectLocationCacheConfiguration"))
+            mapOf("coordinatesToTimeZone" to ref("timeZoneCacheConfiguration"))
         ).build()
     }
 
