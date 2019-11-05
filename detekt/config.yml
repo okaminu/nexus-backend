@@ -162,8 +162,8 @@ formatting:
   AnnotationOnSeparateLine:
     active: false
   ChainWrapping:
-    active: true
-    autoCorrect: true
+    active: false
+    autoCorrect: false
   CommentSpacing:
     active: true
     autoCorrect: true
