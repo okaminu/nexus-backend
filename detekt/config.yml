@@ -74,6 +74,7 @@ complexity:
     ignoreDeprecated: false
     ignorePrivate: false
     ignoreOverridden: false
+    excludes: "**/*Step.kt"
 
 empty-blocks:
   active: true
