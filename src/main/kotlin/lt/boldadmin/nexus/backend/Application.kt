@@ -18,7 +18,7 @@ fun main(args: Array<String>) {
     initializeBeans(context)
     context.refresh()
 
-    context.getBean<SubscriptionPoller>().pollInNewThread()
+    context.getBean<SubscriptionPoller>().poll()
 
     val httpHandler = getWebHttpHandler(context)
 
