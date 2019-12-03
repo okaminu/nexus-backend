@@ -2,7 +2,6 @@
 <SmellBaseline>
   <Whitelist>
     <ID>EmptyFunctionBlock:ValidatorBeanFactory.kt$ValidatorBeanFactory${}</ID>
-    <ID>NoConsecutiveBlankLines:</ID>
     <ID>TooManyFunctions:CollaboratorHandlerTest.kt$CollaboratorHandlerTest</ID>
     <ID>TooManyFunctions:UserHandler.kt$UserHandler</ID>
     <ID>TooManyFunctions:UserHandlerTest.kt$UserHandlerTest</ID>

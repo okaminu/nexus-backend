@@ -22,5 +22,3 @@ class Routes(private val applicationContext: AbstractApplicationContext) {
         GET("/countries", applicationContext.getBean<CountryHandler>()::getAll)
     }
 }
-
-

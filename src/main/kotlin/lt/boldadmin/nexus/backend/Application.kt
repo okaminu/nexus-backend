@@ -11,8 +11,7 @@ import org.springframework.web.cors.reactive.CorsWebFilter
 import org.springframework.web.server.adapter.WebHttpHandlerBuilder
 import reactor.netty.http.server.HttpServer
 
-
-fun main(args: Array<String>) {
+fun main() {
 
     val context = GenericApplicationContext()
     initializeBeans(context)
