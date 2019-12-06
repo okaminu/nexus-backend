@@ -20,5 +20,7 @@
         <property name="userService" ref="userService"/>
     </bean>
 
+    <bean id="zonedTimeConverter" class="lt.boldadmin.nexus.ZonedTimeConverter"/>
+
 </beans>
 
