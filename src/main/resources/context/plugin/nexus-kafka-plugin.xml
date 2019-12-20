@@ -14,4 +14,8 @@
         <context:include-filter type="regex" expression="lt.boldadmin.nexus.plugin.kafka.factory.*"/>
     </context:component-scan>
 
+    <bean factory-bean="threadPoolFactory" factory-method="create">
+        <constructor-arg value="3"/>
+    </bean>
+
 </beans>
