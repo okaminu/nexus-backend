@@ -5,7 +5,7 @@ import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.verify
 import lt.boldadmin.nexus.api.service.collaborator.CollaboratorCoordinatesService
 import lt.boldadmin.nexus.api.service.collaborator.CollaboratorService
-import lt.boldadmin.nexus.api.type.entity.collaborator.Collaborator
+import lt.boldadmin.nexus.api.type.entity.Collaborator
 import lt.boldadmin.nexus.api.type.valueobject.CollaboratorCoordinates
 import lt.boldadmin.nexus.api.type.valueobject.Coordinates
 import lt.boldadmin.nexus.backend.handler.CollaboratorHandler

@@ -2,7 +2,7 @@ package lt.boldadmin.nexus.backend.handler
 
 import lt.boldadmin.nexus.api.service.collaborator.CollaboratorCoordinatesService
 import lt.boldadmin.nexus.api.service.collaborator.CollaboratorService
-import lt.boldadmin.nexus.api.type.entity.collaborator.Collaborator
+import lt.boldadmin.nexus.api.type.entity.Collaborator
 import org.springframework.web.reactive.function.server.*
 import org.springframework.web.reactive.function.server.ServerResponse.ok
 import reactor.core.publisher.Mono
