@@ -20,8 +20,6 @@
         <property name="userService" ref="userService"/>
     </bean>
 
-    <bean class="lt.boldadmin.nexus.proxy.WorklogStatusValidationProxy" primary="true"/>
-
     <bean id="zonedTimeConverter" class="lt.boldadmin.nexus.ZonedTimeConverter"/>
 
 </beans>
