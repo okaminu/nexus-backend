@@ -2,6 +2,7 @@ package lt.boldadmin.nexus.backend.handler
 
 import lt.boldadmin.nexus.api.service.collaborator.CollaboratorCoordinatesService
 import lt.boldadmin.nexus.api.service.collaborator.CollaboratorService
+import lt.boldadmin.nexus.api.service.collaborator.WorkWeekValidatorService
 import lt.boldadmin.nexus.api.type.entity.Collaborator
 import lt.boldadmin.nexus.api.type.valueobject.Day
 import org.springframework.web.reactive.function.server.*
@@ -10,6 +11,7 @@ import reactor.core.publisher.Mono
 
 open class CollaboratorHandler(
     private val collaboratorService: CollaboratorService,
+    private val workWeekValidatorService: WorkWeekValidatorService,
     private val collaboratorCoordinatesService: CollaboratorCoordinatesService
 ) {
 
@@ -21,7 +23,7 @@ open class CollaboratorHandler(
 
     open fun validate(req: ServerRequest): Mono<ServerResponse> =
         req.bodyToMono<SortedSet<Day>>()
-            .doOnNext { weekValidatorService.validate(it) }
+            .doOnNext { workWeekValidatorService.validate(it) }
             .flatMap { ok().build() }
 
     open fun save(req: ServerRequest): Mono<ServerResponse> =
