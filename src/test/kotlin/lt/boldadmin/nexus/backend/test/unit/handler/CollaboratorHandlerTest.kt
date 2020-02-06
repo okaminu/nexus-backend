@@ -1,11 +1,13 @@
 package lt.boldadmin.nexus.backend.test.unit.handler
 
-import com.nhaarman.mockitokotlin2.*
+import com.nhaarman.mockitokotlin2.argumentCaptor
+import com.nhaarman.mockitokotlin2.doReturn
+import com.nhaarman.mockitokotlin2.verify
 import lt.boldadmin.nexus.api.service.collaborator.CollaboratorCoordinatesService
 import lt.boldadmin.nexus.api.service.collaborator.CollaboratorService
+import lt.boldadmin.nexus.api.service.collaborator.WorkWeekValidatorService
 import lt.boldadmin.nexus.api.type.entity.Collaborator
-import lt.boldadmin.nexus.api.type.valueobject.CollaboratorCoordinates
-import lt.boldadmin.nexus.api.type.valueobject.Coordinates
+import lt.boldadmin.nexus.api.type.valueobject.*
 import lt.boldadmin.nexus.backend.handler.CollaboratorHandler
 import lt.boldadmin.nexus.backend.route.Routes
 import org.assertj.core.api.Assertions.assertThat
@@ -18,14 +20,19 @@ import org.mockito.Mock
 import org.mockito.Mockito.lenient
 import org.mockito.junit.jupiter.MockitoExtension
 import org.springframework.test.web.reactive.server.WebTestClient
+import org.springframework.web.reactive.function.BodyInserters
 import reactor.core.publisher.Mono
 import reactor.core.publisher.toMono
+import java.time.DayOfWeek
 
 @ExtendWith(MockitoExtension::class)
 class CollaboratorHandlerTest {
 
     @Mock
     private lateinit var collaboratorServiceSpy: CollaboratorService
+
+    @Mock
+    private lateinit var workWeekValidatorServiceStub: WorkWeekValidatorService
 
     @Mock
     private lateinit var collaboratorCoordinatesServiceStub: CollaboratorCoordinatesService
@@ -37,7 +44,13 @@ class CollaboratorHandlerTest {
         val contextStub = create()
         lenient()
             .`when`(contextStub.getBean(CollaboratorHandler::class.java))
-            .doReturn(CollaboratorHandler(collaboratorServiceSpy, mock(), collaboratorCoordinatesServiceStub))
+            .doReturn(
+                CollaboratorHandler(
+                    collaboratorServiceSpy,
+                    workWeekValidatorServiceStub,
+                    collaboratorCoordinatesServiceStub
+                )
+            )
 
         webClient = WebTestClient.bindToRouterFunction(Routes(contextStub).router()).build()
     }
@@ -201,6 +214,24 @@ class CollaboratorHandlerTest {
         verify(collaboratorServiceSpy).updateOrderNumber(collaboratorId, orderNumber.toShort())
     }
 
+    @Test
+    fun `Validates work week`() {
+        val days = sortedSetOf(Day(dayOfWeek = DayOfWeek.SUNDAY))
+        doReturn(setOf(WeekConstraintViolation("message", DayOfWeek.SUNDAY)))
+            .`when`(workWeekValidatorServiceStub)
+            .validate(days)
+
+        val responseBody = webClient.post()
+            .uri("/collaborator/work-week/validate")
+            .body(BodyInserters.fromObject(days))
+            .exchange()
+            .expectStatus()
+            .isOk
+            .expectBody(Set::class.java)
+            .returnResult()
+
+        assertEquals(setOf(mapOf("message" to "message", "dayOfWeek" to "SUNDAY")), responseBody.responseBody)
+    }
     @Test
     fun `Saves collaborator`() {
         val collaborator = Collaborator().apply { id = "someFancyId" }

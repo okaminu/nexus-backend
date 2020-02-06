@@ -9,7 +9,7 @@ fun collaboratorRoutes(collaboratorHandler: CollaboratorHandler): RouterFunction
         GET("/create-with-defaults", collaboratorHandler::createWithDefaults)
         GET("/mobile-number/{mobileNumber}", collaboratorHandler::getByMobileNumber)
         GET("/mobile-number/{mobileNumber}/exists", collaboratorHandler::existsByMobileNumber)
-        POST("/work-week/get-constraint-violations", collaboratorHandler::validate)
+        POST("/work-week/validate", collaboratorHandler::validate)
         POST("/save", collaboratorHandler::save)
         GET("/{collaboratorId}", collaboratorHandler::getById)
         GET("/{collaboratorId}/coordinates", collaboratorHandler::getCoordinates)
