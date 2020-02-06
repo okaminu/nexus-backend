@@ -24,7 +24,7 @@ open class CollaboratorHandler(
 
     open fun validate(req: ServerRequest): Mono<ServerResponse> =
         req.bodyToMono<SortedSet<Day>>()
-            .doOnNext { workWeekValidatorService.validate(it) }
+            .doOnNext { workWeekValidatorService.getConstraintViolations(it) }
             .flatMap { ok().build() }
 
     open fun save(req: ServerRequest): Mono<ServerResponse> =
