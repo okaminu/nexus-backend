@@ -232,6 +232,7 @@ class CollaboratorHandlerTest {
 
         assertEquals(setOf(mapOf("message" to "message", "dayOfWeek" to "SUNDAY")), responseBody.responseBody)
     }
+
     @Test
     fun `Saves collaborator`() {
         val collaborator = Collaborator().apply { id = "someFancyId" }
