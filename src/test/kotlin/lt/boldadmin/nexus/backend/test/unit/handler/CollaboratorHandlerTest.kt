@@ -23,7 +23,8 @@ import org.springframework.test.web.reactive.server.WebTestClient
 import org.springframework.web.reactive.function.BodyInserters
 import reactor.core.publisher.Mono
 import reactor.core.publisher.toMono
-import java.time.DayOfWeek
+import java.time.DayOfWeek.SUNDAY
+import java.time.DayOfWeek.TUESDAY
 
 @ExtendWith(MockitoExtension::class)
 class CollaboratorHandlerTest {
@@ -57,7 +58,7 @@ class CollaboratorHandlerTest {
 
     @Test
     fun `Creates collaborator with defaults`() {
-        val collaborator = Collaborator().apply { id = "collaboratorId" }
+        val collaborator = Collaborator().apply { id = "uniqueCollabId" }
         doReturn(collaborator).`when`(collaboratorServiceSpy).createWithDefaults()
 
         val response = webClient.get()
@@ -73,7 +74,7 @@ class CollaboratorHandlerTest {
 
     @Test
     fun `Finds collaborator by id`() {
-        val collaborator = Collaborator().apply { id = "collaboratorId" }
+        val collaborator = Collaborator().apply { id = "uniqueCollabId" }
         doReturn(collaborator).`when`(collaboratorServiceSpy).getById(collaborator.id)
 
         val response = webClient.get()
@@ -89,11 +90,11 @@ class CollaboratorHandlerTest {
 
     @Test
     fun `Finds coordinates`() {
-        val coordinates = listOf(CollaboratorCoordinates("collabId", Coordinates(1.2, 3.4), 123))
-        doReturn(coordinates).`when`(collaboratorCoordinatesServiceStub).getByCollaboratorId("collabId")
+        val coordinates = listOf(CollaboratorCoordinates("uniqueCollabId", Coordinates(1.2, 3.4), 123))
+        doReturn(coordinates).`when`(collaboratorCoordinatesServiceStub).getByCollaboratorId("uniqueCollabId")
 
         val response = webClient.get()
-            .uri("/collaborator/collabId/coordinates")
+            .uri("/collaborator/uniqueCollabId/coordinates")
             .exchange()
             .expectStatus()
             .isOk
@@ -102,7 +103,7 @@ class CollaboratorHandlerTest {
 
         assertThat(response.responseBody!!).hasSize(1).containsOnly(
             mapOf(
-                "collaboratorId" to "collabId",
+                "collaboratorId" to "uniqueCollabId",
                 "timestamp" to 123,
                 "coordinates" to mapOf(
                     "latitude" to 1.2,
@@ -132,7 +133,7 @@ class CollaboratorHandlerTest {
 
     @Test
     fun `Collaborator exists by id`() {
-        val collaboratorId = "collaboratorId"
+        val collaboratorId = "uniqueCollabId"
         doReturn(true).`when`(collaboratorServiceSpy).existsById(collaboratorId)
 
         val response = webClient.get()
@@ -164,7 +165,7 @@ class CollaboratorHandlerTest {
 
     @Test
     fun `Updates attribute`() {
-        val collaboratorId = "collaboratorId"
+        val collaboratorId = "uniqueCollabId"
         val attributeName = "attributeName"
         val attributeValue = "attributeValue"
 
@@ -182,7 +183,7 @@ class CollaboratorHandlerTest {
 
     @Test
     fun `Updates attribute with empty value when body is empty`() {
-        val collaboratorId = "collaboratorId"
+        val collaboratorId = "uniqueCollabId"
         val attributeName = "attributeName"
 
         webClient.post()
@@ -198,8 +199,25 @@ class CollaboratorHandlerTest {
     }
 
     @Test
+    fun `Updates work week`() {
+        val collaboratorId = "uniqueCollabId"
+        val workWeek = sortedSetOf(Day(MinuteRange(100, 200), false, TUESDAY))
+
+        webClient.post()
+            .uri("/collaborator/$collaboratorId/work-week/update")
+            .body(BodyInserters.fromObject(workWeek))
+            .exchange()
+            .expectStatus()
+            .isOk
+            .expectBody()
+            .isEmpty
+
+        verify(collaboratorServiceSpy).update(collaboratorId, workWeek)
+    }
+
+    @Test
     fun `Updates order number`() {
-        val collaboratorId = "collaboratorId"
+        val collaboratorId = "uniqueCollabId"
         val orderNumber = "5"
 
         webClient.post()
@@ -216,8 +234,8 @@ class CollaboratorHandlerTest {
 
     @Test
     fun `Validates work week`() {
-        val days = sortedSetOf(Day(dayOfWeek = DayOfWeek.SUNDAY))
-        doReturn(setOf(WeekConstraintViolation("message", DayOfWeek.SUNDAY)))
+        val days = sortedSetOf(Day(dayOfWeek = SUNDAY))
+        doReturn(setOf(WeekConstraintViolation("message", SUNDAY)))
             .`when`(workWeekValidatorServiceStub)
             .validate(days)
 

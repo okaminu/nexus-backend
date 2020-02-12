@@ -51,6 +51,12 @@ open class CollaboratorHandler(
                 collaboratorService.update(req.pathVariable("collaboratorId"), req.pathVariable("attributeName"), it)
             }.flatMap { ok().build() }
 
+    open fun updateWorkWeek(req: ServerRequest): Mono<ServerResponse> =
+        req.bodyToMono<SortedSet<Day>>()
+            .doOnNext {
+                collaboratorService.update(req.pathVariable("collaboratorId"), it)
+            }.flatMap { ok().build() }
+
     open fun updateOrderNumber(req: ServerRequest): Mono<ServerResponse> =
         req.bodyToMono<String>()
             .map { it.toShort() }

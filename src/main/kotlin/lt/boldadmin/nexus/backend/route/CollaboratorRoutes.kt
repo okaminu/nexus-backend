@@ -16,5 +16,6 @@ fun collaboratorRoutes(collaboratorHandler: CollaboratorHandler): RouterFunction
         GET("/{collaboratorId}/exists", collaboratorHandler::existsById)
         POST("/{collaboratorId}/attribute/order-number/update", collaboratorHandler::updateOrderNumber)
         POST("/{collaboratorId}/attribute/{attributeName}/update", collaboratorHandler::update)
+        POST("/{collaboratorId}/work-week/update", collaboratorHandler::updateWorkWeek)
     }
 }

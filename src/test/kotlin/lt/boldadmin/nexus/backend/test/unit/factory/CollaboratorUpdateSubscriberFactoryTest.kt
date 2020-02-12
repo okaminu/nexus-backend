@@ -10,15 +10,12 @@ import org.springframework.context.support.GenericApplicationContext
 class CollaboratorUpdateSubscriberFactoryTest {
 
     @Test
+    @Suppress("RemoveExplicitTypeArguments")
     fun `Provides Collaborator update subscribers map`() {
         val contextStub: GenericApplicationContext = mock()
-        val startTimeUpdateDummy: CollaboratorUpdateSubscriber = mock()
-        val endTimeUpdateDummy: CollaboratorUpdateSubscriber = mock()
-        val expectedSubscribersMap = mapOf(
-            "workTime.startOfDayInMinutes" to startTimeUpdateDummy,
-            "workTime.endOfDayInMinutes" to endTimeUpdateDummy
-        )
-        doReturn(startTimeUpdateDummy, endTimeUpdateDummy).`when`(contextStub)
+        val workWeekUpdateDummy: CollaboratorUpdateSubscriber = mock()
+        val expectedSubscribersMap = mapOf("workWeek" to workWeekUpdateDummy)
+        doReturn(workWeekUpdateDummy).`when`(contextStub)
             .getBean(any<String>(), eq(CollaboratorUpdateSubscriber::class.java))
 
         val actualSubscribersMap = CollaboratorUpdateSubscriberFactory(contextStub).create().invoke()
