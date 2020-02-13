@@ -201,7 +201,7 @@ class CollaboratorHandlerTest {
     @Test
     fun `Updates work week`() {
         val collaboratorId = "uniqueCollabId"
-        val workWeek = sortedSetOf(Day(MinuteRange(100, 200), false, TUESDAY))
+        val workWeek = sortedSetOf(DayMinuteInterval(TUESDAY, MinuteInterval(100, 200), false))
 
         webClient.post()
             .uri("/collaborator/$collaboratorId/work-week/update")
@@ -234,14 +234,14 @@ class CollaboratorHandlerTest {
 
     @Test
     fun `Validates work week`() {
-        val days = sortedSetOf(Day(dayOfWeek = SUNDAY))
+        val workWeek = sortedSetOf(DayMinuteInterval(dayOfWeek = SUNDAY))
         doReturn(setOf(WeekConstraintViolation("message", SUNDAY)))
             .`when`(workWeekValidatorServiceStub)
-            .validate(days)
+            .validate(workWeek)
 
         val responseBody = webClient.post()
             .uri("/collaborator/work-week/validate")
-            .body(BodyInserters.fromObject(days))
+            .body(BodyInserters.fromObject(workWeek))
             .exchange()
             .expectStatus()
             .isOk

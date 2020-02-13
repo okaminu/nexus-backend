@@ -4,7 +4,7 @@ import lt.boldadmin.nexus.api.service.collaborator.CollaboratorCoordinatesServic
 import lt.boldadmin.nexus.api.service.collaborator.CollaboratorService
 import lt.boldadmin.nexus.api.service.collaborator.WorkWeekValidatorService
 import lt.boldadmin.nexus.api.type.entity.Collaborator
-import lt.boldadmin.nexus.api.type.valueobject.Day
+import lt.boldadmin.nexus.api.type.valueobject.DayMinuteInterval
 import org.springframework.web.reactive.function.server.*
 import org.springframework.web.reactive.function.server.ServerResponse.ok
 import reactor.core.publisher.Mono
@@ -23,7 +23,7 @@ open class CollaboratorHandler(
         ok().body(Mono.just(collaboratorService.existsByMobileNumber(req.pathVariable("mobileNumber"))))
 
     open fun validate(req: ServerRequest): Mono<ServerResponse> =
-        req.bodyToMono<SortedSet<Day>>()
+        req.bodyToMono<SortedSet<DayMinuteInterval>>()
             .map { workWeekValidatorService.validate(it) }
             .flatMap { ok().body(Mono.just(it)) }
 
@@ -52,7 +52,7 @@ open class CollaboratorHandler(
             }.flatMap { ok().build() }
 
     open fun updateWorkWeek(req: ServerRequest): Mono<ServerResponse> =
-        req.bodyToMono<SortedSet<Day>>()
+        req.bodyToMono<SortedSet<DayMinuteInterval>>()
             .doOnNext {
                 collaboratorService.update(req.pathVariable("collaboratorId"), it)
             }.flatMap { ok().build() }
