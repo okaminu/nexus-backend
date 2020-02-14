@@ -234,8 +234,8 @@ class CollaboratorHandlerTest {
 
     @Test
     fun `Validates work week`() {
-        val workWeek = sortedSetOf(DayMinuteInterval(dayOfWeek = SUNDAY))
-        doReturn(setOf(WeekConstraintViolation("message", SUNDAY)))
+        val workWeek = sortedSetOf(DayMinuteInterval(SUNDAY, MinuteInterval(10, 20), false))
+        doReturn(setOf(WeekConstraintViolation(SUNDAY, "message")))
             .`when`(workWeekValidatorServiceStub)
             .validate(workWeek)
 
