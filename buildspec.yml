@@ -3,4 +3,4 @@ version: 0.2
 phases:
   build:
     commands:
-      - ./gradlew build -x detekt publish
+      - ./gradlew build publish
