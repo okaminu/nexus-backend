@@ -8,6 +8,10 @@ import lt.boldadmin.nexus.api.service.collaborator.CollaboratorService
 import lt.boldadmin.nexus.api.service.collaborator.WorkWeekValidatorService
 import lt.boldadmin.nexus.api.type.entity.Collaborator
 import lt.boldadmin.nexus.api.type.valueobject.*
+import lt.boldadmin.nexus.api.type.valueobject.location.CollaboratorCoordinates
+import lt.boldadmin.nexus.api.type.valueobject.location.Coordinates
+import lt.boldadmin.nexus.api.type.valueobject.time.DayMinuteInterval
+import lt.boldadmin.nexus.api.type.valueobject.time.MinuteInterval
 import lt.boldadmin.nexus.backend.handler.CollaboratorHandler
 import lt.boldadmin.nexus.backend.route.Routes
 import org.assertj.core.api.Assertions.assertThat

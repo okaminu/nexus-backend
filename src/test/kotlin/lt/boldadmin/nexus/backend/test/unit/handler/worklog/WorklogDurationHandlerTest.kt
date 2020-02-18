@@ -2,7 +2,7 @@ package lt.boldadmin.nexus.backend.test.unit.handler.worklog
 
 import com.nhaarman.mockitokotlin2.doReturn
 import lt.boldadmin.nexus.api.service.worklog.WorklogDurationService
-import lt.boldadmin.nexus.api.type.valueobject.DateRange
+import lt.boldadmin.nexus.api.type.valueobject.time.DateRange
 import lt.boldadmin.nexus.backend.handler.worklog.WorklogDurationHandler
 import lt.boldadmin.nexus.backend.route.Routes
 import lt.boldadmin.nexus.backend.test.unit.handler.create

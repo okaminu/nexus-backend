@@ -1,7 +1,7 @@
 package lt.boldadmin.nexus.backend.handler
 
 import lt.boldadmin.nexus.api.service.ProjectService
-import lt.boldadmin.nexus.api.type.valueobject.Location
+import lt.boldadmin.nexus.api.type.valueobject.location.Location
 import org.springframework.web.reactive.function.server.*
 import org.springframework.web.reactive.function.server.ServerResponse.ok
 import reactor.core.publisher.Mono

@@ -1,7 +1,7 @@
 package lt.boldadmin.nexus.backend.handler.worklog
 
 import lt.boldadmin.nexus.api.service.worklog.WorklogDurationService
-import lt.boldadmin.nexus.api.type.valueobject.DateRange
+import lt.boldadmin.nexus.api.type.valueobject.time.DateRange
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
 import org.springframework.web.reactive.function.server.ServerResponse.ok
