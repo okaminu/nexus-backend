@@ -2,5 +2,5 @@ lt.boldadmin.nexus.validator.UniqueProjectNameValidator
 lt.boldadmin.nexus.validator.WeekSizeValidator
 lt.boldadmin.nexus.validator.BoundedMinuteIntervalsValidator
 lt.boldadmin.nexus.validator.DayMinutesStartBeforeEndValidator
-lt.boldadmin.nexus.validator.MinuteRangeMinLengthValidator
-lt.boldadmin.nexus.validator.MinuteRangesHaveGapsBetweenDaysValidator
+lt.boldadmin.nexus.validator.MinuteIntervalMinLengthValidator
+lt.boldadmin.nexus.validator.MinuteIntervalsHaveGapsBetweenDaysValidator
