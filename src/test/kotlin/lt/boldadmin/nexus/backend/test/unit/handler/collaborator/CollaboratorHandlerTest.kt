@@ -1,20 +1,15 @@
-package lt.boldadmin.nexus.backend.test.unit.handler
+package lt.boldadmin.nexus.backend.test.unit.handler.collaborator
 
 import com.nhaarman.mockitokotlin2.argumentCaptor
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.verify
-import lt.boldadmin.nexus.api.service.collaborator.CollaboratorCoordinatesService
 import lt.boldadmin.nexus.api.service.collaborator.CollaboratorService
-import lt.boldadmin.nexus.api.service.collaborator.WorkWeekValidatorService
 import lt.boldadmin.nexus.api.type.entity.Collaborator
-import lt.boldadmin.nexus.api.type.valueobject.*
-import lt.boldadmin.nexus.api.type.valueobject.location.CollaboratorCoordinates
-import lt.boldadmin.nexus.api.type.valueobject.location.Coordinates
 import lt.boldadmin.nexus.api.type.valueobject.time.DayMinuteInterval
 import lt.boldadmin.nexus.api.type.valueobject.time.MinuteInterval
-import lt.boldadmin.nexus.backend.handler.CollaboratorHandler
+import lt.boldadmin.nexus.backend.handler.collaborator.CollaboratorHandler
 import lt.boldadmin.nexus.backend.route.Routes
-import org.assertj.core.api.Assertions.assertThat
+import lt.boldadmin.nexus.backend.test.unit.handler.create
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
@@ -27,7 +22,6 @@ import org.springframework.test.web.reactive.server.WebTestClient
 import org.springframework.web.reactive.function.BodyInserters
 import reactor.core.publisher.Mono
 import reactor.core.publisher.toMono
-import java.time.DayOfWeek.SUNDAY
 import java.time.DayOfWeek.TUESDAY
 
 @ExtendWith(MockitoExtension::class)
@@ -36,12 +30,6 @@ class CollaboratorHandlerTest {
     @Mock
     private lateinit var collaboratorServiceSpy: CollaboratorService
 
-    @Mock
-    private lateinit var workWeekValidatorServiceStub: WorkWeekValidatorService
-
-    @Mock
-    private lateinit var collaboratorCoordinatesServiceStub: CollaboratorCoordinatesService
-
     private lateinit var webClient: WebTestClient
 
     @BeforeEach
@@ -49,13 +37,7 @@ class CollaboratorHandlerTest {
         val contextStub = create()
         lenient()
             .`when`(contextStub.getBean(CollaboratorHandler::class.java))
-            .doReturn(
-                CollaboratorHandler(
-                    collaboratorServiceSpy,
-                    workWeekValidatorServiceStub,
-                    collaboratorCoordinatesServiceStub
-                )
-            )
+            .doReturn(CollaboratorHandler(collaboratorServiceSpy))
 
         webClient = WebTestClient.bindToRouterFunction(Routes(contextStub).router()).build()
     }
@@ -66,12 +48,12 @@ class CollaboratorHandlerTest {
         doReturn(collaborator).`when`(collaboratorServiceSpy).createWithDefaults()
 
         val response = webClient.get()
-                .uri("/collaborator/create-with-defaults")
-                .exchange()
-                .expectStatus()
-                .isOk
-                .expectBody(Collaborator::class.java)
-                .returnResult()
+            .uri("/collaborator/create-with-defaults")
+            .exchange()
+            .expectStatus()
+            .isOk
+            .expectBody(Collaborator::class.java)
+            .returnResult()
 
         assertEquals(collaborator.id, response.responseBody!!.id)
     }
@@ -90,31 +72,6 @@ class CollaboratorHandlerTest {
             .returnResult()
 
         assertEquals(collaborator.id, response.responseBody!!.id)
-    }
-
-    @Test
-    fun `Finds coordinates`() {
-        val coordinates = listOf(CollaboratorCoordinates("uniqueCollabId", Coordinates(1.2, 3.4), 123))
-        doReturn(coordinates).`when`(collaboratorCoordinatesServiceStub).getByCollaboratorId("uniqueCollabId")
-
-        val response = webClient.get()
-            .uri("/collaborator/uniqueCollabId/coordinates")
-            .exchange()
-            .expectStatus()
-            .isOk
-            .expectBody(Collection::class.java)
-            .returnResult()
-
-        assertThat(response.responseBody!!).hasSize(1).containsOnly(
-            mapOf(
-                "collaboratorId" to "uniqueCollabId",
-                "timestamp" to 123,
-                "coordinates" to mapOf(
-                    "latitude" to 1.2,
-                    "longitude" to 3.4
-                )
-            )
-        )
     }
 
     @Test
@@ -234,25 +191,6 @@ class CollaboratorHandlerTest {
             .isEmpty
 
         verify(collaboratorServiceSpy).updateOrderNumber(collaboratorId, orderNumber.toShort())
-    }
-
-    @Test
-    fun `Validates work week`() {
-        val workWeek = sortedSetOf(DayMinuteInterval(SUNDAY, MinuteInterval(10, 20), false))
-        doReturn(setOf(WeekConstraintViolation(SUNDAY, "message")))
-            .`when`(workWeekValidatorServiceStub)
-            .validate(workWeek)
-
-        val responseBody = webClient.post()
-            .uri("/collaborator/work-week/validate")
-            .body(BodyInserters.fromObject(workWeek))
-            .exchange()
-            .expectStatus()
-            .isOk
-            .expectBody(Set::class.java)
-            .returnResult()
-
-        assertEquals(setOf(mapOf("message" to "message", "dayOfWeek" to "SUNDAY")), responseBody.responseBody)
     }
 
     @Test

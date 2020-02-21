@@ -48,7 +48,7 @@ class WorklogDurationHandlerTest {
             .expectBody(Long::class.java)
             .returnResult()
 
-        assertEquals(duration, response.responseBody)
+        assertEquals(duration, response.responseBody!!)
     }
 
     @Test
@@ -65,7 +65,7 @@ class WorklogDurationHandlerTest {
             .expectBody(Long::class.java)
             .returnResult()
 
-        assertEquals(durationsSum, response.responseBody)
+        assertEquals(durationsSum, response.responseBody!!)
     }
 
     @Test
@@ -82,7 +82,7 @@ class WorklogDurationHandlerTest {
             .expectBody(Long::class.java)
             .returnResult()
 
-        assertEquals(durationsSum, response.responseBody)
+        assertEquals(durationsSum, response.responseBody!!)
     }
 
     @Test

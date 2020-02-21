@@ -15,7 +15,7 @@ class Routes(private val applicationContext: AbstractApplicationContext) {
     fun router() = router {
         "/user".nest(userRoutes(applicationContext.getBean()))
         "/project".nest(projectRoutes(applicationContext.getBean()))
-        "/collaborator".nest(collaboratorRoutes(applicationContext.getBean()))
+        "/collaborator".nest(collaboratorRoutes(applicationContext))
         "/worklog".nest(worklogRoutes(applicationContext))
 
         GET("/is-healthy") { ok().body(fromObject(true)) }

@@ -1,8 +1,6 @@
-package lt.boldadmin.nexus.backend.handler
+package lt.boldadmin.nexus.backend.handler.collaborator
 
-import lt.boldadmin.nexus.api.service.collaborator.CollaboratorCoordinatesService
 import lt.boldadmin.nexus.api.service.collaborator.CollaboratorService
-import lt.boldadmin.nexus.api.service.collaborator.WorkWeekValidatorService
 import lt.boldadmin.nexus.api.type.entity.Collaborator
 import lt.boldadmin.nexus.api.type.valueobject.time.DayMinuteInterval
 import org.springframework.web.reactive.function.server.*
@@ -10,22 +8,13 @@ import org.springframework.web.reactive.function.server.ServerResponse.ok
 import reactor.core.publisher.Mono
 import java.util.*
 
-open class CollaboratorHandler(
-    private val collaboratorService: CollaboratorService,
-    private val workWeekValidatorService: WorkWeekValidatorService,
-    private val collaboratorCoordinatesService: CollaboratorCoordinatesService
-) {
+open class CollaboratorHandler(private val collaboratorService: CollaboratorService) {
 
     open fun existsById(req: ServerRequest): Mono<ServerResponse> =
         ok().body(Mono.just(collaboratorService.existsById(req.pathVariable("collaboratorId"))))
 
     open fun existsByMobileNumber(req: ServerRequest): Mono<ServerResponse> =
         ok().body(Mono.just(collaboratorService.existsByMobileNumber(req.pathVariable("mobileNumber"))))
-
-    open fun validate(req: ServerRequest): Mono<ServerResponse> =
-        req.bodyToMono<SortedSet<DayMinuteInterval>>()
-            .map { workWeekValidatorService.validate(it) }
-            .flatMap { ok().body(Mono.just(it)) }
 
     open fun save(req: ServerRequest): Mono<ServerResponse> =
         req.bodyToMono<Collaborator>()
@@ -37,9 +26,6 @@ open class CollaboratorHandler(
 
     open fun getById(req: ServerRequest): Mono<ServerResponse> =
         ok().body(Mono.just(collaboratorService.getById(req.pathVariable("collaboratorId"))))
-
-    open fun getCoordinates(req: ServerRequest): Mono<ServerResponse> =
-        ok().body(Mono.just(collaboratorCoordinatesService.getByCollaboratorId(req.pathVariable("collaboratorId"))))
 
     open fun getByMobileNumber(req: ServerRequest): Mono<ServerResponse> =
         ok().body(Mono.just(collaboratorService.getByMobileNumber(req.pathVariable("mobileNumber"))))
