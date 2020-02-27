@@ -17,7 +17,7 @@
         <context:include-filter type="regex" expression="lt.boldadmin.nexus.exception.ValidatorToExceptionConverter"/>
     </context:component-scan>
 
-    <bean id="zonedTimeConverter" class="lt.boldadmin.nexus.ZonedTimeConverter"/>
+    <bean id="zonedTimeService" class="lt.boldadmin.nexus.service.ZonedTimeService"/>
 
 </beans>
 
