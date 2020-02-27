@@ -11,7 +11,6 @@ open class WorkWeekValidatorHandler(private val workWeekValidatorService: WorkWe
 
     open fun validate(req: ServerRequest): Mono<ServerResponse> =
         req.bodyToMono<SortedSet<DayMinuteInterval>>()
-            .map { workWeekValidatorService.validate(it) }
-            .flatMap { ok().body(Mono.just(it)) }
+            .flatMap { ok().body(Mono.just(workWeekValidatorService.validate(it))) }
 
 }
