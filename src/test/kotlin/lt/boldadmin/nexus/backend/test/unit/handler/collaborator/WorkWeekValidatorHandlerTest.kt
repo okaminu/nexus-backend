@@ -23,7 +23,7 @@ import java.time.DayOfWeek.SUNDAY
 class WorkWeekValidatorHandlerTest {
 
     @Mock
-    private lateinit var workWeekValidatorServiceStub: WorkWeekValidatorService
+    private lateinit var validatorServiceStub: WorkWeekValidatorService
 
     private lateinit var webClient: WebTestClient
 
@@ -32,7 +32,7 @@ class WorkWeekValidatorHandlerTest {
         val contextStub = create()
         lenient()
             .`when`(contextStub.getBean(WorkWeekValidatorHandler::class.java))
-            .doReturn(WorkWeekValidatorHandler(workWeekValidatorServiceStub))
+            .doReturn(WorkWeekValidatorHandler(validatorServiceStub))
 
         webClient = WebTestClient.bindToRouterFunction(Routes(contextStub).router()).build()
     }
@@ -41,7 +41,7 @@ class WorkWeekValidatorHandlerTest {
     fun `Validates work week`() {
         val workWeek = sortedSetOf(DayMinuteInterval(SUNDAY, MinuteInterval(10, 20), false))
         doReturn(setOf(WeekConstraintViolation("message", SUNDAY)))
-            .`when`(workWeekValidatorServiceStub)
+            .`when`(validatorServiceStub)
             .validate(workWeek)
 
         val responseBody = webClient.post()
