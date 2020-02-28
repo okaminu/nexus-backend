@@ -60,7 +60,7 @@ class WorkWeekValidatorHandlerTest {
     fun `Provides no week constraint violations`() {
         val workWeek = sortedSetOf(DayMinuteInterval(SUNDAY, MinuteInterval(10, 20), false))
         doReturn(emptySet<WeekConstraintViolation>())
-            .`when`(workWeekValidatorServiceStub)
+            .`when`(validatorServiceStub)
             .validate(workWeek)
 
         val responseBody = webClient.post()
