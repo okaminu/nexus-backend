@@ -13,7 +13,6 @@
         <context:include-filter type="regex" expression="lt.boldadmin.nexus.factory.*"/>
         <context:include-filter type="regex" expression="lt.boldadmin.nexus.service.*"/>
         <context:include-filter type="regex" expression="lt.boldadmin.nexus.visitor.*"/>
-        <context:include-filter type="regex" expression="lt.boldadmin.nexus.validator.*"/>
         <context:include-filter type="regex" expression="lt.boldadmin.nexus.exception.ValidatorToExceptionConverter"/>
     </context:component-scan>
 
