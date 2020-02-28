@@ -38,7 +38,7 @@ class WorkWeekValidatorHandlerTest {
     }
 
     @Test
-    fun `Validates work week`() {
+    fun `Provides week constraint violations`() {
         val workWeek = sortedSetOf(DayMinuteInterval(SUNDAY, MinuteInterval(10, 20), false))
         doReturn(setOf(WeekConstraintViolation("message", SUNDAY)))
             .`when`(validatorServiceStub)
@@ -54,6 +54,25 @@ class WorkWeekValidatorHandlerTest {
             .returnResult()
 
         assertEquals(setOf(mapOf("message" to "message", "dayOfWeek" to "SUNDAY")), responseBody.responseBody)
+    }
+
+    @Test
+    fun `Provides no week constraint violations`() {
+        val workWeek = sortedSetOf(DayMinuteInterval(SUNDAY, MinuteInterval(10, 20), false))
+        doReturn(emptySet<WeekConstraintViolation>())
+            .`when`(workWeekValidatorServiceStub)
+            .validate(workWeek)
+
+        val responseBody = webClient.post()
+            .uri("/collaborator/work-week/validate")
+            .body(BodyInserters.fromObject(workWeek))
+            .exchange()
+            .expectStatus()
+            .isOk
+            .expectBody(Set::class.java)
+            .returnResult()
+
+        assertEquals(emptySet<Map<String, String>>(), responseBody.responseBody)
     }
 
 }

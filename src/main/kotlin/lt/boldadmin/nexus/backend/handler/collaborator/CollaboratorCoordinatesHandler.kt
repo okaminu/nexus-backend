@@ -7,9 +7,9 @@ import org.springframework.web.reactive.function.server.ServerResponse.ok
 import org.springframework.web.reactive.function.server.body
 import reactor.core.publisher.Mono
 
-open class CollaboratorCoordinatesHandler(private val collaboratorCoordinatesService: CollaboratorCoordinatesService) {
+open class CollaboratorCoordinatesHandler(private val service: CollaboratorCoordinatesService) {
 
     open fun getCoordinates(req: ServerRequest): Mono<ServerResponse> =
-        ok().body(Mono.just(collaboratorCoordinatesService.getByCollaboratorId(req.pathVariable("collaboratorId"))))
+        ok().body(Mono.just(service.getByCollaboratorId(req.pathVariable("collaboratorId"))))
 
 }

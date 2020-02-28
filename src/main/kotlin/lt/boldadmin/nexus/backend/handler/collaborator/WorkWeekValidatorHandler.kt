@@ -7,10 +7,10 @@ import org.springframework.web.reactive.function.server.ServerResponse.ok
 import reactor.core.publisher.Mono
 import java.util.*
 
-open class WorkWeekValidatorHandler(private val workWeekValidatorService: WorkWeekValidatorService) {
+open class WorkWeekValidatorHandler(private val service: WorkWeekValidatorService) {
 
     open fun validate(req: ServerRequest): Mono<ServerResponse> =
         req.bodyToMono<SortedSet<DayMinuteInterval>>()
-            .flatMap { ok().body(Mono.just(workWeekValidatorService.validate(it))) }
+            .flatMap { ok().body(Mono.just(service.validate(it))) }
 
 }
