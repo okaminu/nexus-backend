@@ -40,7 +40,7 @@ class WorkWeekValidatorHandlerTest {
     @Test
     fun `Validates work week`() {
         val workWeek = sortedSetOf(DayMinuteInterval(SUNDAY, MinuteInterval(10, 20), false))
-        doReturn(setOf(WeekConstraintViolation(SUNDAY, "message")))
+        doReturn(setOf(WeekConstraintViolation("message", SUNDAY)))
             .`when`(workWeekValidatorServiceStub)
             .validate(workWeek)
 
