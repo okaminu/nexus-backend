@@ -20,7 +20,7 @@ import org.springframework.test.web.reactive.server.WebTestClient
 class CollaboratorCoordinatesHandlerTest {
 
     @Mock
-    private lateinit var collaboratorCoordinatesServiceStub: CollaboratorCoordinatesService
+    private lateinit var serviceStub: CollaboratorCoordinatesService
 
     private lateinit var webClient: WebTestClient
 
@@ -29,7 +29,7 @@ class CollaboratorCoordinatesHandlerTest {
         val contextStub = create()
         lenient()
             .`when`(contextStub.getBean(CollaboratorCoordinatesHandler::class.java))
-            .doReturn(CollaboratorCoordinatesHandler(collaboratorCoordinatesServiceStub))
+            .doReturn(CollaboratorCoordinatesHandler(serviceStub))
 
         webClient = WebTestClient.bindToRouterFunction(Routes(contextStub).router()).build()
     }
@@ -37,7 +37,7 @@ class CollaboratorCoordinatesHandlerTest {
     @Test
     fun `Finds coordinates`() {
         val coordinates = listOf(CollaboratorCoordinates("uniqueCollabId", Coordinates(1.2, 3.4), 123))
-        doReturn(coordinates).`when`(collaboratorCoordinatesServiceStub).getByCollaboratorId("uniqueCollabId")
+        doReturn(coordinates).`when`(serviceStub).getByCollaboratorId("uniqueCollabId")
 
         val response = webClient.get()
             .uri("/collaborator/uniqueCollabId/coordinates")
