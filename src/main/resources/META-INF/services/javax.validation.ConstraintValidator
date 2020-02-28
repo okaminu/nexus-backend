@@ -1,4 +1,4 @@
-lt.boldadmin.nexus.service.collaborator.validator.UniqueProjectNameValidator
+lt.boldadmin.nexus.service.project.UniqueProjectNameValidator
 lt.boldadmin.nexus.service.collaborator.validator.SevenDayWeekValidator
 lt.boldadmin.nexus.service.collaborator.validator.BoundedMinuteIntervalsValidator
 lt.boldadmin.nexus.service.collaborator.validator.StartBeforeEndMinutesValidator
