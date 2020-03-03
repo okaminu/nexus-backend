@@ -20,13 +20,13 @@ open class WorklogHandler(private val worklogService: WorklogService) {
     open fun getIntervalIdsByProjectId(req: ServerRequest): Mono<ServerResponse> =
         ok().body(Mono.just(worklogService.getIntervalIdsByProjectId(req.pathVariable("projectId"))))
 
-    open fun getIntervalIdsByProjectIdAndDateRange(req: ServerRequest) =
+    open fun getIntervalIdsByProjectIdAndDateInterval(req: ServerRequest) =
         ok().body(
             Mono.just(
                 worklogService.getIntervalIdsByProjectId(req.pathVariable("projectId"), createInterval(req))
             ))
 
-    open fun getIntervalIdsByCollaboratorIdAndDateRange(req: ServerRequest) =
+    open fun getIntervalIdsByCollaboratorIdAndDateInterval(req: ServerRequest) =
         ok().body(
             Mono.just(
                 worklogService.getIntervalIdsByCollaboratorId(req.pathVariable("collaboratorId"), createInterval(req))

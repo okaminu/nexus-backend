@@ -20,7 +20,7 @@ open class WorklogDurationHandler(private val worklogDurationService: WorklogDur
             )
         )
 
-    open fun sumWorkDurationsByCollaboratorIdAndDateRange(req: ServerRequest): Mono<ServerResponse> =
+    open fun sumWorkDurationsByCollaboratorIdAndDateInterval(req: ServerRequest): Mono<ServerResponse> =
         ok().body(
             Mono.just(
                 worklogDurationService.sumWorkDurationsByCollaboratorId(
@@ -30,7 +30,7 @@ open class WorklogDurationHandler(private val worklogDurationService: WorklogDur
             )
         )
 
-    open fun sumWorkDurationsByProjectIdAndDateRange(req: ServerRequest): Mono<ServerResponse> =
+    open fun sumWorkDurationsByProjectIdAndDateInterval(req: ServerRequest): Mono<ServerResponse> =
         ok().body(
             Mono.just(
                 worklogDurationService.sumWorkDurationsByProjectId(
