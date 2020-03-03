@@ -1,6 +1,6 @@
 lt.boldadmin.nexus.service.project.UniqueProjectNameValidator
-lt.boldadmin.nexus.service.collaborator.validator.SevenDayWeekValidator
-lt.boldadmin.nexus.service.collaborator.validator.BoundedMinuteIntervalsValidator
-lt.boldadmin.nexus.service.collaborator.validator.StartBeforeEndMinutesValidator
-lt.boldadmin.nexus.service.collaborator.validator.MinDurationValidator
-lt.boldadmin.nexus.service.collaborator.validator.GappedDaysValidator
+lt.boldadmin.nexus.service.collaborator.validation.SevenDayWeekValidator
+lt.boldadmin.nexus.service.collaborator.validation.BoundedMinuteIntervalsValidator
+lt.boldadmin.nexus.service.collaborator.validation.StartBeforeEndMinutesValidator
+lt.boldadmin.nexus.service.collaborator.validation.MinDurationValidator
+lt.boldadmin.nexus.service.collaborator.validation.GappedDaysValidator
