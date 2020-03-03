@@ -1,7 +1,7 @@
 package lt.boldadmin.nexus.backend.handler.worklog
 
 import lt.boldadmin.nexus.api.service.worklog.WorklogDurationService
-import lt.boldadmin.nexus.api.type.valueobject.time.DateRange
+import lt.boldadmin.nexus.api.type.valueobject.time.DateInterval
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
 import org.springframework.web.reactive.function.server.ServerResponse.ok
@@ -25,7 +25,7 @@ open class WorklogDurationHandler(private val worklogDurationService: WorklogDur
             Mono.just(
                 worklogDurationService.sumWorkDurationsByCollaboratorId(
                     req.pathVariable("collaboratorId"),
-                    createDateRange(req)
+                    createDateInterval(req)
                 )
             )
         )
@@ -35,7 +35,7 @@ open class WorklogDurationHandler(private val worklogDurationService: WorklogDur
             Mono.just(
                 worklogDurationService.sumWorkDurationsByProjectId(
                     req.pathVariable("projectId"),
-                    createDateRange(req)
+                    createDateInterval(req)
                 )
             )
         )
@@ -43,7 +43,7 @@ open class WorklogDurationHandler(private val worklogDurationService: WorklogDur
     open fun sumWorkDurationsByProjectId(req: ServerRequest): Mono<ServerResponse> =
         ok().body(Mono.just(worklogDurationService.sumWorkDurationsByProjectId(req.pathVariable("projectId"))))
 
-    private fun createDateRange(req: ServerRequest): DateRange =
-        DateRange(req.pathVariable("startDate").toLocalDate(), req.pathVariable("endDate").toLocalDate())
+    private fun createDateInterval(req: ServerRequest): DateInterval =
+        DateInterval(req.pathVariable("startDate").toLocalDate(), req.pathVariable("endDate").toLocalDate())
 
 }
