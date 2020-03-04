@@ -33,7 +33,7 @@ class WorklogOvertimeHandlerTest {
     }
 
     @Test
-    fun `Ends work for collaborators where work time is ended`() {
+    fun `Ends work for collaborators where work day is ended`() {
         webClient.post()
             .uri("/worklog/overtime/end")
             .exchange()

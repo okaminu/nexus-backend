@@ -4,8 +4,8 @@ import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.verify
 import lt.boldadmin.nexus.api.service.ProjectService
 import lt.boldadmin.nexus.api.type.entity.Project
-import lt.boldadmin.nexus.api.type.valueobject.Coordinates
-import lt.boldadmin.nexus.api.type.valueobject.Location
+import lt.boldadmin.nexus.api.type.valueobject.location.Coordinates
+import lt.boldadmin.nexus.api.type.valueobject.location.Location
 import lt.boldadmin.nexus.backend.handler.ProjectHandler
 import lt.boldadmin.nexus.backend.route.Routes
 import org.junit.jupiter.api.Assertions.assertEquals

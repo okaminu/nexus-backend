@@ -15,8 +15,13 @@ class Routes(private val applicationContext: AbstractApplicationContext) {
     fun router() = router {
         "/user".nest(userRoutes(applicationContext.getBean()))
         "/project".nest(projectRoutes(applicationContext.getBean()))
-        "/collaborator".nest(collaboratorRoutes(applicationContext.getBean()))
         "/worklog".nest(worklogRoutes(applicationContext))
+        "/collaborator".nest(
+            collaboratorRoutes(
+                applicationContext.getBean(),
+                applicationContext.getBean(),
+                applicationContext.getBean())
+        )
 
         GET("/is-healthy") { ok().body(fromObject(true)) }
         GET("/countries", applicationContext.getBean<CountryHandler>()::getAll)

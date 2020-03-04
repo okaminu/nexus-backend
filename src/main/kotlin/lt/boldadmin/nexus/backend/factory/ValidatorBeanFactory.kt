@@ -1,6 +1,6 @@
 package lt.boldadmin.nexus.backend.factory
 
-import lt.boldadmin.nexus.api.validator.UniqueProjectNameValidator
+import lt.boldadmin.nexus.api.type.annotation.IocManaged
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.ApplicationContext
 import org.springframework.stereotype.Component
@@ -15,7 +15,7 @@ class ValidatorBeanFactory: ConstraintValidatorFactory {
     private var context: ApplicationContext? = null
 
     override fun <T: ConstraintValidator<*, *>> getInstance(type: Class<T>): T {
-        return if (type.equals(UniqueProjectNameValidator::class.java))
+        return if (type.isAnnotationPresent(IocManaged::class.java))
             context!!.getBean(type)
         else
             type.getDeclaredConstructor().newInstance()

@@ -1,16 +1,15 @@
-package lt.boldadmin.nexus.backend.test.unit.handler
+package lt.boldadmin.nexus.backend.test.unit.handler.collaborator
 
 import com.nhaarman.mockitokotlin2.argumentCaptor
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.verify
-import lt.boldadmin.nexus.api.service.collaborator.CollaboratorCoordinatesService
 import lt.boldadmin.nexus.api.service.collaborator.CollaboratorService
-import lt.boldadmin.nexus.api.type.entity.collaborator.Collaborator
-import lt.boldadmin.nexus.api.type.valueobject.CollaboratorCoordinates
-import lt.boldadmin.nexus.api.type.valueobject.Coordinates
-import lt.boldadmin.nexus.backend.handler.CollaboratorHandler
+import lt.boldadmin.nexus.api.type.entity.Collaborator
+import lt.boldadmin.nexus.api.type.valueobject.time.DayMinuteInterval
+import lt.boldadmin.nexus.api.type.valueobject.time.MinuteInterval
+import lt.boldadmin.nexus.backend.handler.collaborator.CollaboratorHandler
 import lt.boldadmin.nexus.backend.route.Routes
-import org.assertj.core.api.Assertions.assertThat
+import lt.boldadmin.nexus.backend.test.unit.handler.create
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
@@ -20,17 +19,16 @@ import org.mockito.Mock
 import org.mockito.Mockito.lenient
 import org.mockito.junit.jupiter.MockitoExtension
 import org.springframework.test.web.reactive.server.WebTestClient
+import org.springframework.web.reactive.function.BodyInserters
 import reactor.core.publisher.Mono
 import reactor.core.publisher.toMono
+import java.time.DayOfWeek.TUESDAY
 
 @ExtendWith(MockitoExtension::class)
 class CollaboratorHandlerTest {
 
     @Mock
     private lateinit var collaboratorServiceSpy: CollaboratorService
-
-    @Mock
-    private lateinit var collaboratorCoordinatesServiceStub: CollaboratorCoordinatesService
 
     private lateinit var webClient: WebTestClient
 
@@ -39,30 +37,30 @@ class CollaboratorHandlerTest {
         val contextStub = create()
         lenient()
             .`when`(contextStub.getBean(CollaboratorHandler::class.java))
-            .doReturn(CollaboratorHandler(collaboratorServiceSpy, collaboratorCoordinatesServiceStub))
+            .doReturn(CollaboratorHandler(collaboratorServiceSpy))
 
         webClient = WebTestClient.bindToRouterFunction(Routes(contextStub).router()).build()
     }
 
     @Test
     fun `Creates collaborator with defaults`() {
-        val collaborator = Collaborator().apply { id = "collaboratorId" }
+        val collaborator = Collaborator().apply { id = "uniqueCollabId" }
         doReturn(collaborator).`when`(collaboratorServiceSpy).createWithDefaults()
 
         val response = webClient.get()
-                .uri("/collaborator/create-with-defaults")
-                .exchange()
-                .expectStatus()
-                .isOk
-                .expectBody(Collaborator::class.java)
-                .returnResult()
+            .uri("/collaborator/create-with-defaults")
+            .exchange()
+            .expectStatus()
+            .isOk
+            .expectBody(Collaborator::class.java)
+            .returnResult()
 
         assertEquals(collaborator.id, response.responseBody!!.id)
     }
 
     @Test
     fun `Finds collaborator by id`() {
-        val collaborator = Collaborator().apply { id = "collaboratorId" }
+        val collaborator = Collaborator().apply { id = "uniqueCollabId" }
         doReturn(collaborator).`when`(collaboratorServiceSpy).getById(collaborator.id)
 
         val response = webClient.get()
@@ -74,31 +72,6 @@ class CollaboratorHandlerTest {
             .returnResult()
 
         assertEquals(collaborator.id, response.responseBody!!.id)
-    }
-
-    @Test
-    fun `Finds coordinates`() {
-        val coordinates = listOf(CollaboratorCoordinates("collabId", Coordinates(1.2, 3.4), 123))
-        doReturn(coordinates).`when`(collaboratorCoordinatesServiceStub).getByCollaboratorId("collabId")
-
-        val response = webClient.get()
-            .uri("/collaborator/collabId/coordinates")
-            .exchange()
-            .expectStatus()
-            .isOk
-            .expectBody(Collection::class.java)
-            .returnResult()
-
-        assertThat(response.responseBody!!).hasSize(1).containsOnly(
-            mapOf(
-                "collaboratorId" to "collabId",
-                "timestamp" to 123,
-                "coordinates" to mapOf(
-                    "latitude" to 1.2,
-                    "longitude" to 3.4
-                )
-            )
-        )
     }
 
     @Test
@@ -121,7 +94,7 @@ class CollaboratorHandlerTest {
 
     @Test
     fun `Collaborator exists by id`() {
-        val collaboratorId = "collaboratorId"
+        val collaboratorId = "uniqueCollabId"
         doReturn(true).`when`(collaboratorServiceSpy).existsById(collaboratorId)
 
         val response = webClient.get()
@@ -153,7 +126,7 @@ class CollaboratorHandlerTest {
 
     @Test
     fun `Updates attribute`() {
-        val collaboratorId = "collaboratorId"
+        val collaboratorId = "uniqueCollabId"
         val attributeName = "attributeName"
         val attributeValue = "attributeValue"
 
@@ -171,7 +144,7 @@ class CollaboratorHandlerTest {
 
     @Test
     fun `Updates attribute with empty value when body is empty`() {
-        val collaboratorId = "collaboratorId"
+        val collaboratorId = "uniqueCollabId"
         val attributeName = "attributeName"
 
         webClient.post()
@@ -187,8 +160,25 @@ class CollaboratorHandlerTest {
     }
 
     @Test
+    fun `Updates work week`() {
+        val collaboratorId = "uniqueCollabId"
+        val workWeek = sortedSetOf(DayMinuteInterval(TUESDAY, MinuteInterval(100, 200), false))
+
+        webClient.post()
+            .uri("/collaborator/$collaboratorId/work-week/update")
+            .body(BodyInserters.fromObject(workWeek))
+            .exchange()
+            .expectStatus()
+            .isOk
+            .expectBody()
+            .isEmpty
+
+        verify(collaboratorServiceSpy).update(collaboratorId, workWeek)
+    }
+
+    @Test
     fun `Updates order number`() {
-        val collaboratorId = "collaboratorId"
+        val collaboratorId = "uniqueCollabId"
         val orderNumber = "5"
 
         webClient.post()
