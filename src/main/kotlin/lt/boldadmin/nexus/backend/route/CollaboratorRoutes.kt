@@ -10,7 +10,7 @@ fun collaboratorRoutes(
     collaboratorHandler: CollaboratorHandler,
     workWeekValidatorHandler: WorkWeekValidatorHandler,
     coordinatesHandler: CollaboratorCoordinatesHandler
-    ): RouterFunctionDsl.() -> Unit = {
+): RouterFunctionDsl.() -> Unit = {
 
     accept(MediaType.APPLICATION_JSON).nest {
         GET("/create-with-defaults", collaboratorHandler::createWithDefaults)

@@ -15,7 +15,7 @@ class CollaboratorUpdateSubscriberFactoryTest {
     fun `Provides Collaborator work week update subscriber`() {
         val contextStub: GenericApplicationContext = mockk()
         val expectedSubscriber: WorkWeekUpdateSubscriber = mockk()
-        every { contextStub.getBean(any<String>(), eq(WorkWeekUpdateSubscriber::class.java)) } returns expectedSubscriber
+        every { contextStub.getBean(any<String>(), WorkWeekUpdateSubscriber::class.java) } returns expectedSubscriber
 
         val actualSubscriber = CollaboratorUpdateSubscriberFactory(contextStub).create().invoke()
 
