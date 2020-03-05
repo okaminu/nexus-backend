@@ -1,6 +1,6 @@
 package lt.boldadmin.nexus.backend.factory
 
-import lt.boldadmin.nexus.api.service.collaborator.CollaboratorUpdateSubscriber
+import lt.boldadmin.nexus.api.service.collaborator.WorkWeekUpdateSubscriber
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.support.GenericApplicationContext
@@ -10,13 +10,8 @@ class CollaboratorUpdateSubscriberFactory(private var context: GenericApplicatio
 
     @Bean
     fun create() = {
-        mapOf(
-            "workTime.startOfDayInMinutes" to context.getBean<CollaboratorUpdateSubscriber>(
-                "collaboratorWorkEndByWorkTimeStartSubscriber", CollaboratorUpdateSubscriber::class.java
-            ),
-            "workTime.endOfDayInMinutes" to context.getBean<CollaboratorUpdateSubscriber>(
-                "collaboratorWorkEndByWorkTimeEndSubscriber", CollaboratorUpdateSubscriber::class.java
-            )
+        context.getBean<WorkWeekUpdateSubscriber>(
+            "collaboratorWorkEndOnOvertimeSubscriber", WorkWeekUpdateSubscriber::class.java
         )
     }
 
