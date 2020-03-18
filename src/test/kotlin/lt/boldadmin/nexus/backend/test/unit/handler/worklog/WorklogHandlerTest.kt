@@ -39,7 +39,6 @@ class WorklogHandlerTest {
         webClient = WebTestClient.bindToRouterFunction(Routes(contextStub).router()).build()
     }
 
-
     @Test
     fun `Finds interval ids by collaborator id`() {
         val collaboratorId = "collaboratorId"

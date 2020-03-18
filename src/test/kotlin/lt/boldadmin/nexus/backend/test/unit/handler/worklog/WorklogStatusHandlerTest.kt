@@ -34,7 +34,6 @@ class WorklogStatusHandlerTest {
         webClient = WebTestClient.bindToRouterFunction(Routes(contextStub).router()).build()
     }
 
-
     @Test
     fun `Gets project of started work`() {
         val collaboratorId = "collaboratorId"
