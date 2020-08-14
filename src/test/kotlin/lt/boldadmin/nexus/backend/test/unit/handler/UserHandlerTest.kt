@@ -4,8 +4,8 @@ import com.nhaarman.mockitokotlin2.argumentCaptor
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.verify
 import lt.boldadmin.nexus.api.service.UserService
-import lt.boldadmin.nexus.api.type.entity.User
 import lt.boldadmin.nexus.api.type.entity.Collaborator
+import lt.boldadmin.nexus.api.type.entity.User
 import lt.boldadmin.nexus.backend.handler.UserHandler
 import lt.boldadmin.nexus.backend.route.Routes
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -140,6 +140,23 @@ class UserHandlerTest {
 
         val response = webClient.get()
             .uri("/user/project/$projectId")
+            .exchange()
+            .expectStatus()
+            .isOk
+            .expectBody(User::class.java)
+            .returnResult()
+
+        assertEquals(user.id, response.responseBody!!.id)
+    }
+
+    @Test
+    fun `Gets user by collaborator id`() {
+        val collaboratorId = "collaboratorId"
+        val user = User().apply { id = "someFancyId" }
+        doReturn(user).`when`(userServiceSpy).getByCollaboratorId(collaboratorId)
+
+        val response = webClient.get()
+            .uri("/user/collaborator/$collaboratorId")
             .exchange()
             .expectStatus()
             .isOk
