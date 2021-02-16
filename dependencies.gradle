@@ -25,7 +25,6 @@ dependencyManagement {
 dependencies {
     implementation "lt.boldadmin.nexus:nexus-api:$gradle.ext.version"
     runtime "lt.boldadmin.nexus:nexus:$gradle.ext.version"
-    runtime "lt.boldadmin.nexus:nexus-aws-pinpoint-plugin:$gradle.ext.version"
     runtime "lt.boldadmin.nexus:nexus-mongodb-plugin:$gradle.ext.version"
     runtime "lt.boldadmin.nexus:nexus-google-maps-plugin:$gradle.ext.version"
     runtime "lt.boldadmin.nexus:nexus-kafka-plugin:$gradle.ext.version"
